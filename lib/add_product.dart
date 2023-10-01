@@ -1,15 +1,12 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:e_commerce/review_listed.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart' as http;
 
 
 class AddProduct extends StatefulWidget {
-  final String token, id;
-  const AddProduct({Key? key, required this.token, required this.id}) : super(key: key);
+  const AddProduct({Key? key}) : super(key: key);
 
   @override
   _AddProductState createState() => _AddProductState();
@@ -24,47 +21,23 @@ class _AddProductState extends State<AddProduct> {
 
   File? file;
   ImagePicker image = ImagePicker();
-  String productImage = '';
-  String productName = '';
-  String productCategory='';
-  String productMRPPrice = '';
-  String productOfferPrice = '';
-  String productQuantity = 'gm';
+
+  String productQuantity = 'ml';
   String productType = 'Veg';
+  String productSubCategory='Select Sub Category';
 
+  String category='';
+  Border Cborder = Border.all(color: Colors.white,width: .5);
 
-  Future<void> addProduct(String id) async {
-    Map<String, dynamic> json = {
-      "productName": productName,
-      "productMRPPrice":productMRPPrice,
-      "productOfferPrice":productOfferPrice,
-      "productQuantity":productQuantity,
-      "productType":productType
-    };
-    final apiUrl = 'https://api.pehchankidukan/seller/$id/products';
-
-    var uri = Uri.parse(apiUrl);
-    try {
-      final response = await http.post(
-        uri,
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode(json),
-      );
-
-      if (response.statusCode == 201) {
-      } else {
-      }
-    } catch (e) {
-
-    }
-  }
   @override
   Widget build(BuildContext context) {
-  String token=widget.token;
-  String id=widget.id;
 
+
+    String productImage = '';
+    String productName = '';
+    String productCategory='';
+    String productMRPPrice = '';
+    String productOfferPrice = '';
 
     var items = [
       'gm',
@@ -75,6 +48,12 @@ class _AddProductState extends State<AddProduct> {
       'Veg',
       'Non Veg',
       'Not required',
+    ];
+    var items3 = [
+      'Select Sub Category',
+      'Milk',
+      'Oil',
+      'Rice',
     ];
 
 
@@ -110,6 +89,7 @@ class _AddProductState extends State<AddProduct> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
 
                 Container(
                   height: 45,
@@ -156,7 +136,7 @@ class _AddProductState extends State<AddProduct> {
                 ),
 
                 Container(
-                  height: 550,
+
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -227,56 +207,87 @@ class _AddProductState extends State<AddProduct> {
                         Row(
                           children: [
                             Expanded(
-                              child: Container(
-                                padding: EdgeInsets.all(18),
-                                margin: EdgeInsets.only(top: 10,left: 20,bottom: 0),
-                                height: 70,
-                                width: 55,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(13))
+                              child: InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    category = 'Grocery';
+                                    Cborder = Border.all(color: Colors.blue.shade900,width: .5);
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(18),
+                                  margin: EdgeInsets.only(top: 10,left: 20,bottom: 0),
+                                  height: 70,
+                                  width: 55,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(Radius.circular(13)),
+                                      border: Cborder
+                                  ),
+                                  child: Image.asset('assets/images/c1.png'),
                                 ),
-                                child: Image.asset('assets/images/c1.png'),
-                              ),
-                            ),
-
-                            Expanded(
-                              child: Container(
-                                padding: EdgeInsets.all(18),
-                                margin: EdgeInsets.only(top: 10,left: 10,right: 10,bottom: 0),
-                                height: 70,
-                                width: 55,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(13))
-                                ),
-                                child: Image.asset('assets/images/c14.png'),
                               ),
                             ),
                             Expanded(
-                              child: Container(
-                                padding: EdgeInsets.all(18),
-                                margin: EdgeInsets.only(top: 10,left: 5,right:13,bottom: 0),
-                                height: 70,
-                                width: 55,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(13))
+                              child: InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    category = 'Cloth';
+                                    Cborder = Border.all(color: Colors.blue.shade900,width: .5);
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(18),
+                                  margin: EdgeInsets.only(top: 10,left: 10,right: 10,bottom: 0),
+                                  height: 70,
+                                  width: 55,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(Radius.circular(13)),
+                                    border: Cborder
+                                  ),
+                                  child: Image.asset('assets/images/c14.png'),
                                 ),
-                                child: Image.asset('assets/images/c13.png'),
                               ),
                             ),
                             Expanded(
-                              child: Container(
-                                padding: EdgeInsets.all(18),
-                                margin: EdgeInsets.only(top: 10,bottom: 0,right: 20),
-                                height: 70,
-                                width: 55,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(13))
+                              child: InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    category = 'Kids';
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(18),
+                                  margin: EdgeInsets.only(top: 10,left: 5,right:13,bottom: 0),
+                                  height: 70,
+                                  width: 55,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(Radius.circular(13))
+                                  ),
+                                  child: Image.asset('assets/images/c13.png'),
                                 ),
-                                child: Image.asset('assets/images/c12.png'),
+                              ),
+                            ),
+                            Expanded(
+                              child: InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    category = 'Electronic';
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(18),
+                                  margin: EdgeInsets.only(top: 10,bottom: 0,right: 20),
+                                  height: 70,
+                                  width: 55,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(Radius.circular(13))
+                                  ),
+                                  child: Image.asset('assets/images/c12.png'),
+                                ),
                               ),
                             ),
                           ],
@@ -293,7 +304,7 @@ class _AddProductState extends State<AddProduct> {
                               child: Container(
 
                                   margin: EdgeInsets.only(left: 10,right: 10,bottom: 10),
-                                  child: Center(child: Text('Cloth',style: TextStyle(fontSize: 13)))
+                                  child: Center(child: Text('Fashion',style: TextStyle(fontSize: 13)))
                               ),
                             ),
                             Expanded(
@@ -317,55 +328,83 @@ class _AddProductState extends State<AddProduct> {
                         Row(
                           children: [
                             Expanded(
-                              child: Container(
-                                padding: EdgeInsets.all(18),
-                                margin: EdgeInsets.only(top: 0,left: 20,bottom: 0),
-                                height: 70,
-                                width: 55,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(13))
+                              child: InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    category = 'Accessories';
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(18),
+                                  margin: EdgeInsets.only(top: 0,left: 20,bottom: 0),
+                                  height: 70,
+                                  width: 55,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(Radius.circular(13))
+                                  ),
+                                  child: Image.asset('assets/images/c8.png'),
                                 ),
-                                child: Image.asset('assets/images/c8.png'),
                               ),
                             ),
                             Expanded(
-                              child: Container(
-                                padding: EdgeInsets.all(18),
-                                margin: EdgeInsets.only(top: 0,left: 15,right:5,bottom: 0),
-                                height: 70,
-                                width: 55,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(13))
+                              child: InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    category = 'Home';
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(18),
+                                  margin: EdgeInsets.only(top: 0,left: 15,right:5,bottom: 0),
+                                  height: 70,
+                                  width: 55,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(Radius.circular(13))
+                                  ),
+                                  child: Image.asset('assets/images/c9.png'),
                                 ),
-                                child: Image.asset('assets/images/c9.png'),
                               ),
                             ),
                             Expanded(
-                              child: Container(
-                                padding: EdgeInsets.all(18),
-                                margin: EdgeInsets.only(top: 0,left: 10,right: 10,bottom: 0),
-                                height: 70,
-                                width: 55,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(13))
+                              child: InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    category = 'Food';
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(18),
+                                  margin: EdgeInsets.only(top: 0,left: 10,right: 10,bottom: 0),
+                                  height: 70,
+                                  width: 55,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(Radius.circular(13))
+                                  ),
+                                  child: Image.asset('assets/images/c10.png'),
                                 ),
-                                child: Image.asset('assets/images/c10.png'),
                               ),
                             ),
                             Expanded(
-                              child: Container(
-                                padding: EdgeInsets.all(18),
-                                margin: EdgeInsets.only(top: 0,left: 5,right:20,bottom: 0),
-                                height: 70,
-                                width: 55,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(13))
+                              child: InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    category = 'Beauty';
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(18),
+                                  margin: EdgeInsets.only(top: 0,left: 5,right:20,bottom: 0),
+                                  height: 70,
+                                  width: 55,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(Radius.circular(13))
+                                  ),
+                                  child: Image.asset('assets/images/c11.png'),
                                 ),
-                                child: Image.asset('assets/images/c11.png'),
                               ),
                             ),
 
@@ -403,6 +442,365 @@ class _AddProductState extends State<AddProduct> {
 
                           ],
                         ),
+                        Visibility(
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          category = 'Fruits & Vegetables';
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(18),
+                                        margin: EdgeInsets.only(top: 10,left: 20,bottom: 0),
+                                        height: 70,
+                                        width: 55,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(Radius.circular(13))
+                                        ),
+                                        child: Image.asset('assets/images/g4.png'),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          category = 'Sweets';
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(18),
+                                        margin: EdgeInsets.only(top: 10,left: 10,right: 10,bottom: 0),
+                                        height: 70,
+                                        width: 55,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(Radius.circular(13))
+                                        ),
+                                        child: Image.asset('assets/images/g6.png'),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          category = 'Bakery & Namkeen';
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(18),
+                                        margin: EdgeInsets.only(top: 10,left: 5,right:13,bottom: 0),
+                                        height: 70,
+                                        width: 55,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(Radius.circular(13))
+                                        ),
+                                        child: Image.asset('assets/images/g6.png'),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          category = 'Stationery';
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(18),
+                                        margin: EdgeInsets.only(top: 10,bottom: 0,right: 20),
+                                        height: 70,
+                                        width: 55,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(Radius.circular(13))
+                                        ),
+                                        child: Image.asset('assets/images/g7.png'),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                      child: Container(
+                                          margin: EdgeInsets.only(left: 15,right:5,bottom: 10),
+                                          child: Center(child: Text(' Fruits & Vegetables',style: TextStyle(fontSize: 13),)))
+                                  ),
+
+                                  Expanded(
+                                    child: Container(
+
+                                        margin: EdgeInsets.only(left: 10,right: 10,bottom: 10),
+                                        child: Center(child: Text('Sweets',style: TextStyle(fontSize: 13)))
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+
+                                        margin: EdgeInsets.only(left: 5,right:13,bottom: 10),
+                                        child: Center(child: Text('Bakery & Namkeen',style: TextStyle(fontSize: 13)))
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                        height: 35,
+
+                                        margin: EdgeInsets.only(bottom: 10,right: 20),
+                                        child: Center(child: Text('Stationery',style: TextStyle(fontSize: 13)))
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          category = 'Food & Snacks';
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(18),
+                                        margin: EdgeInsets.only(top: 0,left: 20,bottom: 0),
+                                        height: 70,
+                                        width: 55,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(Radius.circular(13))
+                                        ),
+                                        child: Image.asset('assets/images/c10.png'),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          category = 'Books';
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(18),
+                                        margin: EdgeInsets.only(top: 0,left: 15,right:5,bottom: 0),
+                                        height: 70,
+                                        width: 55,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(Radius.circular(13))
+                                        ),
+                                        child: Image.asset('assets/images/g8.jpeg'),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          category = 'Art & Home Decor';
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(18),
+                                        margin: EdgeInsets.only(top: 0,left: 10,right: 10,bottom: 0),
+                                        height: 70,
+                                        width: 55,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(Radius.circular(13))
+                                        ),
+                                        child: Image.asset('assets/images/c9.png'),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          category = 'Pharma & Wellness';
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(18),
+                                        margin: EdgeInsets.only(top: 0,left: 5,right:20,bottom: 0),
+                                        height: 70,
+                                        width: 55,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(Radius.circular(13))
+                                        ),
+                                        child: Image.asset('assets/images/c11.png'),
+                                      ),
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                      child: Container(
+
+                                          margin: EdgeInsets.only(top: 5,left: 15,right:5,bottom: 10),
+                                          child: Center(child: Text(' Food & Snacks',style: TextStyle(fontSize: 13),)))
+                                  ),
+                                  Expanded(
+                                    child: Container(
+
+                                        margin: EdgeInsets.only(left: 15,right:5,bottom: 10),
+                                        child: Center(child: Text('Books',style: TextStyle(fontSize: 13)))
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+
+                                        margin: EdgeInsets.only(left: 10,right: 10,bottom: 10),
+                                        child: Center(child: Text('Art & Home Decor',style: TextStyle(fontSize: 13)))
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+
+                                        margin: EdgeInsets.only(left: 5,right:13,bottom: 10),
+                                        child: Center(child: Text('Pharma & Wellness',style: TextStyle(fontSize: 13)))
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          category = 'Beauty & Cosmetics';
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(18),
+                                        margin: EdgeInsets.only(top: 10,left: 20,bottom: 0),
+                                        height: 70,
+                                        width: 55,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(Radius.circular(13))
+                                        ),
+                                        child: Image.asset('assets/images/c11.png'),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          category = 'Baby Care';
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(18),
+                                        margin: EdgeInsets.only(top: 10,left: 10,right: 10,bottom: 0),
+                                        height: 70,
+                                        width: 55,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(Radius.circular(13))
+                                        ),
+                                        child: Image.asset('assets/images/g9.jpeg'),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          category = 'Pet Care';
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(18),
+                                        margin: EdgeInsets.only(top: 10,left: 5,right:13,bottom: 0),
+                                        height: 70,
+                                        width: 55,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(Radius.circular(13))
+                                        ),
+                                        child: Image.asset('assets/images/g10.jpeg'),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: (){
+                                        setState(() {
+                                          category = 'Sanitary & Hardware';
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(18),
+                                        margin: EdgeInsets.only(top: 10,bottom: 0,right: 20),
+                                        height: 70,
+                                        width: 55,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(Radius.circular(13))
+                                        ),
+                                        child: Image.asset('assets/images/c12.png'),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                      child: Container(
+                                          margin: EdgeInsets.only(left: 15,right:5,bottom: 10),
+                                          child: Center(child: Text(' Beauty & Cosmetics',style: TextStyle(fontSize: 13),)))
+                                  ),
+
+                                  Expanded(
+                                    child: Container(
+
+                                        margin: EdgeInsets.only(left: 10,right: 10,bottom: 10),
+                                        child: Center(child: Text('Baby Care',style: TextStyle(fontSize: 13)))
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+
+                                        margin: EdgeInsets.only(left: 5,right:13,bottom: 10),
+                                        child: Center(child: Text('Pet Care',style: TextStyle(fontSize: 13)))
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                        height: 35,
+
+                                        margin: EdgeInsets.only(bottom: 10,right: 20),
+                                        child: Center(child: Text('Sanitary & Hardware',style: TextStyle(fontSize: 13)))
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          maintainSize: false,
+                          maintainAnimation: true,
+                          maintainState: true,
+                          visible:  viewMore,
+                        ),
                         Container(
                           height: 30,
                           width: double.maxFinite,
@@ -431,292 +829,45 @@ class _AddProductState extends State<AddProduct> {
                             ),
                           ),
                         ),
-                        Visibility(
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      padding: EdgeInsets.all(18),
-                                      margin: EdgeInsets.only(top: 10,left: 20,bottom: 0),
-                                      height: 70,
-                                      width: 55,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(13))
-                                      ),
-                                      child: Image.asset('assets/images/c1.png'),
-                                    ),
-                                  ),
-
-                                  Expanded(
-                                    child: Container(
-                                      padding: EdgeInsets.all(18),
-                                      margin: EdgeInsets.only(top: 10,left: 10,right: 10,bottom: 0),
-                                      height: 70,
-                                      width: 55,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(13))
-                                      ),
-                                      child: Image.asset('assets/images/c14.png'),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      padding: EdgeInsets.all(18),
-                                      margin: EdgeInsets.only(top: 10,left: 5,right:13,bottom: 0),
-                                      height: 70,
-                                      width: 55,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(13))
-                                      ),
-                                      child: Image.asset('assets/images/c13.png'),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      padding: EdgeInsets.all(18),
-                                      margin: EdgeInsets.only(top: 10,bottom: 0,right: 20),
-                                      height: 70,
-                                      width: 55,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(13))
-                                      ),
-                                      child: Image.asset('assets/images/c12.png'),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                      child: Container(
-                                          margin: EdgeInsets.only(left: 15,right:5,bottom: 10),
-                                          child: Center(child: Text(' Grocery',style: TextStyle(fontSize: 13),)))
-                                  ),
-
-                                  Expanded(
-                                    child: Container(
-
-                                        margin: EdgeInsets.only(left: 10,right: 10,bottom: 10),
-                                        child: Center(child: Text('Cloth',style: TextStyle(fontSize: 13)))
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-
-                                        margin: EdgeInsets.only(left: 5,right:13,bottom: 10),
-                                        child: Center(child: Text('Kids',style: TextStyle(fontSize: 13)))
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                        height: 35,
-
-                                        margin: EdgeInsets.only(bottom: 10,right: 20),
-                                        child: Center(child: Text('Electric',style: TextStyle(fontSize: 13)))
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      padding: EdgeInsets.all(18),
-                                      margin: EdgeInsets.only(top: 0,left: 20,bottom: 0),
-                                      height: 70,
-                                      width: 55,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(13))
-                                      ),
-                                      child: Image.asset('assets/images/c8.png'),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      padding: EdgeInsets.all(18),
-                                      margin: EdgeInsets.only(top: 0,left: 15,right:5,bottom: 0),
-                                      height: 70,
-                                      width: 55,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(13))
-                                      ),
-                                      child: Image.asset('assets/images/c9.png'),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      padding: EdgeInsets.all(18),
-                                      margin: EdgeInsets.only(top: 0,left: 10,right: 10,bottom: 0),
-                                      height: 70,
-                                      width: 55,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(13))
-                                      ),
-                                      child: Image.asset('assets/images/c10.png'),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      padding: EdgeInsets.all(18),
-                                      margin: EdgeInsets.only(top: 0,left: 5,right:20,bottom: 0),
-                                      height: 70,
-                                      width: 55,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(13))
-                                      ),
-                                      child: Image.asset('assets/images/c11.png'),
-                                    ),
-                                  ),
-
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                      child: Container(
-
-                                          margin: EdgeInsets.only(top: 5,left: 15,right:5,bottom: 10),
-                                          child: Center(child: Text(' Accessories',style: TextStyle(fontSize: 13),)))
-                                  ),
-                                  Expanded(
-                                    child: Container(
-
-                                        margin: EdgeInsets.only(left: 15,right:5,bottom: 10),
-                                        child: Center(child: Text('Home',style: TextStyle(fontSize: 13)))
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-
-                                        margin: EdgeInsets.only(left: 10,right: 10,bottom: 10),
-                                        child: Center(child: Text('Food',style: TextStyle(fontSize: 13)))
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-
-                                        margin: EdgeInsets.only(left: 5,right:13,bottom: 10),
-                                        child: Center(child: Text('Beauty',style: TextStyle(fontSize: 13)))
-                                    ),
-                                  ),
-
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      padding: EdgeInsets.all(18),
-                                      margin: EdgeInsets.only(top: 0,left: 20,bottom: 0),
-                                      height: 70,
-                                      width: 55,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(13))
-                                      ),
-                                      child: Image.asset('assets/images/c8.png'),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      padding: EdgeInsets.all(18),
-                                      margin: EdgeInsets.only(top: 0,left: 15,right:5,bottom: 0),
-                                      height: 70,
-                                      width: 55,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(13))
-                                      ),
-                                      child: Image.asset('assets/images/c9.png'),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      padding: EdgeInsets.all(18),
-                                      margin: EdgeInsets.only(top: 0,left: 10,right: 10,bottom: 0),
-                                      height: 70,
-                                      width: 55,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(13))
-                                      ),
-                                      child: Image.asset('assets/images/c10.png'),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      padding: EdgeInsets.all(18),
-                                      margin: EdgeInsets.only(top: 0,left: 5,right:20,bottom: 0),
-                                      height: 70,
-                                      width: 55,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(13))
-                                      ),
-                                      child: Image.asset('assets/images/c11.png'),
-                                    ),
-                                  ),
-
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                      child: Container(
-
-                                          margin: EdgeInsets.only(top: 5,left: 15,right:5,bottom: 10),
-                                          child: Center(child: Text(' Accessories',style: TextStyle(fontSize: 13),)))
-                                  ),
-                                  Expanded(
-                                    child: Container(
-
-                                        margin: EdgeInsets.only(left: 15,right:5,bottom: 10),
-                                        child: Center(child: Text('Home',style: TextStyle(fontSize: 13)))
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-
-                                        margin: EdgeInsets.only(left: 10,right: 10,bottom: 10),
-                                        child: Center(child: Text('Food',style: TextStyle(fontSize: 13)))
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-
-                                        margin: EdgeInsets.only(left: 5,right:13,bottom: 10),
-                                        child: Center(child: Text('Beauty',style: TextStyle(fontSize: 13)))
-                                    ),
-                                  ),
-
-                                ],
-                              ),
-                            ],
-                          ),
-                          maintainSize: false,
-                          maintainAnimation: true,
-                          maintainState: true,
-                          visible:  viewMore,
-                        ),
                         Container(
                           margin: EdgeInsets.only(left: 20,right: 20,top: 20),
                           child: Text(
-                            '',
+                            category,
                             style: TextStyle(
                               fontSize: 18,
                               fontFamily: 'Poppins',
                               color: Colors.black87,
                             ),
+                          ),
+                        ),
+
+                        Container(
+                          margin: EdgeInsets.only(left: 20,right: 20,top: 20),
+                          child: Text(
+                            'SubCategory',
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontFamily: 'Poppins',
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 20,right: 20),
+                          child:  DropdownButton(
+                            value: productSubCategory,
+                            icon: const Icon(Icons.keyboard_arrow_down),
+                            items: items3.map((String items3) {
+                              return DropdownMenuItem(
+                                value: items3,
+                                child: Text(items3),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                productSubCategory = newValue!;
+                              });
+                            },
                           ),
                         ),
 
@@ -846,22 +997,16 @@ class _AddProductState extends State<AddProduct> {
                           ),
                         ),
                         Container(
-
-
                           margin: EdgeInsets.only(left: 20,right: 20),
                           child:  DropdownButton(
-
                             value: productQuantity,
-
                             icon: const Icon(Icons.keyboard_arrow_down),
-
                             items: items.map((String items) {
                               return DropdownMenuItem(
                                 value: items,
                                 child: Text(items),
                               );
                             }).toList(),
-
                             onChanged: (String? newValue) {
                               setState(() {
                                 productQuantity = newValue!;
@@ -909,6 +1054,18 @@ class _AddProductState extends State<AddProduct> {
 
 
 
+                        Container(
+                          width: double.maxFinite,
+                          margin: EdgeInsets.only(left: 20,right: 20,bottom: 40,top: 20),
+                          child: MaterialButton(onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewListed(),));
+                          }, child: Text('Save And Continue',style: TextStyle(color: Colors.white,fontSize: 15),)
+                            ,color: Colors.lightBlue.shade500,
+                            height: 40,
+                          ),
+                        )
+
+
                       ],
                     ),
                   ),
@@ -916,17 +1073,7 @@ class _AddProductState extends State<AddProduct> {
 
 
 
-                Container(
-                  width: double.maxFinite,
-                  margin: EdgeInsets.only(left: 20,right: 20,bottom: 40),
-                  child: MaterialButton(onPressed: (){
-                    addProduct(id);
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewListed(token:token, id:id),));
-                  }, child: Text('Save And Continue',style: TextStyle(color: Colors.white,fontSize: 15),)
-                  ,color: Colors.lightBlue.shade500,
-                    height: 40,
-                  ),
-                )
+
               ],
             ),
           ),
@@ -951,6 +1098,7 @@ class _AddProductState extends State<AddProduct> {
       file = File(img!.path);
     });
   }
+
 
 
 }

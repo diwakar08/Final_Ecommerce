@@ -1,23 +1,32 @@
 import 'dart:io';
 import 'package:e_commerce/review_listed.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 
 
-class UpdateProduct extends StatefulWidget {
-  const UpdateProduct({Key? key}) : super(key: key);
+class UpdateProduct extends StatelessWidget {
+  String productImage = '';
+  String productName = '';
+  String productCategory='';
+  String productSubCategory='';
+  String productMRPPrice = '';
+  String productOfferPrice = '';
+  String productQuantity = 'gm';
+  bool stockTF = true;
+  String stockIO = '';
+   UpdateProduct(this.productName,this.productImage,this.productCategory,this.productSubCategory,this.productMRPPrice,this.productOfferPrice,this.productQuantity,this.stockTF,this.stockIO);
 
-  @override
-  _UpdateProductState createState() => _UpdateProductState();
-}
-
-class _UpdateProductState extends State<UpdateProduct> {
+  bool _switchValue = false;
+  String stock = 'In Stock';
 
   bool viewMore = false;
   String viewML = 'View more categories';
 
   String dropdownQuantity = 'pic';
   String dropdownType = 'Not required';
+
+
 
   var items = [
     'gm',
@@ -33,7 +42,20 @@ class _UpdateProductState extends State<UpdateProduct> {
   @override
   Widget build(BuildContext context) {
 
-
+    final pName = TextEditingController();
+    pName.text = productName;
+    final pCategory = TextEditingController();
+    pCategory.text = productCategory;
+    final pSCategory = TextEditingController();
+    pSCategory.text = productSubCategory;
+    final pPrice = TextEditingController();
+    pPrice.text = productMRPPrice;
+    final pOfferPrice = TextEditingController();
+    pOfferPrice.text = productOfferPrice;
+    final pQuantity = TextEditingController();
+    pQuantity.text = productQuantity;
+    final pType = TextEditingController();
+    pType.text = 'Not';
 
     return Scaffold(
       appBar: AppBar(
@@ -94,11 +116,54 @@ class _UpdateProductState extends State<UpdateProduct> {
               ),
 
               Container(
-                height: 550,
+
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Container(
+                        margin: EdgeInsets.only(left: 20,right: 20,top: 10),
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CupertinoSwitch(
+                                activeColor: Colors.red,
+                                value: stockTF,
+
+                                onChanged: (value) {
+                                  _switchValue = value;
+
+                                },
+                              ),
+                              Container(
+
+                                margin: EdgeInsets.only(left: 0),
+                                child: Center(
+                                  child: Text(stockIO,
+                                      style: TextStyle(
+                                          color: Colors.green.shade900,
+                                          fontSize: 18,
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.bold
+                                      )),
+                                ),
+                              ),
+                              Container(
+
+                              child: MaterialButton(onPressed: (){
+                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewListed(),));
+                                }, child: Text('Update Stock',style: TextStyle(color: Colors.white,fontSize: 15),)
+                                  ,color: Colors.lightBlue.shade500,
+                                  height: 40,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+
+
                       Container(
                         margin: EdgeInsets.only(right: 10, left: 15, top: 20),
                         child: Row(
@@ -140,6 +205,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                         ),
                       ),
 
+
                       Container(
                         margin: EdgeInsets.only(left: 20,right: 20,top: 20),
                         child: Text(
@@ -151,500 +217,44 @@ class _UpdateProductState extends State<UpdateProduct> {
                           ),
                         ),
                       ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              padding: EdgeInsets.all(18),
-                              margin: EdgeInsets.only(top: 10,left: 20,bottom: 0),
-                              height: 70,
-                              width: 55,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(13))
-                              ),
-                              child: Image.asset('assets/images/c1.png'),
-                            ),
-                          ),
-
-                          Expanded(
-                            child: Container(
-                              padding: EdgeInsets.all(18),
-                              margin: EdgeInsets.only(top: 10,left: 10,right: 10,bottom: 0),
-                              height: 70,
-                              width: 55,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(13))
-                              ),
-                              child: Image.asset('assets/images/c14.png'),
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              padding: EdgeInsets.all(18),
-                              margin: EdgeInsets.only(top: 10,left: 5,right:13,bottom: 0),
-                              height: 70,
-                              width: 55,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(13))
-                              ),
-                              child: Image.asset('assets/images/c13.png'),
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              padding: EdgeInsets.all(18),
-                              margin: EdgeInsets.only(top: 10,bottom: 0,right: 20),
-                              height: 70,
-                              width: 55,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(13))
-                              ),
-                              child: Image.asset('assets/images/c12.png'),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                              child: Container(
-                                  margin: EdgeInsets.only(left: 15,right:5,bottom: 10),
-                                  child: Center(child: Text(' Grocery',style: TextStyle(fontSize: 13),)))
-                          ),
-
-                          Expanded(
-                            child: Container(
-
-                                margin: EdgeInsets.only(left: 10,right: 10,bottom: 10),
-                                child: Center(child: Text('Cloth',style: TextStyle(fontSize: 13)))
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-
-                                margin: EdgeInsets.only(left: 5,right:13,bottom: 10),
-                                child: Center(child: Text('Kids',style: TextStyle(fontSize: 13)))
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                                height: 35,
-
-                                margin: EdgeInsets.only(bottom: 10,right: 20),
-                                child: Center(child: Text('Electric',style: TextStyle(fontSize: 13)))
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              padding: EdgeInsets.all(18),
-                              margin: EdgeInsets.only(top: 0,left: 20,bottom: 0),
-                              height: 70,
-                              width: 55,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(color: Colors.lightBlue.shade900),
-                                  borderRadius: BorderRadius.all(Radius.circular(13))
-                              ),
-                              child: Image.asset('assets/images/c8.png'),
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              padding: EdgeInsets.all(18),
-                              margin: EdgeInsets.only(top: 0,left: 15,right:5,bottom: 0),
-                              height: 70,
-                              width: 55,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(13))
-                              ),
-                              child: Image.asset('assets/images/c9.png'),
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              padding: EdgeInsets.all(18),
-                              margin: EdgeInsets.only(top: 0,left: 10,right: 10,bottom: 0),
-                              height: 70,
-                              width: 55,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(13))
-                              ),
-                              child: Image.asset('assets/images/c10.png'),
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              padding: EdgeInsets.all(18),
-                              margin: EdgeInsets.only(top: 0,left: 5,right:20,bottom: 0),
-                              height: 70,
-                              width: 55,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(13))
-                              ),
-                              child: Image.asset('assets/images/c11.png'),
-                            ),
-                          ),
-
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                              child: Container(
-
-                                  margin: EdgeInsets.only(top: 5,left: 15,right:5,bottom: 10),
-                                  child: Center(child: Text(' Accessories',style: TextStyle(fontSize: 13),)))
-                          ),
-                          Expanded(
-                            child: Container(
-
-                                margin: EdgeInsets.only(left: 15,right:5,bottom: 10),
-                                child: Center(child: Text('Home',style: TextStyle(fontSize: 13)))
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-
-                                margin: EdgeInsets.only(left: 10,right: 10,bottom: 10),
-                                child: Center(child: Text('Food',style: TextStyle(fontSize: 13)))
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-
-                                margin: EdgeInsets.only(left: 5,right:13,bottom: 10),
-                                child: Center(child: Text('Beauty',style: TextStyle(fontSize: 13)))
-                            ),
-                          ),
-
-                        ],
-                      ),
-
                       Container(
-                        height: 30,
-                        width: double.maxFinite,
-                        child: Center(
-                          child: InkWell(
-                            onTap: (){
-                              setState(() {
-                                if(viewMore==false){
-                                  viewMore = true;
-                                  viewML = 'View less';
-                                }else{
-                                  viewMore = false;
-                                  viewML = 'View more categories';
-                                }
-
-                              });
-                            },
-                            child: Text(
-                              viewML,
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontFamily: 'Poppins',
-                                color: Colors.lightBlue.shade900,
-                              ),
+                        margin: EdgeInsets.only(left: 20,right: 20),
+                        child: TextField(
+                          controller: pCategory,
+                          style: TextStyle(fontFamily: 'Poppins',fontSize: 18),
+                          decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.teal.shade900
+                                )
                             ),
+
                           ),
                         ),
-                      ),
-                      Visibility(
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    padding: EdgeInsets.all(18),
-                                    margin: EdgeInsets.only(top: 10,left: 20,bottom: 0),
-                                    height: 70,
-                                    width: 55,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(13))
-                                    ),
-                                    child: Image.asset('assets/images/c1.png'),
-                                  ),
-                                ),
-
-                                Expanded(
-                                  child: Container(
-                                    padding: EdgeInsets.all(18),
-                                    margin: EdgeInsets.only(top: 10,left: 10,right: 10,bottom: 0),
-                                    height: 70,
-                                    width: 55,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(13))
-                                    ),
-                                    child: Image.asset('assets/images/c14.png'),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    padding: EdgeInsets.all(18),
-                                    margin: EdgeInsets.only(top: 10,left: 5,right:13,bottom: 0),
-                                    height: 70,
-                                    width: 55,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(13))
-                                    ),
-                                    child: Image.asset('assets/images/c13.png'),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    padding: EdgeInsets.all(18),
-                                    margin: EdgeInsets.only(top: 10,bottom: 0,right: 20),
-                                    height: 70,
-                                    width: 55,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(13))
-                                    ),
-                                    child: Image.asset('assets/images/c12.png'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                    child: Container(
-                                        margin: EdgeInsets.only(left: 15,right:5,bottom: 10),
-                                        child: Center(child: Text(' Grocery',style: TextStyle(fontSize: 13),)))
-                                ),
-
-                                Expanded(
-                                  child: Container(
-
-                                      margin: EdgeInsets.only(left: 10,right: 10,bottom: 10),
-                                      child: Center(child: Text('Cloth',style: TextStyle(fontSize: 13)))
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-
-                                      margin: EdgeInsets.only(left: 5,right:13,bottom: 10),
-                                      child: Center(child: Text('Kids',style: TextStyle(fontSize: 13)))
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                      height: 35,
-
-                                      margin: EdgeInsets.only(bottom: 10,right: 20),
-                                      child: Center(child: Text('Electric',style: TextStyle(fontSize: 13)))
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    padding: EdgeInsets.all(18),
-                                    margin: EdgeInsets.only(top: 0,left: 20,bottom: 0),
-                                    height: 70,
-                                    width: 55,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(13))
-                                    ),
-                                    child: Image.asset('assets/images/c8.png'),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    padding: EdgeInsets.all(18),
-                                    margin: EdgeInsets.only(top: 0,left: 15,right:5,bottom: 0),
-                                    height: 70,
-                                    width: 55,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(13))
-                                    ),
-                                    child: Image.asset('assets/images/c9.png'),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    padding: EdgeInsets.all(18),
-                                    margin: EdgeInsets.only(top: 0,left: 10,right: 10,bottom: 0),
-                                    height: 70,
-                                    width: 55,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(13))
-                                    ),
-                                    child: Image.asset('assets/images/c10.png'),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    padding: EdgeInsets.all(18),
-                                    margin: EdgeInsets.only(top: 0,left: 5,right:20,bottom: 0),
-                                    height: 70,
-                                    width: 55,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(13))
-                                    ),
-                                    child: Image.asset('assets/images/c11.png'),
-                                  ),
-                                ),
-
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                    child: Container(
-
-                                        margin: EdgeInsets.only(top: 5,left: 15,right:5,bottom: 10),
-                                        child: Center(child: Text(' Accessories',style: TextStyle(fontSize: 13),)))
-                                ),
-                                Expanded(
-                                  child: Container(
-
-                                      margin: EdgeInsets.only(left: 15,right:5,bottom: 10),
-                                      child: Center(child: Text('Home',style: TextStyle(fontSize: 13)))
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-
-                                      margin: EdgeInsets.only(left: 10,right: 10,bottom: 10),
-                                      child: Center(child: Text('Food',style: TextStyle(fontSize: 13)))
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-
-                                      margin: EdgeInsets.only(left: 5,right:13,bottom: 10),
-                                      child: Center(child: Text('Beauty',style: TextStyle(fontSize: 13)))
-                                  ),
-                                ),
-
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    padding: EdgeInsets.all(18),
-                                    margin: EdgeInsets.only(top: 0,left: 20,bottom: 0),
-                                    height: 70,
-                                    width: 55,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(13))
-                                    ),
-                                    child: Image.asset('assets/images/c8.png'),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    padding: EdgeInsets.all(18),
-                                    margin: EdgeInsets.only(top: 0,left: 15,right:5,bottom: 0),
-                                    height: 70,
-                                    width: 55,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(13))
-                                    ),
-                                    child: Image.asset('assets/images/c9.png'),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    padding: EdgeInsets.all(18),
-                                    margin: EdgeInsets.only(top: 0,left: 10,right: 10,bottom: 0),
-                                    height: 70,
-                                    width: 55,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(13))
-                                    ),
-                                    child: Image.asset('assets/images/c10.png'),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    padding: EdgeInsets.all(18),
-                                    margin: EdgeInsets.only(top: 0,left: 5,right:20,bottom: 0),
-                                    height: 70,
-                                    width: 55,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(13))
-                                    ),
-                                    child: Image.asset('assets/images/c11.png'),
-                                  ),
-                                ),
-
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                    child: Container(
-
-                                        margin: EdgeInsets.only(top: 5,left: 15,right:5,bottom: 10),
-                                        child: Center(child: Text(' Accessories',style: TextStyle(fontSize: 13),)))
-                                ),
-                                Expanded(
-                                  child: Container(
-
-                                      margin: EdgeInsets.only(left: 15,right:5,bottom: 10),
-                                      child: Center(child: Text('Home',style: TextStyle(fontSize: 13)))
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-
-                                      margin: EdgeInsets.only(left: 10,right: 10,bottom: 10),
-                                      child: Center(child: Text('Food',style: TextStyle(fontSize: 13)))
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-
-                                      margin: EdgeInsets.only(left: 5,right:13,bottom: 10),
-                                      child: Center(child: Text('Beauty',style: TextStyle(fontSize: 13)))
-                                  ),
-                                ),
-
-                              ],
-                            ),
-                          ],
-                        ),
-                        maintainSize: false,
-                        maintainAnimation: true,
-                        maintainState: true,
-                        visible:  viewMore,
                       ),
                       Container(
                         margin: EdgeInsets.only(left: 20,right: 20,top: 20),
                         child: Text(
-                          'Accessories',
+                          'SubCategory',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 13,
                             fontFamily: 'Poppins',
                             color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 20,right: 20),
+                        child: TextField(
+                          controller: pSCategory,
+                          style: TextStyle(fontFamily: 'Poppins',fontSize: 18),
+                          decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.teal.shade900
+                                )
+                            ),
+
                           ),
                         ),
                       ),
@@ -661,25 +271,18 @@ class _UpdateProductState extends State<UpdateProduct> {
                         ),
                       ),
                       Container(
-
-
-                        margin: EdgeInsets.only(left: 20,right: 20),
+                       margin: EdgeInsets.only(left: 20,right: 20),
                         child: TextField(
-                          style: TextStyle(fontFamily: 'Poppins',fontSize: 15),
+                          controller: pName,
+                          style: TextStyle(fontFamily: 'Poppins',fontSize: 18),
                           decoration: InputDecoration(
-
-                            hintText: 'Mobile Cover Vivo Y11 modal 2019',
-
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.teal.shade900
                                 )
                             ),
 
-
-
                           ),
-
                         ),
                       ),
 
@@ -695,27 +298,17 @@ class _UpdateProductState extends State<UpdateProduct> {
                         ),
                       ),
                       Container(
-
-
                         margin: EdgeInsets.only(left: 20,right: 20),
                         child: TextField(
-
-
-                          style: TextStyle(fontFamily: 'Poppins',fontSize: 15),
+                          controller: pPrice,
+                          style: TextStyle(fontFamily: 'Poppins',fontSize: 18),
                           decoration: InputDecoration(
-
-                            hintText: '149',
-
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.teal.shade900
                                 )
                             ),
-
-
-
                           ),
-
                         ),
                       ),
 
@@ -731,13 +324,10 @@ class _UpdateProductState extends State<UpdateProduct> {
                         ),
                       ),
                       Container(
-
-
                         margin: EdgeInsets.only(left: 20,right: 20),
                         child: TextField(
-
-
-                          style: TextStyle(fontFamily: 'Poppins',fontSize: 16),
+                          controller: pOfferPrice,
+                          style: TextStyle(fontFamily: 'Poppins',fontSize: 18),
                           decoration: InputDecoration(
 
                             hintText: '139',
@@ -767,26 +357,21 @@ class _UpdateProductState extends State<UpdateProduct> {
                         ),
                       ),
                       Container(
-
                         margin: EdgeInsets.only(left: 20,right: 20),
-                        child:  DropdownButton(
+                        child: TextField(
+                          controller: pQuantity,
+                          style: TextStyle(fontFamily: 'Poppins',fontSize: 18),
+                          decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.teal.shade900
+                                )
+                            ),
 
-                          value: dropdownQuantity,
 
-                          icon: const Icon(Icons.keyboard_arrow_down),
 
-                          items: items.map((String items) {
-                            return DropdownMenuItem(
-                              value: items,
-                              child: Text(items),
-                            );
-                          }).toList(),
+                          ),
 
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownQuantity = newValue!;
-                            });
-                          },
                         ),
                       ),
 
@@ -802,30 +387,34 @@ class _UpdateProductState extends State<UpdateProduct> {
                         ),
                       ),
                       Container(
-
-
                         margin: EdgeInsets.only(left: 20,right: 20),
-                        child: DropdownButton(
+                        child: TextField(
+                          controller: pType,
+                          style: TextStyle(fontFamily: 'Poppins',fontSize: 18),
+                          decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.teal.shade900
+                                )
+                            ),
 
-                          value: dropdownType,
 
-                          icon: const Icon(Icons.keyboard_arrow_down),
 
-                          items: items2.map((String items2) {
-                            return DropdownMenuItem(
-                              value: items2,
-                              child: Text(items2),
-                            );
-                          }).toList(),
+                          ),
 
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownType = newValue!;
-                            });
-                          },
                         ),
                       ),
 
+                      Container(
+                        width: double.maxFinite,
+                        margin: EdgeInsets.only(left: 20,right: 20,top: 20,bottom: 30),
+                        child: MaterialButton(onPressed: (){
+                          // Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewListed(),));
+                        }, child: Text('Save And Update',style: TextStyle(color: Colors.white,fontSize: 15),)
+                          ,color: Colors.lightBlue.shade500,
+                          height: 40,
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -833,16 +422,7 @@ class _UpdateProductState extends State<UpdateProduct> {
 
 
 
-              Container(
-                width: double.maxFinite,
-                margin: EdgeInsets.only(left: 20,right: 20,top: 20,bottom: 30),
-                child: MaterialButton(onPressed: (){
-                 // Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewListed(),));
-                }, child: Text('Save And Update',style: TextStyle(color: Colors.white,fontSize: 15),)
-                  ,color: Colors.lightBlue.shade500,
-                  height: 40,
-                ),
-              )
+
             ],
           ),
         ),
