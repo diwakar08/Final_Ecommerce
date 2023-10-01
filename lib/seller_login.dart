@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:e_commerce/main_dashboard.dart';
 import 'package:e_commerce/seller_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   var phone_controller = TextEditingController();
   var password_controller = TextEditingController();
-   // String token1 ="" ;
+  // String token1 ="" ;
   Future<void> postSeller() async {
     Map<String, dynamic> jsonData = {
       "phone": phone_controller.text,
@@ -59,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     print("token is printing");
     print("token is ${token}");
-    Navigator.push(context, MaterialPageRoute(builder: (context) => SellerDashboard(token:token, id:id)));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainDashboard(token:token, id:id)));
   }
 
 
@@ -237,9 +238,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: ElevatedButton(
                             onPressed: postSeller,
                             child: Text('Login', style: TextStyle(
-                              color: Colors.black54,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18
                             ),)
                         ),
                       )
