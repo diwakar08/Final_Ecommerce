@@ -1,33 +1,36 @@
 import 'dart:io';
-import 'package:e_commerce/review_listed.dart';
+import 'package:e_commerce/sucessfully_add.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 
 
-class UpdateProduct extends StatelessWidget {
+class UpdateProducts extends StatefulWidget {
   String productImage = '';
   String productName = '';
   String productCategory='';
   String productSubCategory='';
   String productMRPPrice = '';
   String productOfferPrice = '';
-  String productQuantity = 'gm';
+  String productQuantity = '';
+  String productType = '';
   bool stockTF = true;
   String stockIO = '';
-   UpdateProduct(this.productName,this.productImage,this.productCategory,this.productSubCategory,this.productMRPPrice,this.productOfferPrice,this.productQuantity,this.stockTF,this.stockIO);
+  String description = '';
+   UpdateProducts({Key? key ,required this.productName,required this.productImage,required this.productCategory,required this.productSubCategory,required this.productMRPPrice,required this.productOfferPrice,required this.productQuantity,required this.stockTF,required this.stockIO,required this.productType,required this.description}) : super(key: key);
 
-  bool _switchValue = false;
+  @override
+  _UpdateProductsState createState() => _UpdateProductsState();
+}
+
+class _UpdateProductsState extends State<UpdateProducts> {
+
+  late String s = widget.stockIO;
+  late bool _switchValue = widget.stockTF;
   String stock = 'In Stock';
+  late String Image = widget.productImage;
 
-  bool viewMore = false;
-  String viewML = 'View more categories';
-
-  String dropdownQuantity = 'pic';
-  String dropdownType = 'Not required';
-
-
-
+  late String pType = widget.productType;
   var items = [
     'gm',
     'ml',
@@ -35,6 +38,7 @@ class UpdateProduct extends StatelessWidget {
   ];
   var items2 = [
     'Veg',
+
     'Non Veg',
     'Not required',
   ];
@@ -43,19 +47,20 @@ class UpdateProduct extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final pName = TextEditingController();
-    pName.text = productName;
+    pName.text = widget.productName;
     final pCategory = TextEditingController();
-    pCategory.text = productCategory;
+    pCategory.text = widget.productCategory;
     final pSCategory = TextEditingController();
-    pSCategory.text = productSubCategory;
+    pSCategory.text = widget.productSubCategory;
     final pPrice = TextEditingController();
-    pPrice.text = productMRPPrice;
+    pPrice.text = widget.productMRPPrice;
     final pOfferPrice = TextEditingController();
-    pOfferPrice.text = productOfferPrice;
+    pOfferPrice.text = widget.productOfferPrice;
     final pQuantity = TextEditingController();
-    pQuantity.text = productQuantity;
-    final pType = TextEditingController();
-    pType.text = 'Not';
+    pQuantity.text = widget.productQuantity;
+    final description = TextEditingController();
+    description.text = widget.description;
+
 
     return Scaffold(
       appBar: AppBar(
@@ -129,18 +134,20 @@ class UpdateProduct extends StatelessWidget {
                             children: [
                               CupertinoSwitch(
                                 activeColor: Colors.red,
-                                value: stockTF,
+                                value: _switchValue,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    s = value == false ? 'In stock' : 'Out of stock';
+                                    _switchValue = value;
 
-                                onChanged: (value) {
-                                  _switchValue = value;
-
+                                  });
                                 },
                               ),
                               Container(
 
                                 margin: EdgeInsets.only(left: 0),
                                 child: Center(
-                                  child: Text(stockIO,
+                                  child: Text(s,
                                       style: TextStyle(
                                           color: Colors.green.shade900,
                                           fontSize: 18,
@@ -151,7 +158,7 @@ class UpdateProduct extends StatelessWidget {
                               ),
                               Container(
 
-                              child: MaterialButton(onPressed: (){
+                                child: MaterialButton(onPressed: (){
                                   // Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewListed(),));
                                 }, child: Text('Update Stock',style: TextStyle(color: Colors.white,fontSize: 15),)
                                   ,color: Colors.lightBlue.shade500,
@@ -189,7 +196,8 @@ class UpdateProduct extends StatelessWidget {
                         child: CircleAvatar(
                           radius: 40,
                           backgroundColor: Colors.white,
-                          child: Image.asset('assets/images/c8.png'),
+                          backgroundImage: NetworkImage(Image),
+
                         ),
                       ),
                       Container(
@@ -271,7 +279,7 @@ class UpdateProduct extends StatelessWidget {
                         ),
                       ),
                       Container(
-                       margin: EdgeInsets.only(left: 20,right: 20),
+                        margin: EdgeInsets.only(left: 20,right: 20),
                         child: TextField(
                           controller: pName,
                           style: TextStyle(fontFamily: 'Poppins',fontSize: 18),
@@ -388,8 +396,38 @@ class UpdateProduct extends StatelessWidget {
                       ),
                       Container(
                         margin: EdgeInsets.only(left: 20,right: 20),
+                        child: DropdownButton(
+                          value: pType,
+                          icon: const Icon(Icons.keyboard_arrow_down),
+                          items: items2.map((String items2) {
+                            return DropdownMenuItem(
+                              value: items2,
+                              child: Text(items2),
+                            );
+                          }).toList(),
+                           onChanged: (String? newValue){
+                             setState(() {
+                               pType = newValue!;
+                             });
+                           },
+                        ),
+                      ),
+
+                      Container(
+                        margin: EdgeInsets.only(left: 20,right: 20,top: 25),
+                        child: Text(
+                          'Product Description',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontFamily: 'Poppins',
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 20,right: 20),
                         child: TextField(
-                          controller: pType,
+                          controller: description,
                           style: TextStyle(fontFamily: 'Poppins',fontSize: 18),
                           decoration: InputDecoration(
                             focusedBorder: OutlineInputBorder(
