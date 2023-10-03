@@ -454,7 +454,7 @@ class _ManageProductsState extends State<ManageProducts> {
                                                                 child: MaterialButton(
                                                                   color: Colors.lightBlue.shade400,
                                                                   onPressed: (){
-                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProduct(prod!.productName,prod!.image.toString(),prod!.category,prod!.subcategory,prod!.mrpPrice.toString(),prod!.offerPrice.toString(),prod!.quantityType,prod!.stock,s),));
+                                                                     Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(productName: prod!.productName,productImage: prod!.image.toString(),productCategory: prod!.subcategory,productSubCategory: prod!.subcategory,productMRPPrice: prod!.mrpPrice.toString(),productOfferPrice: prod!.offerPrice.toString(),productQuantity: prod!.quantityType,stockTF: prod!.stock,stockIO: s,productType: prod!.productType,description: prod!.description,)));
                                                                   }, child: Text('Edit',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),),
                                                               ),
                                                             ),
