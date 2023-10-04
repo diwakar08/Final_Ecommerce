@@ -60,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     print("token is printing");
     print("token is ${token}");
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainDashboard(token:token, id:id)));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainDashboard (token:token, id:id)));
   }
 
 
