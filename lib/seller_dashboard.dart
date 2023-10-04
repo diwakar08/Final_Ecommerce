@@ -4,7 +4,7 @@ import 'package:e_commerce/home.dart';
 import 'package:e_commerce/manage_products.dart';
 import 'package:e_commerce/order_details.dart';
 import 'package:e_commerce/main_dashboard.dart';
-import 'package:e_commerce/update_products.dart';
+import 'package:e_commerce/update_product.dart';
 import 'package:flutter/material.dart';
 import 'add_product.dart';
 import 'main.dart';
@@ -505,7 +505,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                       Expanded(
                                           flex: 2,
                                           child: OutlinedButton(onPressed: (){
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProduct(prod!.productName,prod!.image.toString(),prod!.category,prod!.subcategory,prod!.mrpPrice.toString(),prod!.offerPrice.toString(),prod!.quantityType,prod!.stock,s),));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(productName: prod!.productName,productImage: prod!.image.toString(),productCategory: prod!.subcategory,productSubCategory: prod!.subcategory,productMRPPrice: prod!.mrpPrice.toString(),productOfferPrice: prod!.offerPrice.toString(),productQuantity: prod!.quantityType,stockTF: prod!.stock,stockIO: s,productType: prod!.productType,description: prod!.description,)));
                                           },child: Text('Edit',
                                               style: TextStyle(
                                                 color: Colors.green.shade900,
@@ -626,7 +626,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                       Expanded(
                                           flex: 2,
                                           child: OutlinedButton(onPressed: (){
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProduct(prod!.productName,prod!.image.toString(),prod!.category,prod!.subcategory,prod!.mrpPrice.toString(),prod!.offerPrice.toString(),prod!.quantityType,prod!.stock,s),));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(productName: prod!.productName,productImage: prod!.image.toString(),productCategory: prod!.subcategory,productSubCategory: prod!.subcategory,productMRPPrice: prod!.mrpPrice.toString(),productOfferPrice: prod!.offerPrice.toString(),productQuantity: prod!.quantityType,stockTF: prod!.stock,stockIO: s,productType: prod!.productType,description: prod!.description,)));
                                           },child: Text('Edit',
                                               style: TextStyle(
                                                 color: Colors.green.shade900,

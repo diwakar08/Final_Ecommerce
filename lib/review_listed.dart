@@ -119,7 +119,7 @@ class _ReviewListedState extends State<ReviewListed> {
               ),
 
               Container(
-                height: 350,
+                
                 width: double.maxFinite,
                 child: SingleChildScrollView(
                   child: Column(
@@ -207,24 +207,14 @@ class _ReviewListedState extends State<ReviewListed> {
 
 
 
-              Container(
-                margin: EdgeInsets.only(left: 20,top: 10),
-                child: CircleAvatar(
-                  backgroundColor: Colors.lightBlue,
-                  radius: 30,
-                  child: Icon(Icons.edit,size: 30,),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 35),
-                child: Text(
-                  'Edit',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    color: Colors.black87,
-                    fontWeight: FontWeight.bold
-                  ),
+            Container(
+                width: double.maxFinite,
+                margin: EdgeInsets.only(left: 20,right: 20,top: 30 ),
+                child: MaterialButton(onPressed: (){
+
+                }, child: Text('Edit',style: TextStyle(color: Colors.white,fontSize: 18),)
+                  ,color: Colors.lightBlue.shade500,
+                  height: 40,
                 ),
               ),
 
