@@ -38,7 +38,6 @@ class _UpdateProductsState extends State<UpdateProducts> {
   ];
   var items2 = [
     'Veg',
-
     'Non Veg',
     'Not required',
   ];

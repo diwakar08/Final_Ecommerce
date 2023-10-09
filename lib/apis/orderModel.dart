@@ -1,5 +1,3 @@
-import 'productModel.dart';
-
 class Payment {
   String paymentID;
   String paymentMode;
@@ -24,17 +22,25 @@ class Payment {
       paymentAmount: json['paymentAmount'].toDouble(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'paymentID': paymentID,
+      'paymentMode': paymentMode,
+      'paymentStatus': paymentStatus,
+      'paymentDate': paymentDate.toIso8601String(),
+      'paymentAmount': paymentAmount,
+    };
+  }
 }
-
-
 
 class Order {
   String orderID;
-  String customerID;
-  String sellerID;
-  List<Product> productList;
+  String customerID; // Assuming it's a string for simplicity
+  String sellerID; // Assuming it's a string for simplicity
+  List<String> productList; // List of product IDs
+  Map<String, dynamic> shippedBy;
   String orderStatus;
-  double totalPrice;
   Payment payment;
 
   Order({
@@ -42,22 +48,32 @@ class Order {
     required this.customerID,
     required this.sellerID,
     required this.productList,
+    required this.shippedBy,
     required this.orderStatus,
-    required this.totalPrice,
     required this.payment,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(
-      orderID: json['orderID'] ?? '',
-      customerID: json['customerID'] ?? '',
-      sellerID: json['sellerID'] ?? '',
-      productList: (json['productList'] as List<dynamic>)
-          .map((productJson) => Product.fromJson(productJson as Map<String, dynamic>))
-          .toList() ?? [],
-      orderStatus: json['orderStatus'] ?? '',
-      totalPrice: json['totalPrice'].toDouble() ?? 0,
+      orderID: json['orderID'],
+      customerID: json['customerID'],
+      sellerID: json['sellerID'],
+      productList: List<String>.from(json['productList']),
+      shippedBy: json['shippedBy'],
+      orderStatus: json['orderStatus'],
       payment: Payment.fromJson(json['payment']),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'orderID': orderID,
+      'customerID': customerID,
+      'sellerID': sellerID,
+      'productList': productList,
+      'shippedBy': shippedBy,
+      'orderStatus': orderStatus,
+      'payment': payment.toJson(),
+    };
   }
 }

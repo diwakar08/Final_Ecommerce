@@ -1,43 +1,36 @@
 class Seller {
-  String? ownerName;
-  String? password;
-  String? phone;
-  String? businessType;
-  String? shopName;
-  String? landlineNumber;
-  GSTIN? gstin;
-  FSSAI? fssai;
-  String? photo;
-  Address? address;
-  DateTime? shopOpeningTime;
-  DateTime? shopClosingTime;
-
-  PanCard? panCard;
-  BankDetails? bankDetails;
-  double? marginCharged;
-  String? shopCategory;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  String ownerName;
+  String password;
+  String phone;
+  String businessType;
+  String shopName;
+  GSTIN gstin;
+  String photo;
+  Address address;
+  List<String> offDays;
+  List<ShopTiming> shopTimings;
+  bool isOnline;
+  PanCard panCard;
+  BankDetails bankDetails;
+  double marginCharged;
+  String shopCategory;
 
   Seller({
-    this.ownerName,
-    this.password,
-    this.phone,
-    this.businessType,
-    this.shopName,
-    this.landlineNumber,
-    this.gstin,
-    this.fssai,
-    this.photo,
-    this.address,
-    this.shopOpeningTime,
-    this.shopClosingTime,
-    this.panCard,
-    this.bankDetails,
-    this.marginCharged,
-    this.shopCategory,
-    this.createdAt,
-    this.updatedAt,
+    required this.ownerName,
+    required this.password,
+    required this.phone,
+    required this.businessType,
+    required this.shopName,
+    required this.gstin,
+    required this.photo,
+    required this.address,
+    required this.offDays,
+    required this.shopTimings,
+    required this.isOnline,
+    required this.panCard,
+    required this.bankDetails,
+    required this.marginCharged,
+    required this.shopCategory,
   });
 
   factory Seller.fromJson(Map<String, dynamic> json) {
@@ -47,45 +40,47 @@ class Seller {
       phone: json['phone'],
       businessType: json['businessType'],
       shopName: json['shopName'],
-      landlineNumber: json['landlineNumber'],
-      gstin: GSTIN.fromJson(json['gstin']),
-      fssai: FSSAI.fromJson(json['fssai']),
+      gstin: GSTIN.fromJson(json['GSTIN']),
       photo: json['photo'],
       address: Address.fromJson(json['address']),
-      shopOpeningTime: DateTime.parse(json['shopOpeningTime']),
-      shopClosingTime: DateTime.parse(json['shopClosingTime']),
+      offDays: List<String>.from(json['offDays']),
+      shopTimings: List<ShopTiming>.from(json['shopTimings'].map((x) => ShopTiming.fromJson(x))),
+      isOnline: json['isOnline'],
       panCard: PanCard.fromJson(json['panCard']),
       bankDetails: BankDetails.fromJson(json['bankDetails']),
       marginCharged: json['marginCharged'].toDouble(),
       shopCategory: json['shopCategory'],
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
     );
   }
-}
 
-class FSSAI {
-  String? licenseNumber;
-  String? fssaiImage;
-  FSSAI({
-    this.licenseNumber,
-    this.fssaiImage,
-  });
-  factory FSSAI.fromJson(Map<String, dynamic> json) {
-    return FSSAI(
-      licenseNumber: json['licenseNumber'],
-      fssaiImage: json['fssaiImage'],
-    );
+  Map<String, dynamic> toJson() {
+    return {
+      'ownerName': ownerName,
+      'password': password,
+      'phone': phone,
+      'businessType': businessType,
+      'shopName': shopName,
+      'GSTIN': gstin.toJson(),
+      'photo': photo,
+      'address': address.toJson(),
+      'offDays': offDays,
+      'shopTimings': List<dynamic>.from(shopTimings.map((x) => x.toJson())),
+      'isOnline': isOnline,
+      'panCard': panCard.toJson(),
+      'bankDetails': bankDetails.toJson(),
+      'marginCharged': marginCharged,
+      'shopCategory': shopCategory,
+    };
   }
 }
 
 class GSTIN {
-  String? gstinNo;
-  String? gstinImage;
+  String gstinNo;
+  String gstinImage;
 
   GSTIN({
-    this.gstinNo,
-    this.gstinImage,
+    required this.gstinNo,
+    required this.gstinImage,
   });
 
   factory GSTIN.fromJson(Map<String, dynamic> json) {
@@ -94,41 +89,86 @@ class GSTIN {
       gstinImage: json['gstinImage'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'gstinNo': gstinNo,
+      'gstinImage': gstinImage,
+    };
+  }
 }
 
 class Address {
-  String? addressOfShop;
-  String? city;
-  String? state;
-  String? pincode;
-  String? location;
+  String addressLine;
+  String city;
+  String state;
+  String pincode;
+  String location;
 
   Address({
-    this.addressOfShop,
-    this.city,
-    this.state,
-    this.pincode,
-    this.location,
+    required this.addressLine,
+    required this.city,
+    required this.state,
+    required this.pincode,
+    required this.location,
   });
 
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
-      addressOfShop: json['addressOfShop'],
+      addressLine: json['addressLine'],
       city: json['city'],
       state: json['state'],
       pincode: json['pincode'],
       location: json['location'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'addressLine': addressLine,
+      'city': city,
+      'state': state,
+      'pincode': pincode,
+      'location': location,
+    };
+  }
+}
+
+class ShopTiming {
+  String day;
+  DateTime openingTime;
+  DateTime closingTime;
+
+  ShopTiming({
+    required this.day,
+    required this.openingTime,
+    required this.closingTime,
+  });
+
+  factory ShopTiming.fromJson(Map<String, dynamic> json) {
+    return ShopTiming(
+      day: json['day'],
+      openingTime: DateTime.parse(json['openingTime']),
+      closingTime: DateTime.parse(json['closingTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'day': day,
+      'openingTime': openingTime.toIso8601String(),
+      'closingTime': closingTime.toIso8601String(),
+    };
+  }
 }
 
 class PanCard {
-  String? panNo;
-  String? panImage;
+  String panNo;
+  String panImage;
 
   PanCard({
-    this.panNo,
-    this.panImage,
+    required this.panNo,
+    required this.panImage,
   });
 
   factory PanCard.fromJson(Map<String, dynamic> json) {
@@ -137,21 +177,28 @@ class PanCard {
       panImage: json['panImage'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'panNo': panNo,
+      'panImage': panImage,
+    };
+  }
 }
 
 class BankDetails {
-  String? accountNo;
-  String? ifscCode;
-  String? bankName;
-  String? branchName;
-  String? passbookImage;
+  String accountNo;
+  String ifscCode;
+  String bankName;
+  String branchName;
+  String passbookImage;
 
   BankDetails({
-    this.accountNo,
-    this.ifscCode,
-    this.bankName,
-    this.branchName,
-    this.passbookImage,
+    required this.accountNo,
+    required this.ifscCode,
+    required this.bankName,
+    required this.branchName,
+    required this.passbookImage,
   });
 
   factory BankDetails.fromJson(Map<String, dynamic> json) {
@@ -162,5 +209,15 @@ class BankDetails {
       branchName: json['branchName'],
       passbookImage: json['passbookImage'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'accountNo': accountNo,
+      'ifscCode': ifscCode,
+      'bankName': bankName,
+      'branchName': branchName,
+      'passbookImage': passbookImage,
+    };
   }
 }

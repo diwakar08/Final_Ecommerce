@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
-import 'home.dart';
+import 'Regestration.dart';
+
+// import 'home.dart';
 
 
 
@@ -60,7 +62,9 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     print("token is printing");
     print("token is ${token}");
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainDashboard (token:token, id:id)));
+    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Regest(token:token, id:id)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Regest(token:token, id:id)));
+
   }
 
 

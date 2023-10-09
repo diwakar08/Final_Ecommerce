@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:e_commerce/home.dart';
+// import 'package:e_commerce/home.dart';
 import 'package:e_commerce/manage_products.dart';
 import 'package:e_commerce/order_details.dart';
 import 'package:e_commerce/main_dashboard.dart';
@@ -14,7 +14,8 @@ import './apis/ProductModel.dart';
 
 
 class SellerDashboard extends StatefulWidget {
-  const SellerDashboard({Key? key}) : super(key: key);
+  final String token, id;
+  const SellerDashboard({Key? key, required  this.token, required this.id}) : super(key: key);
 
   @override
   _SellerDashboardState createState() => _SellerDashboardState();
@@ -24,6 +25,8 @@ class _SellerDashboardState extends State<SellerDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    var token = widget.token;
+    var id = widget.id;
 
     return Scaffold(
       appBar: AppBar(
@@ -292,7 +295,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                     Expanded(
                       child: InkWell(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => AddProduct(),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => AddProduct(token:token, id:id,),));
                         },
                         child: Card(
 
@@ -347,7 +350,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                     Expanded(
                       child: InkWell(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProducts(),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProducts(token: token, id: id),));
                         },
                         child: Card(
 
@@ -440,7 +443,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
               Container(
                 height: 160,
                 child: FutureBuilder<List<Product>>(
-                  future: fetchOrders(),
+                  future: fetchOrders(token, id),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
@@ -456,7 +459,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                             itemCount: data?.length,
                             itemBuilder: (context, index) {
                               final prod = data?[index];
-                              String s = prod!.stock.toString() == 'false' ? 'In stock' : 'Out of stock';
+                              String s = 'Out of stock';//prod!.stock.toString() == 'false' ? 'In stock' :
                               return  Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -493,7 +496,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                             children: [
-                                              Text('₹${prod!.offerPrice.toString()}',
+                                              Text('₹{prod!.offerPrice.toString()}',
                                                   style: TextStyle(
                                                       color: Colors.blueGrey.shade900,
                                                       fontSize: 15,
@@ -505,7 +508,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                       Expanded(
                                           flex: 2,
                                           child: OutlinedButton(onPressed: (){
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(productName: prod!.productName,productImage: prod!.image.toString(),productCategory: prod!.subcategory,productSubCategory: prod!.subcategory,productMRPPrice: prod!.mrpPrice.toString(),productOfferPrice: prod!.offerPrice.toString(),productQuantity: prod!.quantityType,stockTF: prod!.stock,stockIO: s,productType: prod!.productType,description: prod!.description,)));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(productName: prod!.productName,productImage: prod!.image.toString(),productCategory: 'prod!.subcategory',productSubCategory: 'prod!.subcategory',productMRPPrice: prod!.mrpPrice.toString(),productOfferPrice: 'prod!.offerPrice.toString()',productQuantity: prod!.quantityType,stockTF: false,stockIO: s,productType: prod!.productType,description: prod!.description,)));
                                           },child: Text('Edit',
                                               style: TextStyle(
                                                 color: Colors.green.shade900,
@@ -561,7 +564,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
               Container(
                 height: 160,
                 child: FutureBuilder<List<Product>>(
-                  future: fetchOrders(),
+                  future: fetchOrders(token, id),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
@@ -577,13 +580,12 @@ class _SellerDashboardState extends State<SellerDashboard> {
                             itemCount: data?.length,
                             itemBuilder: (context, index) {
                               final prod = data?[index];
-                              String s = prod!.stock.toString() == 'false' ? 'In stock' : 'Out of stock';
+                              String s = 'Out of stock';//prod!.stock.toString() == 'false' ? 'In stock' :
                               return  Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(20),
                                   border: Border.all(color: Colors.black45,width: 0.5),
-
                                 ),
                                 height: 140,
                                 width: 130,
@@ -614,7 +616,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                             children: [
-                                              Text('₹${prod!.offerPrice.toString()}',
+                                              Text('₹{prod!.offerPrice.toString()}',
                                                   style: TextStyle(
                                                       color: Colors.blueGrey.shade900,
                                                       fontSize: 15,
@@ -626,7 +628,8 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                       Expanded(
                                           flex: 2,
                                           child: OutlinedButton(onPressed: (){
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(productName: prod!.productName,productImage: prod!.image.toString(),productCategory: prod!.subcategory,productSubCategory: prod!.subcategory,productMRPPrice: prod!.mrpPrice.toString(),productOfferPrice: prod!.offerPrice.toString(),productQuantity: prod!.quantityType,stockTF: prod!.stock,stockIO: s,productType: prod!.productType,description: prod!.description,)));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(productName: prod!.productName,productImage: prod!.image.toString(),productCategory: 'prod!.subcategory',productSubCategory: 'prod!.subcategory',productMRPPrice: prod!.mrpPrice.toString(),productOfferPrice: prod!.
+                                            offerPrice.toString(),productQuantity: prod!.quantityType,stockTF: true,stockIO: s,productType: prod!.productType,description: prod!.description,)));
                                           },child: Text('Edit',
                                               style: TextStyle(
                                                 color: Colors.green.shade900,
@@ -658,9 +661,10 @@ class _SellerDashboardState extends State<SellerDashboard> {
 
   }
 
-  Future<List<Product>> fetchOrders() async {
-    final data = await UserApi.getProducts();
-
+  Future<List<Product>> fetchOrders(token, id) async {
+    final data = await UserApi.getProducts(token, id);
+    print("printing Dataaaa");
+    print(data);
     return data;
   }
 

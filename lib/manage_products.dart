@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:e_commerce/update_products.dart';
+import 'package:e_commerce/update_product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -13,7 +13,8 @@ import './apis/ProductModel.dart';
 
 
 class ManageProducts extends StatefulWidget {
-  const ManageProducts({Key? key}) : super(key: key);
+  final String token, id;
+  const ManageProducts({Key? key, required  this.token, required this.id}) : super(key: key);
 
   @override
   _ManageProductsState createState() => _ManageProductsState();
@@ -32,12 +33,13 @@ class _ManageProductsState extends State<ManageProducts> {
 
   @override
   initState() {
-    fetchOrders();
+    fetchOrders(widget.token, widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
-
+    String token = widget.token;
+    String id = widget.id;
     Icon stockINorOut = Icon(Icons.circle_outlined,color: Colors.red.shade900,);
 
     return Scaffold(
@@ -294,7 +296,7 @@ class _ManageProductsState extends State<ManageProducts> {
 
       body:
       FutureBuilder<List<Product>>(
-        future: fetchOrders(),
+        future: fetchOrders(token, id),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -311,7 +313,7 @@ class _ManageProductsState extends State<ManageProducts> {
                       itemCount: data?.length,
                       itemBuilder: (context, index) {
                         final prod = data?[index];
-                        String s = prod!.stock.toString() == 'false' ? 'In stock' : 'Out of stock';
+                        String s = prod!.inStock.toString() == 'false' ? 'In stock' :'Out of stock';
                         return Container(
                             child: Column(
                               children: [
@@ -341,7 +343,7 @@ class _ManageProductsState extends State<ManageProducts> {
 
                                                             CupertinoSwitch(
                                                               activeColor: Colors.red,
-                                                              value: prod!.stock,
+                                                              value: false,//prod!.stock,
 
                                                               onChanged: (value) {
                                                                 _switchValue = value;
@@ -392,7 +394,7 @@ class _ManageProductsState extends State<ManageProducts> {
                                                                 ),
                                                                 Expanded(
 
-                                                                  child: Text(prod!.subcategory,
+                                                                  child: Text('prod!.subcategory',
                                                                       style: TextStyle(
                                                                         color: Colors.black,
                                                                         fontSize: 13,
@@ -418,7 +420,7 @@ class _ManageProductsState extends State<ManageProducts> {
                                                                           decoration: TextDecoration.lineThrough
                                                                       )),
                                                                 ),
-                                                                Text('₹${prod!.offerPrice.toString()}',
+                                                                Text('₹{prod!.offerPrice.toString()}',
                                                                     style: TextStyle(
                                                                         color: Colors.black,
                                                                         fontSize: 20,
@@ -454,7 +456,7 @@ class _ManageProductsState extends State<ManageProducts> {
                                                                 child: MaterialButton(
                                                                   color: Colors.lightBlue.shade400,
                                                                   onPressed: (){
-                                                                     Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(productName: prod!.productName,productImage: prod!.image.toString(),productCategory: prod!.subcategory,productSubCategory: prod!.subcategory,productMRPPrice: prod!.mrpPrice.toString(),productOfferPrice: prod!.offerPrice.toString(),productQuantity: prod!.quantityType,stockTF: prod!.stock,stockIO: s,productType: prod!.productType,description: prod!.description,)));
+                                                                     Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(productName: prod!.productName,productImage: prod!.image.toString(),productMRPPrice: prod!.mrpPrice.toString(),productOfferPrice: 'prod!.offerPrice.toString()',productQuantity: prod!.quantityType,stockTF: false,productType: prod!.productType,description: prod!.description, stockIO: prod.inStock?'inStock':'out Of Stock', productCategory: '', productSubCategory: '',)));
                                                                   }, child: Text('Edit',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),),
                                                               ),
                                                             ),
@@ -489,8 +491,8 @@ class _ManageProductsState extends State<ManageProducts> {
       )
     );
   }
-  Future<List<Product>> fetchOrders() async {
-    final data = await UserApi.getProducts();
+  Future<List<Product>> fetchOrders(token, id) async {
+    final data = await UserApi.getProducts(token, id);
 
     return data;
   }

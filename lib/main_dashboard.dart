@@ -1,5 +1,5 @@
 import 'package:e_commerce/seller_dashboard.dart';
-import 'package:e_commerce/update_products.dart';
+import 'package:e_commerce/update_product.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -23,18 +23,22 @@ class MainDashboard extends StatefulWidget {
 class _MainDashboardState extends State<MainDashboard> {
   int pageIndex = 0;
 
-  final pages = [
-    const SellerDashboard(),
-    const ManageProducts(),
-    const Orders(),
-  ];
+
 
   @override
   Widget build(BuildContext context) {
+    String token = widget.token;
+    String id = widget.id;
+
+    final pages = [
+
+       ManageProducts(token: token, id:id,),
+      const Orders(),
+    ];
     return Scaffold(
       backgroundColor: const Color(0xfffcf5f4),
 
-      body: pages[pageIndex],
+      body: SellerDashboard(token: token, id:id),
       bottomNavigationBar: buildMyNavBar(context),
 
     );
