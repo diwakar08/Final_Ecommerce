@@ -1,12 +1,20 @@
 import 'dart:io';
 import 'package:e_commerce/sucessfully_add.dart';
 import 'package:flutter/material.dart';
+import 'add_product.dart';
 import 'main.dart';
+import 'package:image_picker/image_picker.dart';
 
 
 class ReviewListed extends StatefulWidget {
-  final String token, id;
-  const ReviewListed({Key? key, required  this.token, required this.id}) : super(key: key);
+  List<XFile>? imageFileList = [];
+  List<ItemOption> itemOptions = [];
+  String productName = '';
+  String productCategory='';
+  String productType = '';
+  String description = '', token='', id='';
+
+  ReviewListed({Key? key,required this.token,required this .id ,required this.imageFileList,required this.itemOptions,required this.productName,required this.productCategory,required this.productType,required this.description}) : super(key: key);
 
   @override
   _ReviewListedState createState() => _ReviewListedState();
@@ -16,8 +24,11 @@ class _ReviewListedState extends State<ReviewListed> {
 
   @override
   Widget build(BuildContext context) {
-  String token = widget.token;
-  String id = widget.token;
+    String pName = widget.productName;
+    String pCategory  = widget.productCategory;
+    String pType  = widget.productType;
+    String pDescription  = widget.description;
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -69,7 +80,7 @@ class _ReviewListedState extends State<ReviewListed> {
                       width: 23,
                       decoration: BoxDecoration(
                           color: Colors.black,
-                        borderRadius: BorderRadius.all(Radius.circular(6))
+                          borderRadius: BorderRadius.all(Radius.circular(6))
                       ),
                       child: Center(child: Text('1',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
                     ),
@@ -107,10 +118,10 @@ class _ReviewListedState extends State<ReviewListed> {
                       child: Text(
                         'Review',
                         style: TextStyle(
-                          fontSize: 30,
-                          fontFamily: 'Poppins',
-                          color: Colors.black87,
-                          fontWeight: FontWeight.bold
+                            fontSize: 30,
+                            fontFamily: 'Poppins',
+                            color: Colors.black87,
+                            fontWeight: FontWeight.bold
                         ),
                       ),
                     ),
@@ -119,7 +130,7 @@ class _ReviewListedState extends State<ReviewListed> {
               ),
 
               Container(
-                
+
                 width: double.maxFinite,
                 child: SingleChildScrollView(
                   child: Column(
@@ -132,8 +143,25 @@ class _ReviewListedState extends State<ReviewListed> {
                             children: [
                               Text("Product Image:",textScaleFactor: 1.2,style: TextStyle(fontWeight: FontWeight.bold)),
                               Container(
-                                height: 70,
-                                child: Image.asset('assets/images/c6.png'),
+                                height: 150,
+
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: GridView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: widget.imageFileList!.length,
+                                      gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 1,
+                                          mainAxisSpacing: 5),
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Image.file(
+                                          File(widget.imageFileList![index].path),
+                                          fit: BoxFit.cover,
+                                        );
+                                      }),
+                                ),
                               ),
                             ],
                           )),
@@ -142,26 +170,8 @@ class _ReviewListedState extends State<ReviewListed> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Product Name:",textScaleFactor: 1,style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text("Milk",textScaleFactor: 1.5),
-                            ],
-                          )),
-                      Container(
-                          margin: EdgeInsets.only(left: 20,right: 20,top: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Product Price:",textScaleFactor: 1,style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text("Rs.33",textScaleFactor: 1.5),
-                            ],
-                          )),
-                      Container(
-                          margin: EdgeInsets.only(left: 20,right: 20,top: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
                               Text("Product Category:",textScaleFactor: 1.0,style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text("Grocery",textScaleFactor: 1.5),
+                              Text(pCategory,textScaleFactor: 1.5),
                             ],
                           )),
                       Container(
@@ -169,17 +179,36 @@ class _ReviewListedState extends State<ReviewListed> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Product Quantity:",textScaleFactor: 1,style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text("ml",textScaleFactor: 1.5),
+                              Text("Product SubCategory1:",textScaleFactor: 1.0,style: TextStyle(fontWeight: FontWeight.bold)),
+                              Text(pCategory,textScaleFactor: 1.5),
                             ],
                           )),
+                      Container(
+                          margin: EdgeInsets.only(left: 20,right: 20,top: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Product SubCategory2:",textScaleFactor: 1.0,style: TextStyle(fontWeight: FontWeight.bold)),
+                              Text(pCategory,textScaleFactor: 1.5),
+                            ],
+                          )),
+                      Container(
+                          margin: EdgeInsets.only(left: 20,right: 20,top: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Product Name:",textScaleFactor: 1,style: TextStyle(fontWeight: FontWeight.bold)),
+                              Text(pName,textScaleFactor: 1.5),
+                            ],
+                          )),
+
                       Container(
                           margin: EdgeInsets.only(left: 20,right: 20,top: 15),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text("Product Type:",textScaleFactor: 1,style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text("Veg",textScaleFactor: 1.5),
+                              Text(pType,textScaleFactor: 1.5),
                             ],
                           )),
                       Container(
@@ -187,8 +216,8 @@ class _ReviewListedState extends State<ReviewListed> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Offer Price:",textScaleFactor: 1,style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text("Rs.32",textScaleFactor: 1.5),
+                              Text("Product Description:",textScaleFactor: 1,style: TextStyle(fontWeight: FontWeight.bold)),
+                              Text(pDescription,textScaleFactor: 1.5),
                             ],
                           )),
                       Container(
@@ -196,22 +225,60 @@ class _ReviewListedState extends State<ReviewListed> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Product Stock:",textScaleFactor: 1,style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text("12",textScaleFactor: 1.5),
+                              Text("Product Variants:",textScaleFactor: 1,style: TextStyle(fontWeight: FontWeight.bold)),
                             ],
                           )),
+                      Container(
+                        margin: EdgeInsets.only(left: 20,right: 20),
+                        child: ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Variant'),
+                              Text('Price'),
+                              Text('Offer'),
+                              Text('Quantity'),
+                              Text('Unit'),
+                            ],
+                          ),
+
+                        ),
+                      ),
+                      Container(
+                        height: 100,
+                        margin: EdgeInsets.only(left: 20,right: 20),
+                        child: ListView.builder(
+                          itemCount: widget.itemOptions.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('${(index+1).toString()}'),
+                                  Text(widget.itemOptions[index].price),
+                                  Text(widget.itemOptions[index].offerPrice),
+                                  Text(widget.itemOptions[index].quantity),
+                                  Text(widget.itemOptions[index].unit),
+                                ],
+                              ),
+
+                            );
+                          },
+                        ),),
+
+
+
                     ],
                   ),
                 ),
               ),
 
 
-
-            Container(
+              Container(
                 width: double.maxFinite,
                 margin: EdgeInsets.only(left: 20,right: 20,top: 30 ),
                 child: MaterialButton(onPressed: (){
-
+                  Navigator.pop(context);
                 }, child: Text('Edit',style: TextStyle(color: Colors.white,fontSize: 18),)
                   ,color: Colors.lightBlue.shade500,
                   height: 40,
@@ -223,9 +290,9 @@ class _ReviewListedState extends State<ReviewListed> {
                 width: double.maxFinite,
                 margin: EdgeInsets.only(left: 20,right: 20,top: 30,bottom: 30),
                 child: MaterialButton(onPressed: (){
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SuccessfulAdd(token:token, id:id),));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SuccessfulAdd(token: widget.token, id: widget.id,),));
                 }, child: Text('Review And Post',style: TextStyle(color: Colors.white,fontSize: 18),)
-                  ,color: Colors.lightBlue.shade500,
+                  ,color: Colors.lightBlue.shade700,
                   height: 40,
                 ),
               )
