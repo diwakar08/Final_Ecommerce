@@ -12,8 +12,68 @@ import 'package:http/http.dart' as http;
 class UserApi {
 
 
+  //search
+  Future<List<Product>> searchProducts(String keyword, token, id) async {
+    final Url = 'https://api.pehchankidukan.com/seller/$id';
+    final url = Uri.parse('$Url?keyword=$keyword');
+
+    final response = await http.get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authentication': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
+      return responseBody['data'];
+    } else {
+      throw Exception('Failed to search products: ${response.reasonPhrase}');
+    }
+  }
+
+  //sort and filter
+  Future<List<Product>> getSellerProducts({
+    required id,
+    required token,
+    Map<String, dynamic> filters = const {},
+    String? sort,
+    int page = 1,
+    int limit = 5,
+  }) async {
+    final baseUrl = 'https://api.pehchankidukan.com/seller/$id';
+    final Map<String, dynamic> queryParams = {
+      ...filters,
+      'page': page.toString(),
+      'limit': limit.toString(),
+    };
+
+    if (sort != null) {
+      queryParams['sort'] = sort;
+    }
+
+    final url = Uri.https(baseUrl, queryParams as String);
+
+    final response = await http.get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
+      return responseBody['data'];
+    } else {
+      throw Exception('Failed to retrieve seller products: ${response.reasonPhrase}');
+    }
+  }
+
+
+
   //Categories
-  Future<Map<String, dynamic>> getCategories(String category, {String? subCategory1, String? subCategory2, int page = 1, int limit = 5}) async {
+  Future<List<String>> getCategories(String category, {String? subCategory1, String? subCategory2, int page = 1, int limit = 5}) async {
 
     final url = Uri.parse('http://api.pehchankidukan.com/seller/category');
 
