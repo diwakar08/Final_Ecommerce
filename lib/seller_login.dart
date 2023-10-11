@@ -124,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          "Password",
+          "Enter OTP",
           style: TextStyle(
               color: Colors.white,
               fontSize: 16,

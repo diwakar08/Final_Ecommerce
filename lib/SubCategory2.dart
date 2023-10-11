@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'dart:js';
 
-import 'package:e_commerce/subCategory1.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class Category extends StatelessWidget {
+class SubCategory2 extends StatelessWidget {
+  String cat;
+  String subCat;
 
-  Category({Key? key,});
+  SubCategory2({required this.cat, required this.subCat});
 
   @override
   Widget build(BuildContext context) {
@@ -16,43 +17,45 @@ class Category extends StatelessWidget {
         appBar: AppBar(
           title: Text('Category Codes List'),
         ),
-        body: CategoryList(),
+        body: SubCategoryList2(cat: cat, subCat:subCat),
       ),
     );
   }
 }
 
-class CategoryList extends StatelessWidget {
-  CategoryList({Key? key,});
 
+class SubCategoryList2 extends StatelessWidget {
+  String cat;
+  String subCat;
+  SubCategoryList2({required this.cat, required  this.subCat});
   List<String> categoryCodes=[];
+
   Future<void> getCategories(String category) async {
 
 
-    Navigator.push(
-      context as BuildContext,
-      MaterialPageRoute(
-        builder: (context) => SubCategory1(cat: category),
-      ),
-    );
+    // Navigator.push(
+    //   context as BuildContext,
+      // MaterialPageRoute(
+      //   builder: (context) =>
+      // ),
+    // );
   }
 
   Future<void> getAllCategory() async {
-    final apiUrl = "https://api.pehchankidukan.com/seller/category";
+    const apiUrl = "https://api.pehchankidukan.com/seller/category";
     final response = await http.get(Uri.parse(apiUrl));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonData = jsonDecode(response.body);
-       categoryCodes = jsonData['data'];
+      categoryCodes = jsonData['data'];
     } else {
       throw Exception('Failed to load categories');
     }
   }
   void initState() {
-  getAllCategory();
+    getAllCategory();
 
   }
-
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:e_commerce/review_listed.dart';
 import 'package:e_commerce/sucessfully_add.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +17,8 @@ class UpdateProducts extends StatefulWidget {
   String productType = '';
   bool stockTF = true;
   String stockIO = '';
-  String description = '';
-   UpdateProducts({Key? key ,required this.productName,required this.productImage,required this.productCategory,required this.productSubCategory,required this.productMRPPrice,required this.productOfferPrice,required this.productQuantity,required this.stockTF,required this.stockIO,required this.productType,required this.description}) : super(key: key);
+  String description = '', token, id;
+   UpdateProducts({Key? key ,required this.token,required this.id ,required this.productName,required this.productImage,required this.productCategory,required this.productSubCategory,required this.productMRPPrice,required this.productOfferPrice,required this.productQuantity,required this.stockTF,required this.stockIO,required this.productType,required this.description}) : super(key: key);
 
   @override
   _UpdateProductsState createState() => _UpdateProductsState();
@@ -444,12 +445,12 @@ class _UpdateProductsState extends State<UpdateProducts> {
 
                       Container(
                         width: double.maxFinite,
-                        margin: EdgeInsets.only(left: 20,right: 20,top: 20,bottom: 30),
+                        margin: const EdgeInsets.only(left: 20,right: 20,top: 20,bottom: 30),
                         child: MaterialButton(onPressed: (){
                           // Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewListed(),));
-                        }, child: Text('Save And Update',style: TextStyle(color: Colors.white,fontSize: 15),)
-                          ,color: Colors.lightBlue.shade500,
-                          height: 40,
+                        },color: Colors.lightBlue.shade500,
+                          height: 40, child: const Text('Save And Update',style: TextStyle(color: Colors.white,fontSize: 15),)
+                          ,
                         ),
                       )
                     ],

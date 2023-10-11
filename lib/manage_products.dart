@@ -347,10 +347,14 @@ class _ManageProductsState extends State<ManageProducts> {
 
                                                               onChanged: (value) {
                                                                 _switchValue = value;
-                                                               // Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProduct(prod!.productName,prod!.image.toString(),prod!.category,prod!.subcategory,prod!.mrpPrice.toString(),prod!.offerPrice.toString(),prod!.quantityType,prod!.stock,s),));
-                                                                // setState(() {
-                                                                //
-                                                                // });
+                                                               Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(token: token, id: id, productName: prod!.productName,
+                                                                   productImage: prod!.image.toString(), productMRPPrice: prod!.mrpPrice.toString(),productOfferPrice: prod!.offerPrice.toString(),productQuantity:
+                                                                   prod!.quantityType,stockTF: false,productType: prod!.productType,description: prod!.description,
+                                                                   stockIO: prod.inStock?'inStock':'out Of Stock', productCategory: prod!.category, productSubCategory: prod!.subCategory1),),
+                                                               );
+                                                                setState(() {
+
+                                                                });
                                                               },
                                                             ),
                                                             Expanded(
@@ -394,7 +398,7 @@ class _ManageProductsState extends State<ManageProducts> {
                                                                 ),
                                                                 Expanded(
 
-                                                                  child: Text('prod!.subcategory',
+                                                                  child: Text(prod!.subCategory1,
                                                                       style: TextStyle(
                                                                         color: Colors.black,
                                                                         fontSize: 13,
@@ -420,7 +424,7 @@ class _ManageProductsState extends State<ManageProducts> {
                                                                           decoration: TextDecoration.lineThrough
                                                                       )),
                                                                 ),
-                                                                Text('₹{prod!.offerPrice.toString()}',
+                                                                Text('₹${prod!.offerPrice.toString()}',
                                                                     style: TextStyle(
                                                                         color: Colors.black,
                                                                         fontSize: 20,
@@ -456,7 +460,10 @@ class _ManageProductsState extends State<ManageProducts> {
                                                                 child: MaterialButton(
                                                                   color: Colors.lightBlue.shade400,
                                                                   onPressed: (){
-                                                                     Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(productName: prod!.productName,productImage: prod!.image.toString(),productMRPPrice: prod!.mrpPrice.toString(),productOfferPrice: 'prod!.offerPrice.toString()',productQuantity: prod!.quantityType,stockTF: false,productType: prod!.productType,description: prod!.description, stockIO: prod.inStock?'inStock':'out Of Stock', productCategory: '', productSubCategory: '',)));
+                                                                     Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(token: token, id: id, productName: prod!.productName,
+                                                                       productImage: prod!.image.toString(), productMRPPrice: prod!.mrpPrice.toString(),productOfferPrice: prod!.offerPrice.toString(),productQuantity:
+                                                                       prod!.quantityType,stockTF: false,productType: prod!.productType,description: prod!.description,
+                                                                       stockIO: prod.inStock?'inStock':'out Of Stock', productCategory: prod!.category, productSubCategory: prod!.subCategory1,)));
                                                                   }, child: Text('Edit',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),),
                                                               ),
                                                             ),

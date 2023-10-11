@@ -11,6 +11,8 @@ import 'package:http/http.dart' as http;
 
 class UserApi {
 
+  
+
 
   //search
   Future<List<Product>> searchProducts(String keyword, token, id) async {
@@ -35,8 +37,8 @@ class UserApi {
 
   //sort and filter
   Future<List<Product>> getSellerProducts({
-    required id,
     required token,
+    required id,
     Map<String, dynamic> filters = const {},
     String? sort,
     int page = 1,
@@ -59,6 +61,7 @@ class UserApi {
       url,
       headers: <String, String>{
         'Content-Type': 'application/json',
+        'Authentication': 'Bearer $token'
       },
     );
 
@@ -73,12 +76,12 @@ class UserApi {
 
 
   //Categories
-  Future<List<String>> getCategories(String category, {String? subCategory1, String? subCategory2, int page = 1, int limit = 5}) async {
+  Future<List<String>> getCategories(String? category, {String? subCategory1, String? subCategory2, int page = 1, int limit = 5}) async {
 
     final url = Uri.parse('http://api.pehchankidukan.com/seller/category');
 
     final Map<String, dynamic> queryParameters = {
-      'category': category,
+      if (category != null) 'category': category,
       if (subCategory1 != null) 'subCategory1': subCategory1,
       if (subCategory2 != null) 'subCategory2': subCategory2,
       'page': page.toString(),
@@ -130,8 +133,8 @@ class UserApi {
   //updateSeller
   static Future<void> updateSeller(token, id, Map<String, dynamic> updatedFields) async {
     final url = Uri.parse('https://api.pehchankidukan.com/seller/$id');
-    print(id);
-    print(token);
+    print("id-$id");
+    print("token-$token");
     final headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token'
@@ -154,7 +157,7 @@ class UserApi {
 
 
   //get seller data
-  static Future getSeller() async {
+  static Future getSeller(id, token) async {
     final json = {
       "ownerName": "John Doe",
       "password": "hashed_password_here",
@@ -196,6 +199,11 @@ class UserApi {
       "createdAt": "2023-09-18T08:00:00Z",
       "updatedAt": "2023-09-19T09:00:00Z"
     };
+    final apiUrl = "https://api.pehchankidukan.com/seller/$id";
+    final uri = Uri.parse(apiUrl);
+    final response = await http.get(uri,
+
+    );
     Seller seller = Seller.fromJson(json);
     return seller;
   }
@@ -278,9 +286,9 @@ class UserApi {
 
 
   static Future<List<Product>> getProducts(token, id) async {
-    print("idddd");
-    print(id);
-    print(token);
+    print("called getProducts function");
+    print("id-$id");
+    print("token-$token");
     final uri = Uri.parse('https://api.pehchankidukan.com/seller/$id/products');
     final response = await http.get(uri,
       headers: <String, String>{
@@ -291,9 +299,13 @@ class UserApi {
     final body = response.body;
     final productJson = jsonDecode(body);
 
-
+    print(productJson['data'].length);
     // List<Product> product = productJson['data'].map((e) => Product.fromJson(e)).toList();
-    List<Product> products = List<Product>.from(productJson['data'].map((e) => Product.fromJson(e)));
+    // List<Product> products = List<Product>.from(productJson['data'].map((e) => Product.fromJson(e)));
+    List<Product> products = (productJson['data'] as List<dynamic>?)
+        ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
+        .toList() ?? [];
+
     return products;
   }
 }

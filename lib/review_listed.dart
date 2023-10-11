@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:e_commerce/sucessfully_add.dart';
 import 'package:flutter/material.dart';
 import 'add_product.dart';
 import 'main.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 
 class ReviewListed extends StatefulWidget {
@@ -28,6 +30,92 @@ class _ReviewListedState extends State<ReviewListed> {
     String pCategory  = widget.productCategory;
     String pType  = widget.productType;
     String pDescription  = widget.description;
+    String token  = widget.token;
+    String id  = widget.id;
+
+    List<XFile>? imageFileList = widget.imageFileList;
+
+    Future<void> uploadImages() async {
+      if (imageFileList == null || imageFileList.isEmpty) {
+        // Handle the case where there are no image files to upload.
+        return;
+      }
+
+      // Create a multipart request using the `http.MultipartRequest` class.
+      final request = http.MultipartRequest('POST', Uri.parse('https://api.pehchankidukan.com/seller/$id/products'));
+
+      // Add each image file to the request as a part.
+      for (var imageFile in imageFileList) {
+        request.files.add(await http.MultipartFile.fromPath(
+          'image', // The field name in your API request.
+          imageFile.path, // The local path of the image file.
+        ));
+      }
+
+      // Add other fields to the request.
+      request.fields['productName'] = pName;
+      request.fields['productCategory'] = pCategory;
+      request.fields['productType'] = pType;
+      request.fields['description'] = pDescription;
+      request.fields['token'] = token;
+      request.fields['id'] = id;
+
+      // You can also add more fields or headers to the request as needed.
+
+      // Send the request and wait for the response.
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        print('Images and fields uploaded successfully');
+      } else {
+        print('Failed to upload images and fields. Status code: ${response.statusCode}');
+      }
+    }
+
+  Future<void> postProductData() async {
+  final url = Uri.parse('https://api.pehchankidukan.com/seller/$id/products');
+
+  // Create item options
+  final itemOptions = widget.itemOptions;
+
+  // Create the request body
+  print(pDescription);
+  print(pName);
+  print(pType);
+  final requestBody = {
+    // 'itemOptions': itemOptions.map((option) => option.toJson()).toList(),
+    'productName': pName,
+    'productCategory': pCategory,
+    'productType': pType,
+    'description': pDescription,
+  };
+
+
+
+  try {
+    print(requestBody);
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authentication': 'Bearer $token',
+      },
+      body: jsonEncode(requestBody),
+    );
+
+    if (response.statusCode == 201) {
+      print('POST request successful');
+      print('Response: ${response.body}');
+    } else {
+      print('Failed to make POST request: ${response.statusCode}');
+      print('Response: ${response.body}');
+    }
+  } catch (error) {
+    print('Error: $error');
+  }
+}
+
+
 
     return Scaffold(
       appBar: AppBar(
@@ -290,6 +378,7 @@ class _ReviewListedState extends State<ReviewListed> {
                 width: double.maxFinite,
                 margin: EdgeInsets.only(left: 20,right: 20,top: 30,bottom: 30),
                 child: MaterialButton(onPressed: (){
+                  postProductData();
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SuccessfulAdd(token: widget.token, id: widget.id,),));
                 }, child: Text('Review And Post',style: TextStyle(color: Colors.white,fontSize: 18),)
                   ,color: Colors.lightBlue.shade700,

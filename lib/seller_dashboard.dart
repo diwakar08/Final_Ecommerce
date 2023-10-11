@@ -496,7 +496,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                             children: [
-                                              Text('₹{prod!.offerPrice.toString()}',
+                                              Text('₹${prod!.offerPrice.toString()}',
                                                   style: TextStyle(
                                                       color: Colors.blueGrey.shade900,
                                                       fontSize: 15,
@@ -508,7 +508,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                       Expanded(
                                           flex: 2,
                                           child: OutlinedButton(onPressed: (){
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(productName: prod!.productName,productImage: prod!.image.toString(),productCategory: 'prod!.subcategory',productSubCategory: 'prod!.subcategory',productMRPPrice: prod!.mrpPrice.toString(),productOfferPrice: 'prod!.offerPrice.toString()',productQuantity: prod!.quantityType,stockTF: false,stockIO: s,productType: prod!.productType,description: prod!.description,)));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(token:token, id:id,productName: prod!.productName,productImage: prod!.image.toString(),productCategory: prod!.category,productSubCategory: prod!.subCategory2,productMRPPrice: prod!.mrpPrice.toString(),productOfferPrice: prod!.offerPrice.toString(),productQuantity: prod!.quantityType,stockTF: false,stockIO: s,productType: prod!.productType,description: prod!.description,)));
                                           },child: Text('Edit',
                                               style: TextStyle(
                                                 color: Colors.green.shade900,
@@ -616,7 +616,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                             children: [
-                                              Text('₹{prod!.offerPrice.toString()}',
+                                              Text('₹${prod!.offerPrice.toString()}',
                                                   style: TextStyle(
                                                       color: Colors.blueGrey.shade900,
                                                       fontSize: 15,
@@ -628,7 +628,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                       Expanded(
                                           flex: 2,
                                           child: OutlinedButton(onPressed: (){
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(productName: prod!.productName,productImage: prod!.image.toString(),productCategory: 'prod!.subcategory',productSubCategory: 'prod!.subcategory',productMRPPrice: prod!.mrpPrice.toString(),productOfferPrice: prod!.
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(token:token, id:id, productName: prod!.productName,productImage: prod!.image.toString(),productCategory: 'prod!.subcategory',productSubCategory: 'prod!.subcategory',productMRPPrice: prod!.mrpPrice.toString(),productOfferPrice: prod!.
                                             offerPrice.toString(),productQuantity: prod!.quantityType,stockTF: true,stockIO: s,productType: prod!.productType,description: prod!.description,)));
                                           },child: Text('Edit',
                                               style: TextStyle(
