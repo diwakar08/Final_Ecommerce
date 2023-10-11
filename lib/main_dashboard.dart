@@ -80,7 +80,7 @@ class _MainDashboardState extends State<MainDashboard> {
             enableFeedback: false,
             onPressed: () {
               setState(() {
-                //Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProducts(),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProducts(token: widget.token,id:widget.id),));
                 pageIndex = 1;
               });
             },
