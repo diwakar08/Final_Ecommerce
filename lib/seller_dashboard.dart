@@ -36,14 +36,14 @@ class _SellerDashboardState extends State<SellerDashboard> {
             Expanded(
               child: InkWell(
                 onTap: (){
-                //  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SellerDashboard2(),));
+                  //  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SellerDashboard2(),));
                 },
                 child: Text(
                   "PKD ",
                   style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Poppins',
-                    fontSize: 25,
+                      color: Colors.white,
+                      fontFamily: 'Poppins',
+                      fontSize: 25,
                       fontWeight: FontWeight.w700
                   ),
                 ),
@@ -56,7 +56,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
         ),
         centerTitle: true,
         //backgroundColor: Colors.grey.shade200,
-         backgroundColor: Colors.black,
+        backgroundColor: Colors.black,
         iconTheme: IconThemeData(color: Colors.white),
       ),
       backgroundColor: Colors.white,
@@ -100,7 +100,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                             fontFamily: 'Poppins',
                             color: Colors.black,
                             fontWeight: FontWeight.w700
-                             ),
+                        ),
                       ),
                     ),
                     Icon(Icons.arrow_drop_down_outlined,color: Colors.black)
@@ -128,7 +128,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                     radius: 38,
                                     child: const CircleAvatar(
                                       backgroundColor: Colors.white,
-                                       radius: 34,
+                                      radius: 34,
                                       child: Text(
                                         '₹252',
                                         style: TextStyle(
@@ -270,15 +270,15 @@ class _SellerDashboardState extends State<SellerDashboard> {
               Container(
                 margin: EdgeInsets.only(right: 10, left: 10, top: 20,bottom: 5),
                 child: Row(
-                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
                       child: Text(
                         'Manage Your Product',
                         style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'Poppins',
-                          color: Colors.black,
+                            fontSize: 18,
+                            fontFamily: 'Poppins',
+                            color: Colors.black,
                             fontWeight: FontWeight.w700
                         ),
                       ),
@@ -311,9 +311,9 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                       backgroundColor: Colors.black54,
                                       radius: 28,
                                       child: const CircleAvatar(
-                                        backgroundColor: Colors.white,
-                                        radius: 24,
-                                        child:  Icon(Icons.add_circle_outline,color: Colors.black)
+                                          backgroundColor: Colors.white,
+                                          radius: 24,
+                                          child:  Icon(Icons.add_circle_outline,color: Colors.black)
                                       ), //CircleAvatar
                                     ), //CircleAvatar
                                     const SizedBox(
@@ -324,15 +324,15 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                       child: Row(
 
                                         children: [
-                                         Text(
-                                              'Add Product',
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w500,
-                                              ), //Textstyle
-                                            ),
-                                            Icon(Icons.arrow_drop_down_outlined,color: Colors.black)
+                                          Text(
+                                            'Add Product',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w500,
+                                            ), //Textstyle
+                                          ),
+                                          Icon(Icons.arrow_drop_down_outlined,color: Colors.black)
                                         ],
                                       ),
                                     ), //Text
@@ -366,9 +366,9 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                       backgroundColor: Colors.black54,
                                       radius: 28,
                                       child: const CircleAvatar(
-                                        backgroundColor: Colors.white,
-                                        radius: 24,
-                                        child:  Icon(Icons.edit,color: Colors.black)
+                                          backgroundColor: Colors.white,
+                                          radius: 24,
+                                          child:  Icon(Icons.edit,color: Colors.black)
                                       ), //CircleAvatar
                                     ), //CircleAvatar
                                     const SizedBox(
@@ -418,10 +418,10 @@ class _SellerDashboardState extends State<SellerDashboard> {
                       child: Text(
                         'Most Selling',
                         style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'Poppins',
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700
+                            fontSize: 18,
+                            fontFamily: 'Poppins',
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700
 
                         ),
                       ),
@@ -441,94 +441,103 @@ class _SellerDashboardState extends State<SellerDashboard> {
                 ),
               ),
               Container(
-                height: 160,
-                child: FutureBuilder<List<Product>>(
-                  future: fetchOrders(token, id),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    } else {
-                      final List<Product>? data = snapshot.data;
+                  height: 160,
+                  child: FutureBuilder<List<Product>>(
+                    future: fetchOrders(token, id),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else {
+                        final List<Product>? data = snapshot.data;
 
-                      return
-                        Container(
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: data?.length,
-                            itemBuilder: (context, index) {
-                              final prod = data?[index];
-                              String s = 'Out of stock';//prod!.stock.toString() == 'false' ? 'In stock' :
-                              return  Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(color: Colors.black45,width: 0.5),
+                        return
+                          Container(
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: data?.length,
+                              itemBuilder: (context, index) {
+                                final prod = data?[index];
+                                String s = 'Out of stock';//prod!.stock.toString() == 'false' ? 'In stock' :
+                                return  Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(color: Colors.black45,width: 0.5),
 
-                                ),
-                                height: 140,
-                                width: 130,
-                                margin: EdgeInsets.only(bottom: 10, top: 10, left: 15),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
-
-                                      Expanded(
-                                          flex: 5,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Image.asset(
-                                                'assets/images/g3.png'),
-                                          )
-                                      ),
-                                      Expanded(
-                                          flex: 2,
-                                          child: Text(prod!.productName,
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 15,
-                                                fontFamily: 'Poppins',
-                                              ))),
-                                      Expanded(
-                                          flex: 2,
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text('₹${prod!.offerPrice.toString()}',
-                                                  style: TextStyle(
-                                                      color: Colors.blueGrey.shade900,
-                                                      fontSize: 15,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight: FontWeight.bold)),
-
-                                            ],
-                                          )),
-                                      Expanded(
-                                          flex: 2,
-                                          child: OutlinedButton(onPressed: (){
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(token:token, id:id,productName: prod!.productName,productImage: prod!.image.toString(),productCategory: prod!.category,productSubCategory: prod!.subCategory2,productMRPPrice: prod!.mrpPrice.toString(),productOfferPrice: prod!.offerPrice.toString(),productQuantity: prod!.quantityType,stockTF: false,stockIO: s,productType: prod!.productType,description: prod!.description,)));
-                                          },child: Text('Edit',
-                                              style: TextStyle(
-                                                color: Colors.green.shade900,
-                                                fontSize: 15,
-                                                fontFamily: 'Poppins',
-                                              ))
-                                          ))
-
-                                    ],
                                   ),
-                                ),
-                              );
+                                  height: 140,
+                                  width: 130,
+                                  margin: EdgeInsets.only(bottom: 10, top: 10, left: 15),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
 
-                            },
-                          ),
-                        );
+                                        Expanded(
+                                            flex: 5,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Image.asset(
+                                                  'assets/images/g3.png'),
+                                            )
+                                        ),
+                                        Expanded(
+                                            flex: 2,
+                                            child: Text(prod!.productName,
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 15,
+                                                  fontFamily: 'Poppins',
+                                                ))),
+                                        Expanded(
+                                            flex: 2,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text('₹${prod!.offerPrice.toString()}',
+                                                    style: TextStyle(
+                                                        color: Colors.blueGrey.shade900,
+                                                        fontSize: 15,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight: FontWeight.bold)),
 
-                    }
-                  },
-                )
+                                              ],
+                                            )),
+                                        Expanded(
+                                            flex: 2,
+                                            child: OutlinedButton(onPressed: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(token: token, id: id,
+                                                productName: prod!.productName,
+                                                productImage: prod!.image.toString(),
+                                                stockTF: false,
+                                                productType: prod!.productType,
+                                                description: prod!.description,
+                                                stockIO: prod.inStock?'inStock':'out Of Stock',
+                                                productCategory: prod!.category,
+                                                productSubCategory1: prod!.subCategory1,
+                                                productSubCategory2: prod!.subCategory1,)));
+                                            },child: Text('Edit',
+                                                style: TextStyle(
+                                                  color: Colors.green.shade900,
+                                                  fontSize: 15,
+                                                  fontFamily: 'Poppins',
+                                                ))
+                                            ))
+
+                                      ],
+                                    ),
+                                  ),
+                                );
+
+                              },
+                            ),
+                          );
+
+                      }
+                    },
+                  )
               ),
               Container(
                 margin: EdgeInsets.only(right: 10, left: 10, top: 20 ),
@@ -562,94 +571,102 @@ class _SellerDashboardState extends State<SellerDashboard> {
                 ),
               ),
               Container(
-                height: 160,
-                child: FutureBuilder<List<Product>>(
-                  future: fetchOrders(token, id),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    } else {
-                      final List<Product>? data = snapshot.data;
+                  height: 160,
+                  child: FutureBuilder<List<Product>>(
+                    future: fetchOrders(token, id),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else {
+                        final List<Product>? data = snapshot.data;
 
-                      return
-                        Container(
-                          child: ListView.builder(
-                             scrollDirection: Axis.horizontal,
-                            itemCount: data?.length,
-                            itemBuilder: (context, index) {
-                              final prod = data?[index];
-                              String s = 'Out of stock';//prod!.stock.toString() == 'false' ? 'In stock' :
-                              return  Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(color: Colors.black45,width: 0.5),
-                                ),
-                                height: 140,
-                                width: 130,
-                                margin: EdgeInsets.only(bottom: 10, top: 10, left: 15),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
-
-                                      Expanded(
-                                          flex: 5,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Image.asset(
-                                                'assets/images/g1.png'),
-                                          )
-                                      ),
-                                      Expanded(
-                                          flex: 2,
-                                          child: Text(prod!.productName,
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 15,
-                                                fontFamily: 'Poppins',
-                                              ))),
-                                      Expanded(
-                                          flex: 2,
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text('₹${prod!.offerPrice.toString()}',
-                                                  style: TextStyle(
-                                                      color: Colors.blueGrey.shade900,
-                                                      fontSize: 15,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight: FontWeight.bold)),
-
-                                            ],
-                                          )),
-                                      Expanded(
-                                          flex: 2,
-                                          child: OutlinedButton(onPressed: (){
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(token:token, id:id, productName: prod!.productName,productImage: prod!.image.toString(),productCategory: 'prod!.subcategory',productSubCategory: 'prod!.subcategory',productMRPPrice: prod!.mrpPrice.toString(),productOfferPrice: prod!.
-                                            offerPrice.toString(),productQuantity: prod!.quantityType,stockTF: true,stockIO: s,productType: prod!.productType,description: prod!.description,)));
-                                          },child: Text('Edit',
-                                              style: TextStyle(
-                                                color: Colors.green.shade900,
-                                                fontSize: 15,
-                                                fontFamily: 'Poppins',
-                                              ))
-                                          ))
-
-                                    ],
+                        return
+                          Container(
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: data?.length,
+                              itemBuilder: (context, index) {
+                                final prod = data?[index];
+                                String s = 'Out of stock';//prod!.stock.toString() == 'false' ? 'In stock' :
+                                return  Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(color: Colors.black45,width: 0.5),
                                   ),
-                                ),
-                              );
+                                  height: 140,
+                                  width: 130,
+                                  margin: EdgeInsets.only(bottom: 10, top: 10, left: 15),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
 
-                            },
-                          ),
-                        );
+                                        Expanded(
+                                            flex: 5,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Image.asset(
+                                                  'assets/images/g1.png'),
+                                            )
+                                        ),
+                                        Expanded(
+                                            flex: 2,
+                                            child: Text(prod!.productName,
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 15,
+                                                  fontFamily: 'Poppins',
+                                                ))),
+                                        Expanded(
+                                            flex: 2,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text('₹${prod!.offerPrice.toString()}',
+                                                    style: TextStyle(
+                                                        color: Colors.blueGrey.shade900,
+                                                        fontSize: 15,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight: FontWeight.bold)),
 
-                    }
-                  },
-                )
+                                              ],
+                                            )),
+                                        Expanded(
+                                            flex: 2,
+                                            child: OutlinedButton(onPressed: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(token: token, id: id,
+                                                productName: prod!.productName,
+                                                productImage: prod!.image.toString(),
+                                                stockTF: false,
+                                                productType: prod!.productType,
+                                                description: prod!.description,
+                                                stockIO: prod.inStock?'inStock':'out Of Stock',
+                                                productCategory: prod!.category,
+                                                productSubCategory1: prod!.subCategory1,
+                                                productSubCategory2: prod!.subCategory1,)));
+                                            },child: Text('Edit',
+                                                style: TextStyle(
+                                                  color: Colors.green.shade900,
+                                                  fontSize: 15,
+                                                  fontFamily: 'Poppins',
+                                                ))
+                                            ))
+
+                                      ],
+                                    ),
+                                  ),
+                                );
+
+                              },
+                            ),
+                          );
+
+                      }
+                    },
+                  )
               ),
               SizedBox(height: 20,),
             ],

@@ -1,4 +1,5 @@
 import 'package:e_commerce/services/User_api.dart';
+import 'package:e_commerce/user_current_location.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -261,42 +262,42 @@ class _SellerRegistrationPageState extends State<Regest> {
                   hintText: ' Enter address',
                 ),
               ),
-              const SizedBox(height: 32),
-              ElevatedButton(onPressed: () async {
-                _getCurrentLocation().then((value) {
-                  lat = '${value?.latitude}';
-                  long = '${value?.longitude}';
-                  setState(() {
-                    msg = 'lat:$lat, long:$long';
-                    print(msg);
-                  });
-                });
-              },
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.grey.shade300)
-                ),
-                child: const Text('Save my current location',
-                ),
-              ),
-
-
-              const SizedBox(height: 32),
-              //
-              // Container(
-              //   child: ElevatedButton(
-              //     child: Text('current location'),
-              //     onPressed: ()=> CurrentLocationScreen(),
-              //     style: ButtonStyle(
-              //         backgroundColor: MaterialStateProperty.all<Color>(Colors.grey.shade300)
-              //     ),
+              // const SizedBox(height: 32),
+              // ElevatedButton(onPressed: () async {
+              //   _getCurrentLocation().then((value) {
+              //     lat = '${value?.latitude}';
+              //     long = '${value?.longitude}';
+              //     setState(() {
+              //       msg = 'lat:$lat, long:$long';
+              //       print(msg);
+              //     });
+              //   });
+              // },
+              //   style: ButtonStyle(
+              //       backgroundColor: MaterialStateProperty.all<Color>(Colors.grey.shade300)
+              //   ),
+              //   child: const Text('Save my current location',
               //   ),
               // ),
 
-              ElevatedButton(onPressed: (){
-                // Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-                //   return const CurrentLocationScreen();
-                // }));
-              }, child: const Text("User current location")),
+
+              const SizedBox(height: 32),
+
+              Container(
+                child: ElevatedButton(
+                  child: Text('current location'),
+                  onPressed: ()=> GetUserCurrentLocationScreen(),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(Colors.grey.shade300)
+                  ),
+                ),
+              ),
+
+              // ElevatedButton(onPressed: (){
+              //   // Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+              //   //   return const CurrentLocationScreen();
+              //   // }));
+              // }, child: const Text("User current location")),
 
 
               //
@@ -327,36 +328,36 @@ class _SellerRegistrationPageState extends State<Regest> {
 
 
 
-              ElevatedButton(
-                onPressed: () async {
-                  // Request location permission
-
-                  _showLocationServiceDisabledDialog(context);
-
-                  // LocationPermission permission =  await _showLocationServiceDisabledDialog(context);
-                  // LocationPermission permission = await _requestLocationPermission();
-
-
-                  // if (permission == LocationPermission.always ||
-                  //     permission == LocationPermission.whileInUse)
-                  if(dia == true)
-                  {
-                    // If permission granted, navigate to the map screen
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (_) => CurrentLocationScreen()),
-                    // );
-                  } else {
-                    // Handle case when permission is not granted
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text('Location permission denied.'),
-                      ),
-                    );
-                  }
-                },
-                child: const Text('Request Location Permission'),
-              ),
+              // ElevatedButton(
+              //   onPressed: () async {
+              //     // Request location permission
+              //
+              //     _showLocationServiceDisabledDialog(context);
+              //
+              //     // LocationPermission permission =  await _showLocationServiceDisabledDialog(context);
+              //     // LocationPermission permission = await _requestLocationPermission();
+              //
+              //
+              //     // if (permission == LocationPermission.always ||
+              //     //     permission == LocationPermission.whileInUse)
+              //     if(dia == true)
+              //     {
+              //       // If permission granted, navigate to the map screen
+              //       // Navigator.push(
+              //       //   context,
+              //       //   MaterialPageRoute(builder: (_) => CurrentLocationScreen()),
+              //       // );
+              //     } else {
+              //       // Handle case when permission is not granted
+              //       ScaffoldMessenger.of(context).showSnackBar(
+              //         SnackBar(
+              //           content: const Text('Location permission denied.'),
+              //         ),
+              //       );
+              //     }
+              //   },
+              //   child: const Text('Request Location Permission'),
+              // ),
 
 
 

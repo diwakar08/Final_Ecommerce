@@ -47,7 +47,8 @@ class _SubCategoryList1State extends State<SubCategoryList1> {
   }
 
   Future<void> getAllCategory() async {
-    final apiUrl = "https://api.pehchankidukan.com/seller/category?category=${widget.cat}";
+    var cat = widget.cat.replaceAll('&', '%26');
+    final apiUrl = "https://api.pehchankidukan.com/seller/category?category=${cat}";
     final response = await http.get(
       Uri.parse(apiUrl),
       headers: <String, String>{

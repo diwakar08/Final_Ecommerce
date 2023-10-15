@@ -291,10 +291,10 @@ class _LoginScreenState1 extends State<SubCategory2> {
         'Authorization': 'Bearer $token',
       },
     );
-
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonData = jsonDecode(response.body);
       List<dynamic> data = jsonData['data'];
+      print(data);
       categoryCodes = data;
       print(categoryCodes);
       setState(() {
@@ -305,24 +305,24 @@ class _LoginScreenState1 extends State<SubCategory2> {
 
   @override
   void initState() {
-    getAllCategory(widget.cat, widget.subCat);
+    // getAllCategory(widget.cat, widget.subCat);
   }
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemCount: categoryCodes.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            onTap: () async {
-                      await getCategories(categoryCodes[index]['subCategory2']);
-                    },
-            title: Text(categoryCodes[index]['subCategory2']),
-          );
-        },
-      ),
+       body: Text("asdfsdfsd"), //ListView.builder(
+      //   itemCount: categoryCodes.length,
+      //   itemBuilder: (BuildContext context, int index) {
+      //     return ListTile(
+      //       onTap: () async {
+      //                 await getCategories(categoryCodes[index]['subCategory2']);
+      //               },
+      //       title: Text(categoryCodes[index]['subCategory2']),
+      //     );
+      //   },
+      // ),
       // body: ListView.builder(
       //   itemCount: categoryCodes.length,
       //   itemBuilder: (BuildContext context, int index) {
