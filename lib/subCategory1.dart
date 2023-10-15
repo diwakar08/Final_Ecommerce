@@ -4,34 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:e_commerce/subCategory2.dart'; // Make sure to import the correct SubCategory2 widget.
 import 'package:http/http.dart' as http;
 
-class SubCategory1 extends StatelessWidget {
+class SubCategory1 extends StatefulWidget {
   final String cat;
+  final String productName;
+  final String productDescription;
 
-  SubCategory1({required this.cat});
+  SubCategory1(
+      {required this.cat,
+      required this.productName,
+      required this.productDescription});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Category Codes List'),
-        ),
-        body: SubCategoryList1(cat: cat),
-      ),
-    );
-  }
+  State<SubCategory1> createState() => _SubCategory1State();
 }
 
-class SubCategoryList1 extends StatefulWidget {
-  final String cat;
-
-  SubCategoryList1({required this.cat});
-
-  @override
-  State<SubCategoryList1> createState() => _SubCategoryList1State();
-}
-
-class _SubCategoryList1State extends State<SubCategoryList1> {
+class _SubCategory1State extends State<SubCategory1> {
   List<String> categoryCodes = [];
   String subCat = '';
   String token = TokenId.token;
@@ -41,13 +28,19 @@ class _SubCategoryList1State extends State<SubCategoryList1> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SubCategory2(cat: widget.cat, subCat: category),
+        builder: (context) => SubCategory2(
+          cat: widget.cat,
+          subCat: category,
+          productDescription: widget.productDescription,
+          productName: widget.productName,
+        ),
       ),
     );
   }
 
   Future<void> getAllCategory() async {
-    final apiUrl = "https://api.pehchankidukan.com/seller/category?category=${widget.cat}";
+    final apiUrl =
+        "https://api.pehchankidukan.com/seller/category?category=${widget.cat}";
     final response = await http.get(
       Uri.parse(apiUrl),
       headers: <String, String>{
@@ -83,19 +76,35 @@ class _SubCategoryList1State extends State<SubCategoryList1> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.builder(
-        itemCount: categoryCodes.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            onTap: () async {
-              await getCategories(categoryCodes[index]);
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          leading: GestureDetector(
+            child: Icon(
+              Icons.arrow_back_ios,
+            ),
+            onTap: () {
+              Navigator.pop(context);
             },
-            title: Text(categoryCodes[index]),
-          );
-        },
+          ),
+          title: Text(widget.cat),
+        ),
+        body: ListView.builder(
+          itemCount: categoryCodes.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              onTap: () async {
+                await getCategories(categoryCodes[index]);
+              },
+              trailing: Icon(
+                Icons.arrow_forward_ios,
+                size: 20,
+              ),
+              title: Text(categoryCodes[index]),
+            );
+          },
+        ),
       ),
-
     );
   }
 }
