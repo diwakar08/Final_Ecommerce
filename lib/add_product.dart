@@ -1,7 +1,8 @@
-
 import 'dart:io';
 
+
 import 'package:e_commerce/review_listed.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'categoryList.dart';
 import 'main.dart';
@@ -67,6 +68,10 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
     );
   }
 
+  bool _validate4 = false;
+  bool _validate5 = false;
+  bool _validate6 = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -98,6 +103,7 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
                               decoration: InputDecoration(
                                 hintText: 'Quantity',
                                 border: InputBorder.none,
+                                errorText: _validate4 ? 'Value Can\'t Be Empty' : null,
                               ),
                               style: TextStyle(
                                 color: Colors.black.withOpacity(1.0),
@@ -167,6 +173,7 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
                               decoration: InputDecoration(
                                 hintText: 'Price (In Rs.)',
                                 border: InputBorder.none,
+                                errorText: _validate5 ? 'Value Can\'t Be Empty' : null,
                               ),
                               style: TextStyle(
                                 color: Colors.black.withOpacity(1.0),
@@ -196,6 +203,7 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
                               decoration: InputDecoration(
                                 hintText: 'Offer Price',
                                 border: InputBorder.none,
+                                errorText: _validate6 ? 'Value Can\'t Be Empty' : null,
                               ),
                               style: TextStyle(
                                 color: Colors.black.withOpacity(1.0),
@@ -214,7 +222,9 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
             );
           }).toList(),
         ),
-        ElevatedButton(onPressed: addOption, child: Text("Add items")),
+        Container(
+            margin: EdgeInsets.only(left: 20),
+            child: ElevatedButton(onPressed: addOption, child: Text("Add items"),)),
         // ElevatedButton(
         //     onPressed: () {
         //       for (var data in widget.options) {
@@ -230,11 +240,18 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
   }
 }
 
+
 class AddProduct extends StatefulWidget {
   String token, id;
+  String category = '';
+  String subCategory1 = '';
+  String subCategory2 = '';
   AddProduct({
     Key? key, required this.token,
-    required this.id
+    required this.id,
+    required this.category,
+    required this.subCategory1,
+    required this.subCategory2
   }) : super(key: key);
 
   @override
@@ -265,23 +282,18 @@ class _AddProductState extends State<AddProduct> {
   bool viewMore = false;
   String viewML = 'View more categories';
 
-  String productQuantity = 'ml';
+
   String productType = 'Veg';
-  String productSubCategory = 'Select Sub Category';
-  String productName = 'a';
-  String productCategory = 'a';
-  String category = 'a';
+  String productName = '';
   String productDescription = '';
-  List<TextEditingController> priceControllers = [];
-  List<TextEditingController> quantityControllers = [];
-  List<TextEditingController> offerPriceControllers = [];
+
+  bool _validate1 = false;
+  bool _validate2 = false;
+
 
   @override
   Widget build(BuildContext context) {
-    String productImage = '';
 
-    String productMRPPrice = '';
-    String productOfferPrice = '';
 
 
     var items2 = [
@@ -422,6 +434,55 @@ class _AddProductState extends State<AddProduct> {
                           ),
                         ),
                       ),
+
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Category(),//changed
+                              ));
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                          child: Text(
+                            'Choose Category >',
+                            style: TextStyle(
+                                fontSize: 25,
+                                fontFamily: 'Poppins',
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(left: 20,right: 20,top: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Product Category:",textScaleFactor: 1.0,style: TextStyle(fontWeight: FontWeight.bold)),
+                              Text(widget.category,textScaleFactor: 1.5),
+                            ],
+                          )),
+                      Container(
+                          margin: EdgeInsets.only(left: 20,right: 20,top: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Product SubCategory1:",textScaleFactor: 1.0,style: TextStyle(fontWeight: FontWeight.bold)),
+                              Text(widget.subCategory1,textScaleFactor: 1.5),
+                            ],
+                          )),
+                      Container(
+                          margin: EdgeInsets.only(left: 20,right: 20,top: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Product SubCategory2:",textScaleFactor: 1.0,style: TextStyle(fontWeight: FontWeight.bold)),
+                              Text(widget.subCategory2,textScaleFactor: 1.5),
+                            ],
+                          )),
                       Container(
                         margin: EdgeInsets.only(right: 20, top: 20, left: 20),
                         child: Text(
@@ -485,37 +546,7 @@ class _AddProductState extends State<AddProduct> {
                           ),
                         ],
                       ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Category(),
-                              ));
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-                          child: Text(
-                            'Choose Category >',
-                            style: TextStyle(
-                              fontSize: 23,
-                              fontFamily: 'Poppins',
-                              color: Colors.black87,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-                        child: Text(
-                          category,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: 'Poppins',
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ),
+
                       Container(
                         margin: EdgeInsets.only(left: 20, right: 20, top: 25),
                         child: Text(
@@ -564,6 +595,7 @@ class _AddProductState extends State<AddProduct> {
                           },
                           style: TextStyle(fontFamily: 'Poppins', fontSize: 15),
                           decoration: InputDecoration(
+                            errorText: _validate1 ? 'Value Can\'t Be Empty' : null,
                             hintText: 'Name of item (Ex-Oil)',
                             focusedBorder: OutlineInputBorder(
                                 borderSide:
@@ -574,6 +606,7 @@ class _AddProductState extends State<AddProduct> {
                       Container(
                         margin: EdgeInsets.only(left: 20, right: 20, top: 25),
                         child: Text(
+
                           'Product Description',
                           style: TextStyle(
                             fontSize: 13,
@@ -591,6 +624,7 @@ class _AddProductState extends State<AddProduct> {
                           },
                           style: TextStyle(fontFamily: 'Poppins', fontSize: 16),
                           decoration: InputDecoration(
+                            errorText: _validate2 ? 'Value Can\'t Be Empty' : null,
                             hintText: 'Write here about product',
                             focusedBorder: OutlineInputBorder(
                                 borderSide:
@@ -602,7 +636,7 @@ class _AddProductState extends State<AddProduct> {
                       Container(
                         margin: EdgeInsets.only(left: 20, right: 20, top: 25),
                         child: Text(
-                          'Select Quantity',
+                          'Select Quantity/price',
                           style: TextStyle(
                             fontSize: 13,
                             fontFamily: 'Poppins',
@@ -615,26 +649,7 @@ class _AddProductState extends State<AddProduct> {
                           onOptionAdded: handleOptionAdded,
                           updateInitialValue:
                               (pControllers, oController, qController) {
-                            setState(() {
-                              priceControllers = pControllers;
-                              offerPriceControllers = oController;
-                              quantityControllers = qController;
-                            });
 
-                            print(itemOptions[1]);
-                            print(quantityControllers[1]);
-                            print(offerPriceControllers[1]);
-                            print("priceControllers.toString()");
-
-                            ListView.builder(
-                              itemCount: priceControllers.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ListTile(
-                                  title:
-                                  Text(priceControllers[index].toString()),
-                                );
-                              },
-                            );
                           }),
 
                       Container(
@@ -643,20 +658,30 @@ class _AddProductState extends State<AddProduct> {
                             left: 20, right: 20, bottom: 40, top: 20),
                         child: MaterialButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ReviewListed(
-                                    token:widget.token,
-                                    id:widget.id,
-                                    itemOptions: itemOptions,
-                                    productName: productName,
-                                    imageFileList: imageFileList,
-                                    productCategory: productCategory,
-                                    productType: productType,
-                                    description: productDescription,
-                                  ),
-                                ));
+                            if(productName.isEmpty || productDescription.isEmpty ){
+                              setState(() {
+                                productName.isEmpty ? _validate1 = true : _validate1 = false;
+                                productDescription.isEmpty ? _validate2 = true : _validate1 = false;
+                              });
+                            }
+                            else{
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ReviewListed(
+                                      token:widget.token,
+                                      id:widget.id,
+                                      itemOptions: itemOptions,
+                                      productName: productName,
+                                      imageFileList: imageFileList,
+                                      productType: productType,
+                                      description: productDescription,
+                                      category: widget.category,
+                                      subCategory1: widget.subCategory1,
+                                      subCategory2: widget.subCategory2,
+                                    ),
+                                  ));
+                            }
                           },
                           child: Text(
                             'Save And Continue',
@@ -682,4 +707,3 @@ class _AddProductState extends State<AddProduct> {
   }
 
 }
-

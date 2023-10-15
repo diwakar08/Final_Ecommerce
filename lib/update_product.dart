@@ -7,18 +7,21 @@ import 'main.dart';
 
 
 class UpdateProducts extends StatefulWidget {
-  String productImage = '';
-  String productName = '';
-  String productCategory='';
-  String productSubCategory='';
-  String productMRPPrice = '';
-  String productOfferPrice = '';
-  String productQuantity = '';
-  String productType = '';
-  bool stockTF = true;
-  String stockIO = '';
-  String description = '', token, id;
-   UpdateProducts({Key? key ,required this.token,required this.id ,required this.productName,required this.productImage,required this.productCategory,required this.productSubCategory,required this.productMRPPrice,required this.productOfferPrice,required this.productQuantity,required this.stockTF,required this.stockIO,required this.productType,required this.description}) : super(key: key);
+  final String productImage ;
+  final String productName;
+  final String productCategory;
+  final String productSubCategory;
+  final String productMRPPrice;
+  final String productOfferPrice;
+  final String productQuantity;
+  final String productType ;
+  final bool stockTF;
+  final String stockIO;
+  final String description, token, id;
+   UpdateProducts({Key? key ,required this.token,required this.id ,required this.productName,required this.productImage,
+     required this.productCategory,required this.productSubCategory,required this.productMRPPrice,required this.productOfferPrice,
+     required this.productQuantity,required this.stockTF,required this.stockIO,
+     required this.productType,required this.description}) : super(key: key);
 
   @override
   _UpdateProductsState createState() => _UpdateProductsState();
@@ -45,7 +48,8 @@ class _UpdateProductsState extends State<UpdateProducts> {
 
   @override
   Widget build(BuildContext context) {
-
+    String token = widget.token;
+    String id = widget.id;
     final pName = TextEditingController();
     pName.text = widget.productName;
     final pCategory = TextEditingController();
@@ -159,7 +163,10 @@ class _UpdateProductsState extends State<UpdateProducts> {
                               Container(
 
                                 child: MaterialButton(onPressed: (){
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewListed(),));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewListed(
+                                    token: token,id: id, imageFileList: [], itemOptions: [], productName: '',
+                                    productType: '', description: '', category: '', subCategory1: '', subCategory2: '',
+                                  ),));
                                 }, child: Text('Update Stock',style: TextStyle(color: Colors.white,fontSize: 15),)
                                   ,color: Colors.lightBlue.shade500,
                                   height: 40,
@@ -394,24 +401,24 @@ class _UpdateProductsState extends State<UpdateProducts> {
                           ),
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20,right: 20),
-                        child: DropdownButton(
-                          value: pType,
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          items: items2.map((String items2) {
-                            return DropdownMenuItem(
-                              value: items2,
-                              child: Text(items2),
-                            );
-                          }).toList(),
-                           onChanged: (String? newValue){
-                             setState(() {
-                               pType = newValue!;
-                             });
-                           },
-                        ),
-                      ),
+                      // Container(
+                      //   margin: EdgeInsets.only(left: 20,right: 20),
+                      //   child: DropdownButton(
+                      //     value: pType,
+                      //     icon: const Icon(Icons.keyboard_arrow_down),
+                      //     items: items2.map((String items2) {
+                      //       return DropdownMenuItem(
+                      //         value: items2,
+                      //         child: Text(items2),
+                      //       );
+                      //     }).toList(),
+                      //      onChanged: (String? newValue){
+                      //        setState(() {
+                      //          pType = newValue!;
+                      //        });
+                      //      },
+                      //   ),
+                      // ),
 
                       Container(
                         margin: EdgeInsets.only(left: 20,right: 20,top: 25),
@@ -447,6 +454,7 @@ class _UpdateProductsState extends State<UpdateProducts> {
                         width: double.maxFinite,
                         margin: const EdgeInsets.only(left: 20,right: 20,top: 20,bottom: 30),
                         child: MaterialButton(onPressed: (){
+
                           // Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewListed(),));
                         },color: Colors.lightBlue.shade500,
                           height: 40, child: const Text('Save And Update',style: TextStyle(color: Colors.white,fontSize: 15),)

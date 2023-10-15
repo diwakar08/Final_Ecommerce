@@ -138,7 +138,7 @@ class _SuccessfulAddState extends State<SuccessfulAdd> {
                 width: double.maxFinite,
                 margin: EdgeInsets.only(left: 20,right: 20,top: 30,bottom: 10),
                 child: MaterialButton(onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddProduct(token:token, id:id),));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddProduct(token:token, id:id, category: '', subCategory1: '', subCategory2: '',),));
                 }, child: Text('+ Add more product',style: TextStyle(color: Colors.white,fontSize: 18),)
                   ,color: Colors.lightBlue.shade700,
                   height: 40,

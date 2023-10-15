@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'apis/sellerModel.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(BankDetailsApp1());
@@ -13,14 +14,15 @@ class BankDetailsApp1 extends StatelessWidget {
     return MaterialApp(
       title: 'Bank Details Form',
       debugShowCheckedModeBanner: false,
-      home: UploadImages(seller: UpdateSeller(),),
+      home: UploadImages(seller: UpdateSeller(), token: '', id: '',),
     );
   }
 }
 
 class UploadImages extends StatefulWidget {
+  final String token, id;
   late UpdateSeller seller ;
-  UploadImages({required this.seller});
+  UploadImages({required this.seller, required this.token, required this.id});
   @override
   _BankDetailsFormState createState() => _BankDetailsFormState();
 }
@@ -76,7 +78,7 @@ class _BankDetailsFormState extends State<UploadImages> {
                     ),
                     Container(
                       height: 1.0,
-                      width: 120,
+                      width: 90,
                       decoration: const BoxDecoration(
                           color: Colors.cyanAccent
                       ),
@@ -101,7 +103,7 @@ class _BankDetailsFormState extends State<UploadImages> {
                     ),
                     Container(
                       height: 1.0,
-                      width: 120,
+                      width: 90,
                       decoration: const BoxDecoration(
                           color: Colors.cyanAccent
                       ),
@@ -177,6 +179,22 @@ Future<void> _getImage() async {
   final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
   if (pickedFile != null) {
+    var request = http.MultipartRequest('POST', Uri.parse('YOUR_BACKEND_ENDPOINT'));
+
+    // Attach the file to the request
+    var file = await http.MultipartFile.fromPath('file', pickedFile.path);
+    request.files.add(file);
+
+    // Send the request
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      // Successfully uploaded the image
+      print('Image uploaded');
+    } else {
+      // Handle the error, e.g., show an error message
+      print('Image upload failed with status code: ${response.statusCode}');
+    }
     // Handle the selected image (e.g., display it, upload it, etc.)
     // You can use the pickedFile.path to access the image file path.
   } else {
@@ -189,6 +207,22 @@ Future<void> _getfssaiImage() async {
   final XFile? fsaaipickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
   if (fsaaipickedFile != null) {
+    var request = http.MultipartRequest('POST', Uri.parse('YOUR_BACKEND_ENDPOINT'));
+
+    // Attach the file to the request
+    var file = await http.MultipartFile.fromPath('file', fsaaipickedFile.path);
+    request.files.add(file);
+
+    // Send the request
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      // Successfully uploaded the image
+      print('Image uploaded');
+    } else {
+      // Handle the error, e.g., show an error message
+      print('Image upload failed with status code: ${response.statusCode}');
+    }
     // Handle the selected image (e.g., display it, upload it, etc.)
     // You can use the pickedFile.path to access the image file path.
   } else {
@@ -201,6 +235,22 @@ Future<void> _getGSTImage() async {
   final XFile? fsaaipickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
   if (fsaaipickedFile != null) {
+    var request = http.MultipartRequest('POST', Uri.parse('YOUR_BACKEND_ENDPOINT'));
+
+    // Attach the file to the request
+    var file = await http.MultipartFile.fromPath('file', fsaaipickedFile.path);
+    request.files.add(file);
+
+    // Send the request
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      // Successfully uploaded the image
+      print('Image uploaded');
+    } else {
+      // Handle the error, e.g., show an error message
+      print('Image upload failed with status code: ${response.statusCode}');
+    }
     // Handle the selected image (e.g., display it, upload it, etc.)
     // You can use the pickedFile.path to access the image file path.
   } else {
@@ -213,6 +263,22 @@ Future<void> _getCancelledCheckImage() async {
   final XFile? fsaaipickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
   if (fsaaipickedFile != null) {
+    var request = http.MultipartRequest('POST', Uri.parse('YOUR_BACKEND_ENDPOINT'));
+
+    // Attach the file to the request
+    var file = await http.MultipartFile.fromPath('file', fsaaipickedFile.path);
+    request.files.add(file);
+
+    // Send the request
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      // Successfully uploaded the image
+      print('Image uploaded');
+    } else {
+      // Handle the error, e.g., show an error message
+      print('Image upload failed with status code: ${response.statusCode}');
+    }
     // Handle the selected image (e.g., display it, upload it, etc.)
     // You can use the pickedFile.path to access the image file path.
   } else {

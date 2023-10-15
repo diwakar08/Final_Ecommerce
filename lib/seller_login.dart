@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:e_commerce/main_dashboard.dart';
 import 'package:e_commerce/seller_dashboard.dart';
+import 'package:e_commerce/services/tokenId.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -32,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
   // String token1 ="" ;
   Future<void> postSeller() async {
     Map<String, dynamic> jsonData = {
-      "phone": phone_controller.text,
+      "phone": "9876543210",//phone_controller.text,
       "otp":"1234"
     };
 
@@ -51,9 +52,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
+
         token = responseData['token'];
         id=responseData['data']['_id'];
         print(responseData['message']);
+        TokenId.token=token;
+        TokenId.id=id;
+
       } else {
         print('Error: ${response.statusCode}');
       }

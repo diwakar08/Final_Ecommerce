@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 
+import 'package:e_commerce/services/tokenId.dart';
 import 'package:flutter/material.dart';
 import '../apis/ProductModel.dart';
 import '../apis/Seller.dart';
@@ -15,7 +16,7 @@ class UserApi {
 
 
   //search
-  Future<List<Product>> searchProducts(String keyword, token, id) async {
+  static Future<List<Product>> searchProducts(String keyword, token, id) async {
     final Url = 'https://api.pehchankidukan.com/seller/$id';
     final url = Uri.parse('$Url?keyword=$keyword');
 
@@ -23,7 +24,7 @@ class UserApi {
       url,
       headers: <String, String>{
         'Content-Type': 'application/json',
-        'Authentication': 'Bearer $token',
+        'Authorization': 'Bearer $token',
       },
     );
 
@@ -36,47 +37,53 @@ class UserApi {
   }
 
   //sort and filter
-  Future<List<Product>> getSellerProducts({
-    required token,
-    required id,
-    Map<String, dynamic> filters = const {},
-    String? sort,
-    int page = 1,
-    int limit = 5,
-  }) async {
-    final baseUrl = 'https://api.pehchankidukan.com/seller/$id';
-    final Map<String, dynamic> queryParams = {
-      ...filters,
-      'page': page.toString(),
-      'limit': limit.toString(),
-    };
+  static Future<List<Product>> getSellerProducts( sort, token, id
+  ) async {
+    print(token);
+    final baseUrl = 'https://api.pehchankidukan.com/seller/$id/products?sort=$sort';
+    // final Map<String, dynamic> queryParams = {
+    //   ...filters,
+    //   'page': page.toString(),
+    //   'limit': limit.toString(),
+    // };
 
-    if (sort != null) {
-      queryParams['sort'] = sort;
-    }
-
-    final url = Uri.https(baseUrl, queryParams as String);
-
+    // if (sort != null) {
+    //   queryParams['sort'] = sort;
+    // }
+    //  var url;
+    // if(sort!='' && sort!.length>0)
+    //  url = Uri.parse('$baseUrl?sort=$sort');
+    // else
+      final url = Uri.parse(baseUrl);
+      print(url);
     final response = await http.get(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json',
-        'Authentication': 'Bearer $token'
+        'Authorization': 'Bearer $token'
       },
     );
 
-    if (response.statusCode == 200) {
+    // if (response.statusCode == 201) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
+      print(responseBody['status']);
+      print(responseBody['length']);
+      print(responseBody['message']);
+    List<Product> products = (responseBody['data'] as List<dynamic>?)
+        ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
+        .toList() ?? [];
+    return products;
       return responseBody['data'];
-    } else {
-      throw Exception('Failed to retrieve seller products: ${response.reasonPhrase}');
-    }
+    //
+    // } else {
+    //   throw Exception('Failed to retrieve seller products: ${response.reasonPhrase}');
+    // }
   }
 
 
 
   //Categories
-  Future<List<String>> getCategories(String? category, {String? subCategory1, String? subCategory2, int page = 1, int limit = 5}) async {
+  static Future<List<String>> getCategories(String? category, {String? subCategory1, String? subCategory2, int page = 1, int limit = 5}) async {
 
     final url = Uri.parse('http://api.pehchankidukan.com/seller/category');
 
@@ -132,6 +139,8 @@ class UserApi {
 
   //updateSeller
   static Future<void> updateSeller(token, id, Map<String, dynamic> updatedFields) async {
+    // TokenId.token=token;
+    // TokenId.id=id;
     final url = Uri.parse('https://api.pehchankidukan.com/seller/$id');
     print("id-$id");
     print("token-$token");
@@ -158,52 +167,16 @@ class UserApi {
 
   //get seller data
   static Future getSeller(id, token) async {
-    final json = {
-      "ownerName": "John Doe",
-      "password": "hashed_password_here",
-      "phone": "1234567890",
-      "businessType": "Retail",
-      "shopName": "John's Store",
-      "shopOpeningTime": "2023-09-18T08:00:00Z",
-      "shopClosingTime": "2023-09-18T08:00:00Z",
-      "landlineNumber": "4875834759",
-      "gstin": {
-        "gstinNo": "GSTIN123456",
-        "gstinImage": "gstin_image_url"
-      },
-      "fssai": {
-        "licenseNumber": "FSSAI123456",
-        "fssaiImage": "fssai_image_url"
-      },
-      "photo": "seller_photo_url",
-      "address": {
-        "addressOfShop": "Apt 456",
-        "city": "Example City",
-        "state": "Example State",
-        "pincode": "12345",
-        "location": "Latitude: 12.345, Longitude: 67.890"
-      },
-      "panCard": {
-        "panNo": "ABCDE1234F",
-        "panImage": "pan_card_image_url"
-      },
-      "bankDetails": {
-        "accountNo": "1234567890",
-        "ifscCode": "IFSC12345",
-        "bankName": "Example Bank",
-        "branchName": "Example Branch",
-        "passbookImage": "bank_passbook_image_url"
-      },
-      "marginCharged": 10.5,
-      "shopCategory": "Electronics",
-      "createdAt": "2023-09-18T08:00:00Z",
-      "updatedAt": "2023-09-19T09:00:00Z"
-    };
     final apiUrl = "https://api.pehchankidukan.com/seller/$id";
     final uri = Uri.parse(apiUrl);
     final response = await http.get(uri,
-
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authentication': 'Bearer $token'
+      },
     );
+    final body = jsonDecode(response.body);
+    final json = body['data'];
     Seller seller = Seller.fromJson(json);
     return seller;
   }
@@ -221,13 +194,13 @@ class UserApi {
 
 
   //create Product API
-  static Future<void> createProduct(Product product) async {
-    final apiUrl = 'https://api/seller/:sellerid/product';
+  static Future<void> createProduct(Product product, token, id) async {
+    final apiUrl = 'https://api/seller/$id/product';
 
     final Map<String, dynamic> productJson = {
       "productName": product.productName,
       "category": product.category,
-      // "subcategory": product.subcategory,
+      "subCategory2": "Craft & Sewing Supplies Storage",//"product.subCategory2",
       "image": product.image,
       "description": product.description,
       "quantityType": product.quantityType,
@@ -241,6 +214,7 @@ class UserApi {
         uri,
         headers: <String, String>{
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
         },
         body: jsonEncode(productJson),
       );
@@ -257,13 +231,20 @@ class UserApi {
     final apiUrl = 'https://api/seller/$id/product';
 
     final Map<String, dynamic> productJson = {
+      // "productName": product.productName,
+      // "category": product.category,
+      // "image": product.image,
+      // "description": product.description,
+      // "quantityType": product.quantityType,
+      // "productType": product.productType,
       "productName": product.productName,
       "category": product.category,
+      "subCategory2": "Craft & Sewing Supplies Storage",//"product.subCategory2",
       "image": product.image,
       "description": product.description,
       "quantityType": product.quantityType,
       "mrpPrice": product.mrpPrice,
-      // "offerPrice": product.offerPrice,
+      "offerPrice": product.offerPrice,
       "productType": product.productType,
     };
     var uri = Uri.parse(apiUrl);
@@ -305,7 +286,6 @@ class UserApi {
     List<Product> products = (productJson['data'] as List<dynamic>?)
         ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
         .toList() ?? [];
-
     return products;
   }
 }

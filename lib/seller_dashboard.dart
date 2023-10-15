@@ -295,7 +295,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                     Expanded(
                       child: InkWell(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => AddProduct(token:token, id:id,),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => AddProduct(token:token, id:id, category: '', subCategory1: '', subCategory2: '',),));
                         },
                         child: Card(
 
