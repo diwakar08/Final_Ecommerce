@@ -1,6 +1,5 @@
 import 'dart:io';
 
-
 import 'package:e_commerce/review_listed.dart';
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +57,6 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
   List<String> dropDownItems = ['Kg', 'L', 'Unit', 'Packet'];
 
   void addOption() {
-
     widget.onOptionAdded(newItem);
     newItem = ItemOption(
       price: '',
@@ -98,12 +96,13 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
                             ),
                             child: TextFormField(
                               controller:
-                              TextEditingController(text: option.quantity),
+                                  TextEditingController(text: option.quantity),
                               onChanged: (value) => option.quantity = value,
                               decoration: InputDecoration(
                                 hintText: 'Quantity',
                                 border: InputBorder.none,
-                                errorText: _validate4 ? 'Value Can\'t Be Empty' : null,
+                                errorText:
+                                    _validate4 ? 'Value Can\'t Be Empty' : null,
                               ),
                               style: TextStyle(
                                 color: Colors.black.withOpacity(1.0),
@@ -168,12 +167,13 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
                             ),
                             child: TextFormField(
                               controller:
-                              TextEditingController(text: option.price),
+                                  TextEditingController(text: option.price),
                               onChanged: (value) => option.price = value,
                               decoration: InputDecoration(
                                 hintText: 'Price (In Rs.)',
                                 border: InputBorder.none,
-                                errorText: _validate5 ? 'Value Can\'t Be Empty' : null,
+                                errorText:
+                                    _validate5 ? 'Value Can\'t Be Empty' : null,
                               ),
                               style: TextStyle(
                                 color: Colors.black.withOpacity(1.0),
@@ -203,7 +203,8 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
                               decoration: InputDecoration(
                                 hintText: 'Offer Price',
                                 border: InputBorder.none,
-                                errorText: _validate6 ? 'Value Can\'t Be Empty' : null,
+                                errorText:
+                                    _validate6 ? 'Value Can\'t Be Empty' : null,
                               ),
                               style: TextStyle(
                                 color: Colors.black.withOpacity(1.0),
@@ -224,7 +225,10 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
         ),
         Container(
             margin: EdgeInsets.only(left: 20),
-            child: ElevatedButton(onPressed: addOption, child: Text("Add items"),)),
+            child: ElevatedButton(
+              onPressed: addOption,
+              child: Text("Add items"),
+            )),
         // ElevatedButton(
         //     onPressed: () {
         //       for (var data in widget.options) {
@@ -240,19 +244,23 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
   }
 }
 
-
 class AddProduct extends StatefulWidget {
+  final String productName;
+  final String productDescription;
   String token, id;
   String category = '';
   String subCategory1 = '';
   String subCategory2 = '';
-  AddProduct({
-    Key? key, required this.token,
-    required this.id,
-    required this.category,
-    required this.subCategory1,
-    required this.subCategory2
-  }) : super(key: key);
+  AddProduct(
+      {Key? key,
+      required this.token,
+      required this.id,
+      required this.category,
+      required this.subCategory1,
+      required this.subCategory2,
+      required this.productName,
+      required this.productDescription})
+      : super(key: key);
 
   @override
   _AddProductState createState() => _AddProductState();
@@ -282,26 +290,33 @@ class _AddProductState extends State<AddProduct> {
   bool viewMore = false;
   String viewML = 'View more categories';
 
-
-  String productType = 'Veg';
-  String productName = '';
-  String productDescription = '';
-
   bool _validate1 = false;
   bool _validate2 = false;
 
+  String productType = 'Veg';
+  TextEditingController productTypeContt = TextEditingController();
+  TextEditingController productNameContt = TextEditingController();
+  TextEditingController productDescriptionContt = TextEditingController();
+  void valueUpdate(String pname, String desc) {
+    productNameContt.text = pname;
+    productDescriptionContt.text = desc;
+  }
+
+  @override
+  void initState() {
+    valueUpdate(widget.productName, widget.productDescription);
+  }
 
   @override
   Widget build(BuildContext context) {
-
-
-
     var items2 = [
       'Veg',
       'Non Veg',
       'Not required',
     ];
 
+    String productName = widget.productName;
+    String productDescription = widget.productDescription;
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -318,9 +333,9 @@ class _AddProductState extends State<AddProduct> {
             ),
             Expanded(
                 child: Icon(
-                  Icons.add_circle_outline,
-                  color: Colors.white,
-                )),
+              Icons.add_circle_outline,
+              color: Colors.white,
+            )),
             CircleAvatar(
               backgroundColor: Colors.red.shade100,
               backgroundImage: AssetImage('assets/images/avatar.png'),
@@ -347,58 +362,58 @@ class _AddProductState extends State<AddProduct> {
                         bottomLeft: Radius.circular(30))),
                 child: Center(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 23,
-                          width: 23,
-                          decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.all(Radius.circular(6))),
-                          child: Center(
-                              child: Text(
-                                '1',
-                                style: TextStyle(
-                                    color: Colors.white, fontWeight: FontWeight.bold),
-                              )),
-                        ),
-                        Text(
-                          '-----------',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Container(
-                          height: 23,
-                          width: 23,
-                          decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.all(Radius.circular(6))),
-                          child: Center(
-                              child: Text(
-                                '2',
-                                style: TextStyle(
-                                    color: Colors.white, fontWeight: FontWeight.bold),
-                              )),
-                        ),
-                        Text(
-                          '-----------',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Container(
-                          height: 23,
-                          width: 23,
-                          decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.all(Radius.circular(6))),
-                          child: Center(
-                              child: Text(
-                                '3',
-                                style: TextStyle(
-                                    color: Colors.white, fontWeight: FontWeight.bold),
-                              )),
-                        ),
-                        //Text('Add Product',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15,fontFamily: 'Poppins', ),),
-                      ],
-                    )),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 23,
+                      width: 23,
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.all(Radius.circular(6))),
+                      child: Center(
+                          child: Text(
+                        '1',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      )),
+                    ),
+                    Text(
+                      '-----------',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Container(
+                      height: 23,
+                      width: 23,
+                      decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.all(Radius.circular(6))),
+                      child: Center(
+                          child: Text(
+                        '2',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      )),
+                    ),
+                    Text(
+                      '-----------',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Container(
+                      height: 23,
+                      width: 23,
+                      decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.all(Radius.circular(6))),
+                      child: Center(
+                          child: Text(
+                        '3',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      )),
+                    ),
+                    //Text('Add Product',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15,fontFamily: 'Poppins', ),),
+                  ],
+                )),
               ),
               Container(
                 child: SingleChildScrollView(
@@ -434,14 +449,17 @@ class _AddProductState extends State<AddProduct> {
                           ),
                         ),
                       ),
-
                       InkWell(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Category(),//changed
-                              ));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Category(
+                                productName: productName,
+                                productDescription: productDescription,
+                              ), //changed
+                            ),
+                          );
                         },
                         child: Container(
                           margin: EdgeInsets.only(left: 20, right: 20, top: 20),
@@ -451,36 +469,44 @@ class _AddProductState extends State<AddProduct> {
                                 fontSize: 25,
                                 fontFamily: 'Poppins',
                                 color: Colors.black87,
-                                fontWeight: FontWeight.bold
-                            ),
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
                       Container(
-                          margin: EdgeInsets.only(left: 20,right: 20,top: 15),
+                          margin: EdgeInsets.only(left: 20, right: 20, top: 15),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Product Category:",textScaleFactor: 1.0,style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text(widget.category,textScaleFactor: 1.5),
+                              Text("Product Category:",
+                                  textScaleFactor: 1.0,
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
+                              Text(widget.category, textScaleFactor: 1.5),
                             ],
                           )),
                       Container(
-                          margin: EdgeInsets.only(left: 20,right: 20,top: 15),
+                          margin: EdgeInsets.only(left: 20, right: 20, top: 15),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Product SubCategory1:",textScaleFactor: 1.0,style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text(widget.subCategory1,textScaleFactor: 1.5),
+                              Text("Product SubCategory1:",
+                                  textScaleFactor: 1.0,
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
+                              Text(widget.subCategory1, textScaleFactor: 1.5),
                             ],
                           )),
                       Container(
-                          margin: EdgeInsets.only(left: 20,right: 20,top: 15),
+                          margin: EdgeInsets.only(left: 20, right: 20, top: 15),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Product SubCategory2:",textScaleFactor: 1.0,style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text(widget.subCategory2,textScaleFactor: 1.5),
+                              Text("Product SubCategory2:",
+                                  textScaleFactor: 1.0,
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
+                              Text(widget.subCategory2, textScaleFactor: 1.5),
                             ],
                           )),
                       Container(
@@ -509,7 +535,7 @@ class _AddProductState extends State<AddProduct> {
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
-                                    BorderRadius.all(Radius.circular(13)),
+                                        BorderRadius.all(Radius.circular(13)),
                                   ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -531,9 +557,9 @@ class _AddProductState extends State<AddProduct> {
                                     scrollDirection: Axis.horizontal,
                                     itemCount: imageFileList!.length,
                                     gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 1,
-                                        mainAxisSpacing: 5),
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 1,
+                                            mainAxisSpacing: 5),
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return Image.file(
@@ -546,7 +572,6 @@ class _AddProductState extends State<AddProduct> {
                           ),
                         ],
                       ),
-
                       Container(
                         margin: EdgeInsets.only(left: 20, right: 20, top: 25),
                         child: Text(
@@ -593,20 +618,21 @@ class _AddProductState extends State<AddProduct> {
                           onChanged: (value) {
                             productName = value;
                           },
+                          controller: productNameContt,
                           style: TextStyle(fontFamily: 'Poppins', fontSize: 15),
                           decoration: InputDecoration(
-                            errorText: _validate1 ? 'Value Can\'t Be Empty' : null,
+                            errorText:
+                                _validate1 ? 'Value Can\'t Be Empty' : null,
                             hintText: 'Name of item (Ex-Oil)',
                             focusedBorder: OutlineInputBorder(
                                 borderSide:
-                                BorderSide(color: Colors.teal.shade900)),
+                                    BorderSide(color: Colors.teal.shade900)),
                           ),
                         ),
                       ),
                       Container(
                         margin: EdgeInsets.only(left: 20, right: 20, top: 25),
                         child: Text(
-
                           'Product Description',
                           style: TextStyle(
                             fontSize: 13,
@@ -617,22 +643,23 @@ class _AddProductState extends State<AddProduct> {
                       ),
                       Container(
                         margin:
-                        EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                            EdgeInsets.only(left: 20, right: 20, bottom: 10),
                         child: TextField(
                           onChanged: (value) {
                             productDescription = value;
                           },
+                          controller: productDescriptionContt,
                           style: TextStyle(fontFamily: 'Poppins', fontSize: 16),
                           decoration: InputDecoration(
-                            errorText: _validate2 ? 'Value Can\'t Be Empty' : null,
+                            errorText:
+                                _validate2 ? 'Value Can\'t Be Empty' : null,
                             hintText: 'Write here about product',
                             focusedBorder: OutlineInputBorder(
                                 borderSide:
-                                BorderSide(color: Colors.teal.shade900)),
+                                    BorderSide(color: Colors.teal.shade900)),
                           ),
                         ),
                       ),
-
                       Container(
                         margin: EdgeInsets.only(left: 20, right: 20, top: 25),
                         child: Text(
@@ -648,29 +675,30 @@ class _AddProductState extends State<AddProduct> {
                           options: itemOptions,
                           onOptionAdded: handleOptionAdded,
                           updateInitialValue:
-                              (pControllers, oController, qController) {
-
-                          }),
-
+                              (pControllers, oController, qController) {}),
                       Container(
                         width: double.maxFinite,
                         margin: EdgeInsets.only(
                             left: 20, right: 20, bottom: 40, top: 20),
                         child: MaterialButton(
                           onPressed: () {
-                            if(productName.isEmpty || productDescription.isEmpty ){
+                            if (productName.isEmpty ||
+                                productDescription.isEmpty) {
                               setState(() {
-                                productName.isEmpty ? _validate1 = true : _validate1 = false;
-                                productDescription.isEmpty ? _validate2 = true : _validate1 = false;
+                                productName.isEmpty
+                                    ? _validate1 = true
+                                    : _validate1 = false;
+                                productDescription.isEmpty
+                                    ? _validate2 = true
+                                    : _validate1 = false;
                               });
-                            }
-                            else{
+                            } else {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => ReviewListed(
-                                      token:widget.token,
-                                      id:widget.id,
+                                      token: widget.token,
+                                      id: widget.id,
                                       itemOptions: itemOptions,
                                       productName: productName,
                                       imageFileList: imageFileList,
@@ -691,8 +719,6 @@ class _AddProductState extends State<AddProduct> {
                           height: 40,
                         ),
                       ),
-
-
                     ],
                   ),
                 ),
@@ -701,9 +727,6 @@ class _AddProductState extends State<AddProduct> {
           ),
         ),
       ),
-
     );
-
   }
-
 }
