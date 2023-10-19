@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 import 'Regestration.dart';
+import 'apis/Seller.dart';
+import 'bankDetails.dart';
 
 // import 'home.dart';
 
@@ -69,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
     print("token is ${token}");
     // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Regest(token:token, id:id)));
     Navigator.push(context, MaterialPageRoute(builder: (context) => Regest(token:token, id:id)));
-
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => BankDetailsForm( token:token, id:id)));
   }
 
 

@@ -17,8 +17,8 @@ class _SuccessfulAddState extends State<SuccessfulAdd> {
 
   @override
   Widget build(BuildContext context) {
-  String token = widget.token;
-  String id = widget.id;
+    String token = widget.token;
+    String id = widget.id;
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -103,10 +103,10 @@ class _SuccessfulAddState extends State<SuccessfulAdd> {
                       child: Text(
                         'Successfully Listed',
                         style: TextStyle(
-                          fontSize: 25,
-                          fontFamily: 'Poppins',
-                          color: Colors.black87,
-                          fontWeight: FontWeight.bold
+                            fontSize: 25,
+                            fontFamily: 'Poppins',
+                            color: Colors.black87,
+                            fontWeight: FontWeight.bold
                         ),
                       ),
                     ),
@@ -125,10 +125,10 @@ class _SuccessfulAddState extends State<SuccessfulAdd> {
                 child: Text(
                   'Done',
                   style: TextStyle(
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    color: Colors.black87,
-                    fontWeight: FontWeight.bold
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold
                   ),
                 ),
               ),
@@ -138,7 +138,7 @@ class _SuccessfulAddState extends State<SuccessfulAdd> {
                 width: double.maxFinite,
                 margin: EdgeInsets.only(left: 20,right: 20,top: 30,bottom: 10),
                 child: MaterialButton(onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddProduct(token:token, id:id, category: '', subCategory1: '', subCategory2: '',),));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddProduct(token:token, id:id, category: '', subCategory1: '', subCategory2: '', productName: '', productDescription: '',),));
                 }, child: Text('+ Add more product',style: TextStyle(color: Colors.white,fontSize: 18),)
                   ,color: Colors.lightBlue.shade700,
                   height: 40,

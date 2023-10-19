@@ -4,51 +4,63 @@ import 'package:flutter/material.dart';
 import 'package:e_commerce/subCategory2.dart'; // Make sure to import the correct SubCategory2 widget.
 import 'package:http/http.dart' as http;
 
-class SubCategory1 extends StatelessWidget {
+class SubCategory1 extends StatefulWidget {
   final String cat;
+  final String pid;
+  final String productName;
+  final String productDescription;
+  final bool update;
+  final String stockIO;
+  final bool stockTF;
+  final dummyProductList;
 
-  SubCategory1({required this.cat});
+  SubCategory1(
+      {Key? key,
+        required this.cat,
+        required this.productName,
+        required this.productDescription,
+        required this.update, required this.stockIO, required this.stockTF, this.dummyProductList, required this.pid
+      });
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Category Codes List'),
-        ),
-        body: SubCategoryList1(cat: cat),
-      ),
-    );
-  }
+  State<SubCategory1> createState() => _SubCategory1State();
 }
 
-class SubCategoryList1 extends StatefulWidget {
-  final String cat;
-
-  SubCategoryList1({required this.cat});
-
-  @override
-  State<SubCategoryList1> createState() => _SubCategoryList1State();
-}
-
-class _SubCategoryList1State extends State<SubCategoryList1> {
+class _SubCategory1State extends State<SubCategory1> {
   List<String> categoryCodes = [];
   String subCat = '';
   String token = TokenId.token;
   String id = TokenId.id;
+  late final bool update;
 
   Future<void> getCategories(String category) async {
+    print("inside getCAtegories subcat1");
+    print(widget.dummyProductList);
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SubCategory2(cat: widget.cat, subCat: category),
+        builder: (context) => SubCategory2(
+          cat: widget.cat,
+          subCat: category,
+          productName: widget.productName,
+          productDescription: widget.productDescription,
+          pid: widget.pid,
+          update: update,
+          stockTF: widget.stockTF,
+          stockIO: widget.stockIO,
+          dummyProductList: widget.dummyProductList,
+
+        ),
       ),
     );
   }
 
   Future<void> getAllCategory() async {
-    var cat = widget.cat.replaceAll('&', '%26');
-    final apiUrl = "https://api.pehchankidukan.com/seller/category?category=${cat}";
+    update=widget.update;
+    String cat1 = widget.cat;
+    cat1 = cat1.replaceAll("&", "%26");
+    final apiUrl =
+        "https://api.pehchankidukan.com/seller/category?category=${cat1}";
     final response = await http.get(
       Uri.parse(apiUrl),
       headers: <String, String>{
@@ -61,18 +73,18 @@ class _SubCategoryList1State extends State<SubCategoryList1> {
       final Map<String, dynamic> jsonData = jsonDecode(response.body);
       List<dynamic> data = jsonData['data'];
       if (data.isNotEmpty) {
-        List<dynamic> categoryList = data[0]['subCategory1'];
+        final category = data[0]; // Access the first item in the data array
+        List<dynamic> categoryList = category['subCategory1'];
         if (categoryList.isNotEmpty) {
           setState(() {
             categoryCodes = List<String>.from(categoryList);
           });
-        } else {
+        }
+      } else {
           // Handle the case where the "category" list is empty.
         }
       } else {
         // Handle the case where the "data" list is empty.
-      }
-    } else {
       throw Exception('Failed to load categories');
     }
   }
@@ -84,19 +96,35 @@ class _SubCategoryList1State extends State<SubCategoryList1> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.builder(
-        itemCount: categoryCodes.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            onTap: () async {
-              await getCategories(categoryCodes[index]);
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          leading: GestureDetector(
+            child: Icon(
+              Icons.arrow_back_ios,
+            ),
+            onTap: () {
+              Navigator.pop(context);
             },
-            title: Text(categoryCodes[index]),
-          );
-        },
+          ),
+          title: Text(widget.cat),
+        ),
+        body: ListView.builder(
+          itemCount: categoryCodes.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              onTap: () async {
+                await getCategories(categoryCodes[index]);
+              },
+              trailing: Icon(
+                Icons.arrow_forward_ios,
+                size: 20,
+              ),
+              title: Text(categoryCodes[index]),
+            );
+          },
+        ),
       ),
-
     );
   }
 }

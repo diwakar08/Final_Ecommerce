@@ -200,7 +200,8 @@ class UserApi {
     final Map<String, dynamic> productJson = {
       "productName": product.productName,
       "category": product.category,
-      "subCategory2": "Craft & Sewing Supplies Storage",//"product.subCategory2",
+      "subCategory1": product.subCategory1,//"product.subCategory2",
+      "subCategory2": product.subCategory2,//"product.subCategory2",
       "image": product.image,
       "description": product.description,
       "quantityType": product.quantityType,
@@ -227,25 +228,29 @@ class UserApi {
   }
 
   //update Product API
-  static Future<void> updateProduct(Product product, token, id) async {
-    final apiUrl = 'https://api/seller/$id/product';
+  static Future<void> updateProduct(pName, category ,pSCategory1 ,pSCategory2, description, token, id, pid, dummyProductList) async {
+    print("called update product");
+    print(pName);
+    print("pid-$pid");
+    final apiUrl = 'https://api.pehchankidukan.com/seller/$id/products/$pid';
 
+    // final itemOptions = quantityPricing;
+    List<dynamic> itemOptionsMap = dummyProductList.map((item) {
+      return {
+        'mrpPrice': item.mrpPrice,
+        'quantity': item.quantity,
+        'unit': item.unit,
+        'offerPrice': item.offerPrice,
+      };
+    }).toList();
     final Map<String, dynamic> productJson = {
-      // "productName": product.productName,
-      // "category": product.category,
+      "productName": pName,
+      "category": category,
+      "subCategory1": pSCategory1,
+      "subCategory2": pSCategory2,//pSCategory2,
       // "image": product.image,
-      // "description": product.description,
-      // "quantityType": product.quantityType,
-      // "productType": product.productType,
-      "productName": product.productName,
-      "category": product.category,
-      "subCategory2": "Craft & Sewing Supplies Storage",//"product.subCategory2",
-      "image": product.image,
-      "description": product.description,
-      "quantityType": product.quantityType,
-      "mrpPrice": product.mrpPrice,
-      "offerPrice": product.offerPrice,
-      "productType": product.productType,
+      "description": description,
+      "productDetails": itemOptionsMap,
     };
     var uri = Uri.parse(apiUrl);
     try {
@@ -258,10 +263,15 @@ class UserApi {
         body: jsonEncode(productJson),
       );
 
-      // if (response.statusCode == 200) {
-      // } else {
-      // }
+      if (response.statusCode == 200) {
+        print("product updated succesfully");
+
+      } else {
+        print('Failed to update product. Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+      }
     } catch (e) {
+      print(e);
     }
   }
 
@@ -280,12 +290,14 @@ class UserApi {
     final body = response.body;
     final productJson = jsonDecode(body);
 
-    print(productJson['data'].length);
+    // print(productJson['data'].length);
     // List<Product> product = productJson['data'].map((e) => Product.fromJson(e)).toList();
     // List<Product> products = List<Product>.from(productJson['data'].map((e) => Product.fromJson(e)));
     List<Product> products = (productJson['data'] as List<dynamic>?)
         ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
         .toList() ?? [];
+    // print(products[0].id);
+    // print("products[0]");
     return products;
   }
 }

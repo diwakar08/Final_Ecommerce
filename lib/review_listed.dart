@@ -47,17 +47,23 @@ class _ReviewListedState extends State<ReviewListed> {
 
       // Create item options
       final itemOptions = widget.itemOptions;
-
+      List<Map<String, dynamic>> itemOptionsMap = itemOptions.map((item) {
+        return {
+          'mrpPrice': item.price,
+          'quantity': item.quantity,
+          'unit': item.unit,
+          'offerPrice': item.offerPrice,
+        };
+      }).toList();
       // Create the request body
       // print(pDescription);
       // print(pName);
       // print(pType);
       final requestBody = {
-        // 'itemOptions': itemOptions.map((option) => option.toJson()).toList(),
         'productName': pName,
-        'subCategory2': 'Craft & Sewing Supplies Storage',//pCategory,
-        // 'productType': pType,
+        'subCategory2': widget.subCategory2,
         'description': pDescription,
+        'productDetails': itemOptionsMap
       };
 
 
@@ -73,7 +79,7 @@ class _ReviewListedState extends State<ReviewListed> {
           body: jsonEncode(requestBody),
         );
 
-        if (response.statusCode == 201) {
+        if (response.statusCode == 200) {
           print('POST request successful');
           print('Response: ${response.body}');
         } else {

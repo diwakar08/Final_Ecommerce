@@ -1,32 +1,38 @@
 class QuantityPricing {
-  int quantityFrom;
-  int quantityTo;
-  double price;
+  int offerPrice;
+  String quantity;
+  double mrpPrice;
+  String unit;
 
   QuantityPricing({
-    required this.quantityFrom,
-    required this.quantityTo,
-    required this.price,
+
+    required this.offerPrice,
+    required this.quantity,
+    required this.mrpPrice,
+    required this.unit,
   });
 
   factory QuantityPricing.fromJson(Map<String, dynamic> json) {
     return QuantityPricing(
-      quantityFrom: json['quantityFrom'],
-      quantityTo: json['quantityTo'],
-      price: json['price'].toDouble(),
+      offerPrice: json['offerPrice'],
+      quantity: json['quantity'],
+      unit: json['unit'],
+      mrpPrice: json['mrpPrice'].toDouble(),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'quantityFrom': quantityFrom,
-      'quantityTo': quantityTo,
-      'price': price,
+      'offerPrice': offerPrice,
+      'quantity': quantity,
+      'mrpPrice': mrpPrice,
+      'unit': unit,
     };
   }
 }
 
 class Product {
+  String id;
   String productName;
   String sellerID;
   String category;
@@ -43,9 +49,10 @@ class Product {
   int returnPeriod;
   int replacementPeriod;
   bool inStock;
-  List<QuantityPricing> quantityPricing;
+  List<QuantityPricing> productDetails;
 
   Product({
+    required this.id,
     required this.productName,
     required this.sellerID,
     required this.category,
@@ -62,7 +69,7 @@ class Product {
     required this.returnPeriod,
     required this.replacementPeriod,
     required this.inStock,
-    required this.quantityPricing,
+    required this.productDetails,
   });
 
   // factory Product.fromJson(Map<String, dynamic> json) {
@@ -86,6 +93,7 @@ class Product {
   // }
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
+      id:json['_id']??"",
       productName: json['productName'] ?? "",
       sellerID: json['sellerID'] ?? "",
       category: json['category'] ?? "",
@@ -100,8 +108,8 @@ class Product {
       returnPeriod: json['returnReplacement'] != null ? json['returnReplacement']['returnPeriod'] ?? 0 : 0,
       replacementPeriod: json['returnReplacement'] != null ? json['returnReplacement']['replacementPeriod'] ?? 0 : 0,
       inStock: json['inStock'] ?? false,
-      quantityPricing: json['quantityPricing'] != null
-          ? List<QuantityPricing>.from(json['quantityPricing'].map((x) => QuantityPricing.fromJson(x)))
+      productDetails: json['productDetails'] != null
+          ? List<QuantityPricing>.from(json['productDetails'].map((x) => QuantityPricing.fromJson(x)))
           : [],
       subCategory1: json['subCategory1'] ?? "",
       subCategory2: json['subCategory2'] ?? "",
@@ -109,25 +117,25 @@ class Product {
   }
 
 
-  Map<String, dynamic> toJson() {
-    return {
-      'productName': productName,
-      'sellerID': sellerID,
-      'category': category,
-      'image': image,
-      'description': description,
-      'quantityType': quantityType,
-      'mrpPrice': mrpPrice,
-      'offerPrice': offerPrice,
-      'productType': productType,
-      'returnReplacement': {
-        'isReturnable': isReturnable,
-        'replacement': replacement,
-        'returnPeriod': returnPeriod,
-        'replacementPeriod': replacementPeriod,
-      },
-      'inStock': inStock,
-      'quantityPricing': List<dynamic>.from(quantityPricing.map((x) => x.toJson())),
-    };
-  }
+  // Map<String, dynamic> toJson() {
+  //   return {
+  //     'productName': productName,
+  //     'sellerID': sellerID,
+  //     'category': category,
+  //     'image': image,
+  //     'description': description,
+  //     'quantityType': quantityType,
+  //     'mrpPrice': mrpPrice,
+  //     'offerPrice': offerPrice,
+  //     'productType': productType,
+  //     'returnReplacement': {
+  //       'isReturnable': isReturnable,
+  //       'replacement': replacement,
+  //       'returnPeriod': returnPeriod,
+  //       'replacementPeriod': replacementPeriod,
+  //     },
+  //     'inStock': inStock,
+  //     'productDetails': List<dynamic>.from(productDetails.map((x) => x.toJson())),
+  //   };
+  // }
 }

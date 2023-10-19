@@ -827,6 +827,6 @@ class _SimpleCustomAlertState extends State<SimpleCustomAlert> {
         }
     }
 
-    // await UserApi.updateSeller(token, id, updatedFields);
+    await UserApi.updateSeller(token, id, updatedFields);
   }
 }

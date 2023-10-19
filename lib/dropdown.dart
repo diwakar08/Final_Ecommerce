@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:e_commerce/services/User_api.dart';
+import 'package:e_commerce/services/tokenId.dart';
 import 'package:flutter/material.dart';
 import 'package:multiselect/multiselect.dart';
 
@@ -69,15 +71,43 @@ import 'Regestration.dart';
 class dropDown extends StatefulWidget {
   final bool initialValue;
   final Function(bool) updateInitialValue;
-  const dropDown({Key? key, required this.initialValue, required  this.updateInitialValue,}) : super(key: key);
+  final String token, id;
+  const dropDown({Key? key, required this.initialValue, required  this.updateInitialValue, required this.token, required this.id,}) : super(key: key);
 
   @override
   State<dropDown> createState() => _dropDownState();
 }
 
 class _dropDownState extends State<dropDown> {
-  List<String> StoreCategory = ['Grocery & Essentials', 'Fruits & Vegetables', 'Personal Care', 'Dairy Products', 'Food, Snacks & Sweets', 'Bakery & Namkeen', 'Electricals & Electronics', 'Books & Stationery', 'Gifts & Toys', 'Art & Decoration', 'Home & Office', 'Pharma', 'Wellness & Fitness', 'Pet Care', 'Sanitary & Hardware', 'Fashion', 'Others'];
+  List<String> StoreCategory = [
+    'Grocery & Essentials',
+    'Fruits & Vegetables',
+    'Personal Care',
+    'Dairy Products',
+    'Food, Snacks & Sweets',
+    'Bakery & Namkeen',
+    'Electricals & Electronics',
+    'Books & Stationery',
+    'Gifts & Toys',
+    'Art & Decoration',
+    'Home & Office',
+    'Pharma',
+    'Wellness & Fitness',
+    'Pet Care',
+    'Sanitary & Hardware',
+    'Fashion',
+    'Others'
+  ];
   List<String> selectedStoreCategory = [];
+
+  Future<void> saveStoreCategory() async {
+    Map<String, dynamic> updatedFields = {
+      "shopCategoryDeatils": {
+        "category": selectedStoreCategory
+      }
+    };
+    await UserApi.updateSeller(widget.token, widget.id, updatedFields);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,30 +125,27 @@ class _dropDownState extends State<dropDown> {
               print('selected Store Category $value');
               setState(() {
                 selectedStoreCategory = value;
-
-
-
-
+                saveStoreCategory();
               });
               String searchString = 'Food, Snacks & Sweets';
-              print('you have selected $selectedStoreCategory Store Categories.');
+              print(
+                  'you have selected $selectedStoreCategory Store Categories.');
               if (selectedStoreCategory.contains(searchString)) {
                 // foodInformation();
 
                 setState(() {
-                  food_present=true;
+                  food_present = true;
                 });
                 widget.updateInitialValue(food_present);
                 print(food_present);
                 print("food_present");
               } else {
                 setState(() {
-                  food_present=false;
+                  food_present = false;
                 });
                 widget.updateInitialValue(food_present);
                 // print('$searchString not found in the list.');
               }
-
             },
             whenEmpty: 'Select Store Category',
           ),
@@ -130,7 +157,10 @@ class _dropDownState extends State<dropDown> {
 
 
 
+
+
 class dropDown2 extends StatefulWidget {
+
   const dropDown2({Key? key}) : super(key: key);
 
   @override
@@ -138,9 +168,25 @@ class dropDown2 extends StatefulWidget {
 }
 
 class _dropDown2State extends State<dropDown2> {
-  List<String> StoreType = ['Apple', 'Banana', 'Graps', 'Orange', 'Mango'];
+  List<String> StoreType = ["Item 1",
+    "Item 2",
+    "Item 3",
+    "Item 4",
+    "Item 5",
+    "Item 6",
+    "Item 7",
+    "Item 8",
+    "Item 9",
+    "Item 10"];
   List<String> selectedStoreType = [];
-
+  Future<void> saveStoreCategory() async {
+    Map<String, dynamic> updatedFields = {
+      "shopCategoryDeatils": {
+        "storeType": selectedStoreType
+      }
+    };
+    await UserApi.updateSeller(TokenId.token, TokenId.id, updatedFields);
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -157,6 +203,7 @@ class _dropDown2State extends State<dropDown2> {
                 selectedStoreType = value;
               });
               print('you have selected $selectedStoreType Store Types.');
+              saveStoreCategory();
             },
             whenEmpty: 'Select Store Type',
           ),
@@ -205,6 +252,15 @@ class _cuisinesState extends State<cuisines> {
     'Kerala', 'Lucknowi', 'Mexican', 'Maharashtrian', 'Mithai', 'Multi Cuisine', 'North Indian', 'Pacific', 'Pasta', 'Pastry', 'Pizza', 'Rajasthani', 'Russian', 'Salad', 'Seafood', 'Shake', 'Snacks', 'South Indian', 'Turkish', 'Uzbek', 'Vegan', 'Vegetarian', 'World Cuisine', 'Wraps', 'Others'];
   List<String> selectedCuisinesType = [];
 
+
+  Future<void> saveStoreCategory() async {
+    Map<String, dynamic> updatedFields = {
+      "shopCategoryDeatils": {
+        "cusinesOffered": selectedCuisinesType
+      }
+    };
+    await UserApi.updateSeller(TokenId.token, TokenId.id, updatedFields);
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -220,6 +276,7 @@ class _cuisinesState extends State<cuisines> {
                 selectedCuisinesType = value;
               });
               print('you have selected $selectedCuisinesType Cuisine Types.');
+              saveStoreCategory();
             },
             whenEmpty: 'Select Cuisines Type',
           ),
@@ -237,7 +294,14 @@ class RadioExample extends StatefulWidget {
 
 class _RadioExampleState extends State<RadioExample> {
   bool? _isYes;
-
+  Future<void> saveStoreCategory() async {
+    Map<String, dynamic> updatedFields = {
+      "shopCategoryDeatils": {
+        "isPureVeg": _isYes
+      }
+    };
+    await UserApi.updateSeller(TokenId.token, TokenId.id, updatedFields);
+  }
   @override
   Widget build(BuildContext context) {
     return
@@ -260,6 +324,7 @@ class _RadioExampleState extends State<RadioExample> {
                 setState(() {
                   _isYes = value;
                 });
+                saveStoreCategory();
               },
             ),
           ),
