@@ -166,20 +166,20 @@ class UserApi {
 
 
   //get seller data
-  static Future getSeller(id, token) async {
-    final apiUrl = "https://api.pehchankidukan.com/seller/$id";
-    final uri = Uri.parse(apiUrl);
-    final response = await http.get(uri,
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-        'Authentication': 'Bearer $token'
-      },
-    );
-    final body = jsonDecode(response.body);
-    final json = body['data'];
-    Seller seller = Seller.fromJson(json);
-    return seller;
-  }
+  // static Future getSeller(id, token) async {
+  //   final apiUrl = "https://api.pehchankidukan.com/seller/$id";
+  //   final uri = Uri.parse(apiUrl);
+  //   final response = await http.get(uri,
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json',
+  //       'Authentication': 'Bearer $token'
+  //     },
+  //   );
+  //   final body = jsonDecode(response.body);
+  //   final json = body['data'];
+  //   Seller seller = Seller.fromJson(json);
+  //   return seller;
+  // }
 
   // get all orders API
   static Future fetchOrderData() async {
@@ -289,6 +289,9 @@ class UserApi {
     );
     final body = response.body;
     final productJson = jsonDecode(body);
+    print(response.statusCode);
+    print(response);
+    print(productJson['length']);
 
     // print(productJson['data'].length);
     // List<Product> product = productJson['data'].map((e) => Product.fromJson(e)).toList();
@@ -296,7 +299,8 @@ class UserApi {
     List<Product> products = (productJson['data'] as List<dynamic>?)
         ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
         .toList() ?? [];
-    // print(products[0].id);
+    print(products[0].id);
+    print(products.length);
     // print("products[0]");
     return products;
   }

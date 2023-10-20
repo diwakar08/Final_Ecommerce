@@ -35,7 +35,7 @@ class _SubCategory1State extends State<SubCategory1> {
 
   Future<void> getCategories(String category) async {
     print("inside getCAtegories subcat1");
-    print(widget.dummyProductList);
+    print(widget.productName);
     Navigator.push(
       context,
       MaterialPageRoute(

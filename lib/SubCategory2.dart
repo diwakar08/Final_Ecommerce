@@ -79,7 +79,7 @@ class _SubCategory2State1 extends State<SubCategory2> {
             subCategory1: widget.subCat,
             subCategory2: category,
             productDescription: widget.productDescription,
-            productName: widget.productDescription,
+            productName: widget.productName,
           ),
         ),
       );

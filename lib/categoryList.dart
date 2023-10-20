@@ -17,7 +17,8 @@ class Category extends StatefulWidget {
   Category({
     Key? key,
     required this.productName,
-    required this.productDescription, required this.update, required this.stockIO, required this.stockTF, this.quantityPricing, required this.dummyProductList, required this.pid,
+    required this.productDescription, required this.update, required this.stockIO, required this.stockTF,
+    this.quantityPricing, required this.dummyProductList, required this.pid,
   });
 
   @override

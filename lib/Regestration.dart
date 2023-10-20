@@ -100,7 +100,7 @@ class _SellerRegistrationPageState extends State<Regest> {
       "landlineNumber": landlineNoController.text,
       "addressLine": addressController.text
     };
-    await UserApi.updateSeller(widget.token, widget.id, updatedFields);
+    // await UserApi.updateSeller(widget.token, widget.id, updatedFields);
 
     Navigator.push(context, MaterialPageRoute(builder: (context) => BankDetailsForm( token:widget.token, id:widget.id)));
 

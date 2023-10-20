@@ -306,11 +306,11 @@ late List dummyProductList;
   late String Image ;//widget.productImage;
 
   late String pType = 'Veg';
-  var items = [
-    'gm',
-    'ml',
-    'pic',
-  ];
+  // var items = [
+  //   'gm',
+  //   'ml',
+  //   'pic',
+  // ];
   var items2 = [
     'Veg',
     'Non Veg',
@@ -318,7 +318,18 @@ late List dummyProductList;
   ];
 
   String units = 'kg';
-  List<String> dropDownItems = ['kg', 'litre', 'Unit', 'Packet'];
+  List<String> dropDownItems = [
+    "kg",
+    "litre",
+    "piece",
+    "packet",
+    "box",
+    "bottle",
+    "can",
+    "bag",
+    "sack",
+    "tin",
+    "other",];
   // [
   //   {
   //     "quantity": "1",
@@ -393,6 +404,8 @@ late List dummyProductList;
     String token = widget.token;
     String id = widget.id;
     pName.text = widget.productName;
+    print(pName.text);
+    print("pName.text");
 
     pCategory.text = widget.productCategory;
 
@@ -684,7 +697,6 @@ late List dummyProductList;
                                       color: Colors.teal.shade900
                                   )
                               ),
-
                             ),
                           ),
                         ),

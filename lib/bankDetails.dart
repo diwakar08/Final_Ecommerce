@@ -61,7 +61,7 @@ class _BankDetailsFormState extends State<BankDetailsForm> {
 
 
     };
-    await UserApi.updateSeller(widget.token, widget.id, updatedFields);
+    // await UserApi.updateSeller(widget.token, widget.id, updatedFields);
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => MainDashboard( token: widget.token, id: widget.id,)));
   }

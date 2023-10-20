@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'package:http_parser/http_parser.dart';
+import 'package:path/path.dart';
 import 'dart:io';
+import 'package:e_commerce/services/tokenId.dart';
 import 'package:e_commerce/sucessfully_add.dart';
 import 'package:flutter/material.dart';
 import 'add_product.dart';
@@ -42,12 +45,68 @@ class _ReviewListedState extends State<ReviewListed> {
     String token = widget.token;
     String id = widget.id;
 
+
+
+    // Future<void> postProductData() async {
+    //   final url = Uri.parse('https://api.pehchankidukan.com/seller/$id/products');
+    //
+    //   // Create item options
+    //   final itemOptions = widget.itemOptions;
+    //   List<dynamic> itemOptionsMap = itemOptions.map((item) {
+    //     return {
+    //       'mrpPrice': item.price,
+    //       'quantity': item.quantity,
+    //       'unit': item.unit,
+    //       'offerPrice': item.offerPrice,
+    //     };
+    //   }).toList();
+    //   // Create the request body
+    //   // print(pDescription);
+    //   // print(pName);
+    //   // print(pType);
+    //   final requestBody = {
+    //     'productName': pName,
+    //     "images": widget.imageFileList,
+    //     'category': widget.category,
+    //     'subCategory1': widget.subCategory1,
+    //     'subCategory2': widget.subCategory2,
+    //     'description': pDescription,
+    //     'productDetails': itemOptionsMap
+    //   };
+    //
+    //
+    //
+    //   try {
+    //     print(requestBody);
+    //     final response = await http.post(
+    //       url,
+    //       headers: <String, String>{
+    //         'Content-Type': 'Multipart/form-data',
+    //         'Authorization': 'Bearer ${TokenId.token}',
+    //       },
+    //       body: jsonEncode(requestBody),
+    //     );
+    //
+    //     if (response.statusCode == 200) {
+    //       print('POST request successful');
+    //       print('Response: ${response.body}');
+    //     } else {
+    //       print('Failed to make POST request: ${response.statusCode}');
+    //       print('Response: ${response.body}');
+    //     }
+    //   } catch (error) {
+    //     print('Error: $error');
+    //   }
+    // }
+
+
+
     Future<void> postProductData() async {
       final url = Uri.parse('https://api.pehchankidukan.com/seller/$id/products');
 
       // Create item options
       final itemOptions = widget.itemOptions;
-      List<Map<String, dynamic>> itemOptionsMap = itemOptions.map((item) {
+      List<dynamic> itemOptionsMap = itemOptions.map((item) {
         return {
           'mrpPrice': item.price,
           'quantity': item.quantity,
@@ -55,42 +114,49 @@ class _ReviewListedState extends State<ReviewListed> {
           'offerPrice': item.offerPrice,
         };
       }).toList();
-      // Create the request body
-      // print(pDescription);
-      // print(pName);
-      // print(pType);
-      final requestBody = {
-        'productName': pName,
-        'subCategory2': widget.subCategory2,
-        'description': pDescription,
-        'productDetails': itemOptionsMap
-      };
-
-
 
       try {
-        print(requestBody);
-        final response = await http.post(
-          url,
-          headers: <String, String>{
-            'Content-Type': 'application/json',
-            'Authentication': 'Bearer $token',
-          },
-          body: jsonEncode(requestBody),
-        );
+        var request = http.MultipartRequest('POST', url);
+
+        request.headers['Authorization'] = 'Bearer ${TokenId.token}';
+
+        // Add text fields to the request
+        // request.fields['productName'] = pName;
+        // request.fields['category'] = widget.category;
+        // request.fields['subCategory1'] = widget.subCategory1;
+        // request.fields['subCategory2'] = widget.subCategory2;
+        // request.fields['description'] = pDescription;
+        // Add each image file to the request
+        if(widget.imageFileList != null)
+        for (var imageFile in widget.imageFileList!) {
+          int length = await imageFile.length();
+          String fileName = basename(imageFile.path);
+          request.files.add(http.MultipartFile(
+            'images', // Field name in the form
+            imageFile.readAsBytes().asStream(),
+            length,
+            filename: fileName,
+            contentType: MediaType('image', 'jpeg'), // Adjust content type accordingly
+          ));
+        }
+
+        // Add the product details
+        // request.fields['productDetails'] = jsonEncode(itemOptionsMap);
+
+        // Send the request
+        final response = await request.send();
 
         if (response.statusCode == 200) {
           print('POST request successful');
-          print('Response: ${response.body}');
+          print('Response: ${await response.stream.bytesToString()}');
         } else {
           print('Failed to make POST request: ${response.statusCode}');
-          print('Response: ${response.body}');
+          print('Response: ${await response.stream.bytesToString()}');
         }
       } catch (error) {
         print('Error: $error');
       }
     }
-
 
 
     return Scaffold(
@@ -124,10 +190,6 @@ class _ReviewListedState extends State<ReviewListed> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-
-
-
 
               Container(
                 height: 45,

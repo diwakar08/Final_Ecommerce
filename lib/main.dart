@@ -2,8 +2,10 @@
 import 'package:e_commerce/seller_dashboard.dart';
 import 'package:e_commerce/seller_login.dart';
 import 'package:flutter/material.dart';
+// import 'dart:ui_web' show debugEmulateFlutterTesterEnvironment;
 
 void main() {
+  // debugEmulateFlutterTesterEnvironment = true;
   runApp(const MyApp());
 }
 

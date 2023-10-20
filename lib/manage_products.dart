@@ -387,9 +387,9 @@ class _ManageProductsState extends State<ManageProducts> {
                                                               //     .image
                                                               //     .toString(),
                                                               productCategory:
-                                                              '',
+                                                              prod!.category,
                                                               productSubCategory1:
-                                                              '',
+                                                              prod!.subCategory1,
                                                               productSubCategory2:
                                                               prod!.subCategory2,
 
@@ -521,9 +521,9 @@ class _ManageProductsState extends State<ManageProducts> {
                                                                   //     .image
                                                                   //     .toString(),
                                                                   productCategory:
-                                                                  '',
+                                                                  prod!.category,
                                                                   productSubCategory1:
-                                                                  '',
+                                                                  prod!.subCategory1,
                                                                   productSubCategory2:
                                                                   prod!.subCategory2,
 
