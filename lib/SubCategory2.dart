@@ -17,6 +17,7 @@ class SubCategory2 extends StatefulWidget {
   final String pid;
   final bool stockTF;
   final List dummyProductList;
+  final List<ItemOption> itemOptions;
   final bool update;
   SubCategory2(
       {Key? key,
@@ -27,7 +28,7 @@ class SubCategory2 extends StatefulWidget {
         required this.update,
         required this.stockTF,
         required this.stockIO,
-        required this.dummyProductList, required this.pid
+        required this.dummyProductList, required this.pid, required this.itemOptions
       });
 
  @override
@@ -69,6 +70,8 @@ class _SubCategory2State1 extends State<SubCategory2> {
         ),
       );
     } else {
+      print(widget.productName);
+      print("widget.productNamesubcat2");
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -79,7 +82,7 @@ class _SubCategory2State1 extends State<SubCategory2> {
             subCategory1: widget.subCat,
             subCategory2: category,
             productDescription: widget.productDescription,
-            productName: widget.productName,
+            productName: widget.productName, productDetails: [],itemOptions: widget.itemOptions,
           ),
         ),
       );

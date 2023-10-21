@@ -54,7 +54,17 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
     unit: 'kg',
     offerPrice: '',
   );
-  List<String> dropDownItems = ['kg', 'litre', 'piece', 'packet', 'sack'];
+  List<String> dropDownItems = ["kg",
+    "litre",
+    "piece",
+    "packet",
+    "box",
+    "bottle",
+    "can",
+    "bag",
+    "sack",
+    "tin",
+    "other",];
 
   void addOption() {
     widget.onOptionAdded(newItem);
@@ -251,6 +261,8 @@ class AddProduct extends StatefulWidget {
   String category = '';
   String subCategory1 = '';
   String subCategory2 = '';
+  final List productDetails;
+  final List<ItemOption> itemOptions;
   AddProduct(
       {Key? key,
         required this.token,
@@ -259,7 +271,8 @@ class AddProduct extends StatefulWidget {
         required this.subCategory1,
         required this.subCategory2,
         required this.productName,
-        required this.productDescription})
+        required this.productDescription,
+        required this.productDetails, required this.itemOptions})
       : super(key: key);
 
   @override
@@ -300,6 +313,11 @@ class _AddProductState extends State<AddProduct> {
   void valueUpdate(String pname, String desc) {
     productNameContt.text = pname;
     productDescriptionContt.text = desc;
+    productDescriptionContt.text=widget.productDescription;
+    productNameContt.text=widget.productName;
+    setState(() {
+      itemOptions=widget.itemOptions;
+    });
   }
 
   @override
@@ -331,11 +349,11 @@ class _AddProductState extends State<AddProduct> {
                 ),
               ),
             ),
-            Expanded(
-                child: Icon(
-                  Icons.add_circle_outline,
-                  color: Colors.white,
-                )),
+            // Expanded(
+            //     child: Icon(
+            //       Icons.add_circle_outline,
+            //       color: Colors.white,
+            //     )),
             CircleAvatar(
               backgroundColor: Colors.red.shade100,
               backgroundImage: AssetImage('assets/images/avatar.png'),
@@ -451,13 +469,14 @@ class _AddProductState extends State<AddProduct> {
                       ),
                       InkWell(
                         onTap: () {
+                          // updateDummyList();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => Category(
-                                productName: productName,
-                                productDescription: productDescription,
-                                update:false, stockIO: '', stockTF: false, dummyProductList: [], pid: '',
+                                productName: productNameContt.text,
+                                productDescription: productDescriptionContt.text,
+                                update:false, stockIO: '', stockTF: false, itemOptions: itemOptions, pid: '', dummyProductList: [],
                               ), //changed
                             ),
                           );

@@ -121,11 +121,11 @@ class _ReviewListedState extends State<ReviewListed> {
         request.headers['Authorization'] = 'Bearer ${TokenId.token}';
 
         // Add text fields to the request
-        // request.fields['productName'] = pName;
-        // request.fields['category'] = widget.category;
-        // request.fields['subCategory1'] = widget.subCategory1;
-        // request.fields['subCategory2'] = widget.subCategory2;
-        // request.fields['description'] = pDescription;
+        request.fields['productName'] = pName;
+        request.fields['category'] = widget.category;
+        request.fields['subCategory1'] = widget.subCategory1;
+        request.fields['subCategory2'] = widget.subCategory2;
+        request.fields['description'] = pDescription;
         // Add each image file to the request
         if(widget.imageFileList != null)
         for (var imageFile in widget.imageFileList!) {
@@ -141,7 +141,7 @@ class _ReviewListedState extends State<ReviewListed> {
         }
 
         // Add the product details
-        // request.fields['productDetails'] = jsonEncode(itemOptionsMap);
+        request.fields['productDetails'] = itemOptionsMap as String;
 
         // Send the request
         final response = await request.send();

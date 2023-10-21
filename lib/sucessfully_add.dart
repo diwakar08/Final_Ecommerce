@@ -83,11 +83,11 @@ class _SuccessfulAddState extends State<SuccessfulAdd> {
                     Container(
                       height: 23,
                       width: 23,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.all(Radius.circular(6))
                       ),
-                      child: Center(child: Text('3',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
+                      child: const Center(child: Text('3',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
                     ),
                     //Text('Add Product',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15,fontFamily: 'Poppins', ),),
                   ],
@@ -95,12 +95,12 @@ class _SuccessfulAddState extends State<SuccessfulAdd> {
               ),
 
               Container(
-                margin: EdgeInsets.only(right: 20, left: 20, top: 30,bottom: 30),
+                margin: const EdgeInsets.only(right: 20, left: 20, top: 30,bottom: 30),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      child: Text(
+                      child: const Text(
                         'Successfully Listed',
                         style: TextStyle(
                             fontSize: 25,
@@ -116,13 +116,13 @@ class _SuccessfulAddState extends State<SuccessfulAdd> {
 
 
               CircleAvatar(
-                backgroundImage: AssetImage('assets/images/done.webp'),
+                backgroundImage: const AssetImage('assets/images/done.webp'),
                 backgroundColor: Colors.lightBlue.shade100,
                 radius: 50,
 
               ),
               Container(
-                child: Text(
+                child: const Text(
                   'Done',
                   style: TextStyle(
                       fontSize: 15,
@@ -136,23 +136,26 @@ class _SuccessfulAddState extends State<SuccessfulAdd> {
 
               Container(
                 width: double.maxFinite,
-                margin: EdgeInsets.only(left: 20,right: 20,top: 30,bottom: 10),
+                margin: const EdgeInsets.only(left: 20,right: 20,top: 30,bottom: 10),
                 child: MaterialButton(onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddProduct(token:token, id:id, category: '', subCategory1: '', subCategory2: '', productName: '', productDescription: '',),));
-                }, child: Text('+ Add more product',style: TextStyle(color: Colors.white,fontSize: 18),)
-                  ,color: Colors.lightBlue.shade700,
-                  height: 40,
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddProduct(token:token, id:id, category: '',
+                    subCategory1: '', subCategory2: '', productName: '', productDescription: '', productDetails: [],
+                    itemOptions: [],),
+                  ));
+                },color: Colors.lightBlue.shade700,
+                  height: 40, child: Text('+ Add more product',style: TextStyle(color: Colors.white,fontSize: 18),)
+                  ,
                 ),
               ),
               Container(
                 width: double.maxFinite,
-                margin: EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 30),
+                margin: const EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 30),
 
                 child: MaterialButton(onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => SellerDashboard(token:token,id:id),));
-                }, child: Text('Go To Dashboard',style: TextStyle(color: Colors.white,fontSize: 18),)
-                  ,color: Colors.lightBlue.shade500,
-                  height: 40,
+                },color: Colors.lightBlue.shade500,
+                  height: 40, child: Text('Go To Dashboard',style: TextStyle(color: Colors.white,fontSize: 18),)
+                  ,
                 ),
               )
             ],

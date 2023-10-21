@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:e_commerce/subCategory2.dart'; // Make sure to import the correct SubCategory2 widget.
 import 'package:http/http.dart' as http;
 
+import 'add_product.dart';
+
 class SubCategory1 extends StatefulWidget {
   final String cat;
   final String pid;
@@ -12,14 +14,15 @@ class SubCategory1 extends StatefulWidget {
   final bool update;
   final String stockIO;
   final bool stockTF;
-  final dummyProductList;
+  final List dummyProductList;
+  final List<ItemOption> itemOptions;
 
   SubCategory1(
       {Key? key,
         required this.cat,
-        required this.productName,
-        required this.productDescription,
-        required this.update, required this.stockIO, required this.stockTF, this.dummyProductList, required this.pid
+        required this.productName, required this.productDescription,
+        required this.update, required this.stockIO, required this.stockTF,
+        required this.dummyProductList, required this.pid, required this.itemOptions
       });
 
   @override
@@ -49,6 +52,7 @@ class _SubCategory1State extends State<SubCategory1> {
           stockTF: widget.stockTF,
           stockIO: widget.stockIO,
           dummyProductList: widget.dummyProductList,
+          itemOptions: widget.itemOptions,
 
         ),
       ),

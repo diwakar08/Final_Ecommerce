@@ -22,6 +22,10 @@ class SellerDashboard extends StatefulWidget {
 }
 
 class _SellerDashboardState extends State<SellerDashboard> {
+
+
+
+
   @override
   Widget build(BuildContext context) {
     var token = widget.token;
@@ -300,7 +304,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                   subCategory1: '',
                                   subCategory2: '',
                                   productName: '',
-                                  productDescription: '',
+                                  productDescription: '', productDetails: [], itemOptions: [],
                                 ),
                               ));
                         },
@@ -480,8 +484,9 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                           flex: 5,
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Image.asset(
-                                                'assets/images/g3.png'),
+                                            child: (prod!.images.length>0)? Image.network(prod!.images[0],height:150,width:80):
+                                            Image.network(
+                                                'https://source.unsplash.com/random/?food',height:150,width:80)
                                           )),
                                       Expanded(
                                           flex: 2,
@@ -621,13 +626,14 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
-                                    children: [
+                                    children:[
                                       Expanded(
                                           flex: 5,
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Image.asset(
-                                                'assets/images/g1.png'),
+                                            child: (prod!.images.length>0)? Image.network(prod!.images[0], height:150,width:80):
+                                            Image.network(
+                                                'https://source.unsplash.com/random/900×700/?food',height:150,width:80)
                                           )),
                                       Expanded(
                                           flex: 2,

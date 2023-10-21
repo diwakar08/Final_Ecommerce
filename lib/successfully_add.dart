@@ -165,7 +165,7 @@ class _SuccessfulAddState extends State<SuccessfulAdd> {
                             subCategory1: '',
                             subCategory2: '',
                             productName: '',
-                            productDescription: '',
+                            productDescription: '', productDetails: [], itemOptions: [],
                           ),
                         ));
                   },

@@ -5,6 +5,8 @@ import 'package:e_commerce/subCategory1.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'add_product.dart';
+
 class Category extends StatefulWidget {
   final String productName;
   final String pid;
@@ -14,11 +16,12 @@ class Category extends StatefulWidget {
   final bool stockTF;
   final quantityPricing;
   final List dummyProductList;
+  final List<ItemOption> itemOptions;
   Category({
     Key? key,
     required this.productName,
     required this.productDescription, required this.update, required this.stockIO, required this.stockTF,
-    this.quantityPricing, required this.dummyProductList, required this.pid,
+    this.quantityPricing, required this.dummyProductList, required this.pid, required this.itemOptions,
   });
 
   @override
@@ -33,7 +36,8 @@ class _CategoryState extends State<Category> {
   List<String> categoryCodes = [];
 
   Future<void> getCategories(String category) async {
-
+      print(widget.productName);
+      print("widget.productNamecategoryme");
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -42,7 +46,9 @@ class _CategoryState extends State<Category> {
             productDescription: widget.productDescription,
             productName: widget.productName,
             update:widget.update, stockIO: widget.stockIO, stockTF: widget.stockTF,
-              dummyProductList:widget.dummyProductList, pid: widget.pid,
+              dummyProductList:widget.dummyProductList,
+            itemOptions:widget.itemOptions,
+            pid: widget.pid,
           ),
         ));
   }

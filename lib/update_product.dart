@@ -6,6 +6,7 @@ import 'package:e_commerce/services/tokenId.dart';
 import 'package:e_commerce/sucessfully_add.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'add_product.dart';
 import 'apis/ProductModel.dart';
 import 'categoryList.dart';
 import 'main.dart';
@@ -13,28 +14,28 @@ import 'main_dashboard.dart';
 import 'package:http/http.dart' as http;
 
 
-class ItemOption {
-  String price;
-  String quantity;
-  String unit;
-  String offerPrice;
-
-  ItemOption({
-    required this.price,
-    required this.quantity,
-    required this.unit,
-    required this.offerPrice,
-  });
-
-  Map<String, dynamic> toJson() {
-    return {
-      'price': price,
-      'quantity': quantity,
-      'unit': unit,
-      'offerPrice': offerPrice,
-    };
-  }
-}
+// class ItemOption {
+//   String price;
+//   String quantity;
+//   String unit;
+//   String offerPrice;
+//
+//   ItemOption({
+//     required this.price,
+//     required this.quantity,
+//     required this.unit,
+//     required this.offerPrice,
+//   });
+//
+//   Map<String, dynamic> toJson() {
+//     return {
+//       'price': price,
+//       'quantity': quantity,
+//       'unit': unit,
+//       'offerPrice': offerPrice,
+//     };
+//   }
+// }
 
 class PriceQuantitySpinnerRow extends StatefulWidget {
   final List<ItemOption> options;
@@ -60,7 +61,17 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
     unit: 'kg',
     offerPrice: '',
   );
-  List<String> dropDownItems = ['kg', 'litre', 'unit', 'packet'];
+  List<String> dropDownItems = ["kg",
+    "litre",
+    "piece",
+    "packet",
+    "box",
+    "bottle",
+    "can",
+    "bag",
+    "sack",
+    "tin",
+    "other",];
 
 
   void addOption() {
@@ -579,7 +590,7 @@ late List dummyProductList;
                                   productDescription: description.text,
                                   update:true, stockIO: widget.stockIO, stockTF: widget.stockTF,
                                     dummyProductList: dummyProductList,
-                                  pid:widget.pid
+                                  pid:widget.pid, itemOptions: [],
                                 ), //changed
                               ),
                             );
@@ -993,6 +1004,7 @@ late List dummyProductList;
     print(dummyProductList.length);
     if(toSave)
     {
+      print("updatinggggg");
       await UserApi.updateProduct(pName.text, pCategory.text, pSCategory2.text,
           pSCategory2.text, description.text, token, id, pid, dummyProductList);
 

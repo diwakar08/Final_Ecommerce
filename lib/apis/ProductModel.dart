@@ -38,7 +38,7 @@ class Product {
   String category;
   String subCategory1;
   String subCategory2;
-  List<String> image;
+  List<String> images;
   String description;
   String quantityType;
   double mrpPrice;
@@ -58,7 +58,7 @@ class Product {
     required this.category,
     required this.subCategory1,
     required this.subCategory2,
-    required this.image,
+    required this.images,
     required this.description,
     required this.quantityType,
     required this.mrpPrice,
@@ -97,7 +97,7 @@ class Product {
       productName: json['productName'] ?? "",
       sellerID: json['sellerID'] ?? "",
       category: json['category'] ?? "",
-      image: json['image'] != null ? List<String>.from(json['image']) : [],
+      images: json['images'] != null ? List<String>.from(json['images']) : [],
       description: json['description'] ?? "",
       quantityType: json['quantityType'] ?? "",
       mrpPrice: (json['mrpPrice'] as num?)?.toDouble() ?? 0.0,

@@ -202,7 +202,7 @@ class UserApi {
       "category": product.category,
       "subCategory1": product.subCategory1,//"product.subCategory2",
       "subCategory2": product.subCategory2,//"product.subCategory2",
-      "image": product.image,
+      "image": product.images,
       "description": product.description,
       "quantityType": product.quantityType,
       "mrpPrice": product.mrpPrice,
@@ -277,10 +277,10 @@ class UserApi {
 
 
   static Future<List<Product>> getProducts(token, id) async {
-    print("called getProducts function");
+    print("called getProducts12 function");
     print("id-$id");
     print("token-$token");
-    final uri = Uri.parse('https://api.pehchankidukan.com/seller/$id/products');
+    final uri = Uri.parse('https://api.pehchankidukan.com/seller/$id/products?limit=30');
     final response = await http.get(uri,
       headers: <String, String>{
         'Content-Type': 'application/json',
@@ -292,6 +292,8 @@ class UserApi {
     print(response.statusCode);
     print(response);
     print(productJson['length']);
+    // print(productJson['data']['images']);
+    // print('productJson[]');
 
     // print(productJson['data'].length);
     // List<Product> product = productJson['data'].map((e) => Product.fromJson(e)).toList();
@@ -299,7 +301,7 @@ class UserApi {
     List<Product> products = (productJson['data'] as List<dynamic>?)
         ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
         .toList() ?? [];
-    print(products[0].id);
+    print(products[products.length-2].images[0]);
     print(products.length);
     // print("products[0]");
     return products;
