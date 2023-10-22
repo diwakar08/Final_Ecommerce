@@ -154,7 +154,9 @@ class UserApi {
       headers: headers,
       body: json.encode(updatedFields),
     );
-
+      final data = jsonDecode(response.body);
+      print("data");
+      print(data);
     if (response.statusCode == 200) {
       print('Seller updated successfully');
     } else {
@@ -280,7 +282,7 @@ class UserApi {
     print("called getProducts12 function");
     print("id-$id");
     print("token-$token");
-    final uri = Uri.parse('https://api.pehchankidukan.com/seller/$id/products?limit=30');
+    final uri = Uri.parse('https://api.pehchankidukan.com/seller/$id/products');
     final response = await http.get(uri,
       headers: <String, String>{
         'Content-Type': 'application/json',
@@ -290,8 +292,8 @@ class UserApi {
     final body = response.body;
     final productJson = jsonDecode(body);
     print(response.statusCode);
-    print(response);
-    print(productJson['length']);
+    print(productJson);
+    // print(productJson['length']);
     // print(productJson['data']['images']);
     // print('productJson[]');
 
@@ -301,8 +303,8 @@ class UserApi {
     List<Product> products = (productJson['data'] as List<dynamic>?)
         ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
         .toList() ?? [];
-    print(products[products.length-2].images[0]);
-    print(products.length);
+    // print(products[products.length-2].images[0]);
+    // print(products.length);
     // print("products[0]");
     return products;
   }

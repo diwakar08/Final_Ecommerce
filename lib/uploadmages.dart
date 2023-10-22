@@ -1,3 +1,4 @@
+import 'package:e_commerce/main_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -12,21 +13,19 @@ class BankDetailsApp1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Bank Details Form',
+      title: 'Upload images',
       debugShowCheckedModeBanner: false,
-      home: UploadImages(seller: UpdateSeller(), token: '', id: '',),
+      home: UploadImages( token: '', id: '',),
     );
   }
 }
 
 class UploadImages extends StatefulWidget {
   final String token, id;
-  late UpdateSeller seller ;
-  UploadImages({required this.seller, required this.token, required this.id});
+  UploadImages({ required this.token, required this.id});
   @override
   _BankDetailsFormState createState() => _BankDetailsFormState();
 }
-
 class _BankDetailsFormState extends State<UploadImages> {
   final TextEditingController bankAccountController = TextEditingController();
   final TextEditingController ifscController = TextEditingController();
@@ -158,6 +157,8 @@ class _BankDetailsFormState extends State<UploadImages> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => MainDashboard( token: widget.token, id: widget.id,)));
                       // Process the form data and perform submission
                       // You can access the entered data using the controllers
                     },
@@ -274,6 +275,7 @@ Future<void> _getCancelledCheckImage() async {
 
     if (response.statusCode == 200) {
       // Successfully uploaded the image
+
       print('Image uploaded');
     } else {
       // Handle the error, e.g., show an error message

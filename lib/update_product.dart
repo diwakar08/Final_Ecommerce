@@ -501,12 +501,9 @@ late List dummyProductList;
                                   activeColor: Colors.red,
                                   value: _switchValue,
                                   onChanged: (bool value) {
-                                    setState(() {
                                       s = value == false ? 'In stock' : 'Out of stock';
                                       _switchValue = value;
-
-                                    });
-                                    stockUpdate();
+                                    updateStock(value);
                                   },
                                 ),
                                 Container(
@@ -990,7 +987,41 @@ late List dummyProductList;
         );
     }
 
+//update Stock only
+  Future<void> updateStock(bool value) async {
+    print(value);
+    print("value");
+    print(widget.pid);
+    final apiUrl = 'https://api.pehchankidukan.com/seller/${TokenId.id}/products/${widget.pid}';
 
+    final Map<String, dynamic> productJson ;
+    if (value==true)
+      productJson = {"inStock":"true"}; else productJson = {"inStock":"false"};
+    var uri = Uri.parse(apiUrl);
+    try {
+      final response = await http.put(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${TokenId.token}'
+        },
+        body: jsonEncode(productJson),
+      );
+
+      if (response.statusCode == 200) {
+        print("product updated succesfully");
+
+      } else {
+        print('Failed to update product. Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+      }
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+
+    });
+  }
 
   Future<void> saveProductData(TextEditingController pName, TextEditingController pSCategory2,
       TextEditingController description,String token, String id, String pid, dummyProductList, toSave) async{

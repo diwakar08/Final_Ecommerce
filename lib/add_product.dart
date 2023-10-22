@@ -356,7 +356,7 @@ class _AddProductState extends State<AddProduct> {
             //     )),
             CircleAvatar(
               backgroundColor: Colors.red.shade100,
-              backgroundImage: AssetImage('assets/images/avatar.png'),
+              backgroundImage: AssetImage('assets/images/a1.png'),
               radius: 18,
             ),
           ],

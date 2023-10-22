@@ -398,6 +398,7 @@ import 'package:e_commerce/services/User_api.dart';
 import 'package:e_commerce/services/tokenId.dart';
 import 'package:e_commerce/shopTime_weekDays_class.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 // import 'package:flutter_project/shopTime_weekDays_class.dart';
 
 var open_time_controller = TextEditingController();
@@ -795,6 +796,33 @@ class _SimpleCustomAlertState extends State<SimpleCustomAlert> {
     );
   }
 
+  String timeToIso(String timee) {
+    try {
+      // print("isoFormatasdfasdfadsfasdfasdfadsfadsfasdfasdfasdfadsfadsfasdfasdfafasdfasdfasfdasf");
+      String staticDate = "2023-10-20";
+
+      // Your time string
+      String timeString = timee;
+
+      // Combine the static date and time string
+      String dateTimeString = "$staticDate $timeString";
+
+      // Parse the combined string and format it to ISO 8601
+      DateTime dateTime = DateFormat("yyyy-MM-dd hh:mm a").parse(dateTimeString);
+      String isoFormat = dateTime.toIso8601String();
+
+      // print(isoFormat); // Print the ISO 8601 date and time
+      // print("isoFormatasdfasdfadsfasdfasdfadsfadsfasdfasdfasdfadsfadsfasdfasdfafasdfasdfasfdasf"); // Print the ISO 8601 date and time
+      return isoFormat;
+    } catch (e) {
+      print("Error: $e");
+      return "null"; // Return null in case of an error
+    }
+  }
+
+
+
+
   Future<void> postShopTime (List<String> selectedOffWeekdays, List<String> selectedWeekdays,
       List<List<String>> otherSelectedWeekdays, List<TextEditingController> other_open_time_controllers,
       List<TextEditingController> other_close_time_controllers, TextEditingController open_time_controller,
@@ -804,15 +832,15 @@ class _SimpleCustomAlertState extends State<SimpleCustomAlert> {
     Map<String, dynamic> updatedFields = {
         "shopTimings":[{
           'day': selectedWeekdays[0],
-          'openingTime': open_time_controller.text,
-          'closingTime': close_time_controller.text,
+          'openingTime': timeToIso(open_time_controller.text),
+          'closingTime': timeToIso(close_time_controller.text),
         }]
     };
     for(int i=1;i<selectedWeekdays.length;i++) {
       updatedFields['shopTimings'].add({
         'day': selectedWeekdays[i],
-        'openingTime': open_time_controller.text,
-        'closingTime': close_time_controller.text,
+        'openingTime': timeToIso(open_time_controller.text),
+        'closingTime': timeToIso(close_time_controller.text),
       });
     }
     // List<Map<String, dynamic>> shopTimings;
@@ -821,12 +849,13 @@ class _SimpleCustomAlertState extends State<SimpleCustomAlert> {
         for(int j=0;j<otherSelectedWeekdays[i].length;j++) {
           updatedFields['shopTimings'].add({
             'day': otherSelectedWeekdays[i][j],
-            'openingTime': other_open_time_controllers[i].text,
-            'closingTime': other_close_time_controllers[i].text,
+            'openingTime': timeToIso(other_open_time_controllers[i].text),
+            'closingTime': timeToIso(other_close_time_controllers[i].text),
           });
         }
     }
-
+// print(updatedFields);
+// print("updatedFields");
     await UserApi.updateSeller(token, id, updatedFields);
   }
 }

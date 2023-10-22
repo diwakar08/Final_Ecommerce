@@ -376,13 +376,10 @@ class _ManageProductsState extends State<ManageProducts> {
                                                           activeColor: Colors.red,
                                                           value: prod!.inStock,
                                                           onChanged: (bool value) {
-                                                            updateStock(value, prod!.id);
-                                                            setState(() {
+
                                                               s = value == false ? 'In stock' : 'Out of stock';
                                                               _switchValue = value;
-
-                                                            });
-                                                            stockUpdate();
+                                                              updateStock(value, prod!.id);
                                                           },
                                                         ),
                                                         Expanded(
@@ -409,9 +406,9 @@ class _ManageProductsState extends State<ManageProducts> {
                                                     child: Row(
                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: [
-                                                        (prod!.images.length>0)? Image.network(prod!.images[0], height:150,width:80):
-                                                        Image.network(
-                                                            'https://source.unsplash.com/random/900×700/?food',height:150,width:80),
+                                                        (prod!.images.length>0)? Image.asset('assets/images/a1.jpg', height:150,width:80):
+                                                        Image.asset(
+                                                            'assets/images/a3.jpg',height:150,width:80),
                                                         Column(
                                                           children: [
                                                             Expanded(
@@ -491,7 +488,7 @@ class _ManageProductsState extends State<ManageProducts> {
                                                               color: Colors.lightBlue.shade400,
                                                               onPressed: (){
                                                                 Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(
-                                                                  pid:prod.id,
+                                                                  pid:prod!.id,
                                                                   token: token,
                                                                   id: id,
                                                                   productName: prod!
@@ -508,7 +505,7 @@ class _ManageProductsState extends State<ManageProducts> {
 
                                                                   quantityPricing: prod!
                                                                       .productDetails,
-                                                                  stockTF: true,
+                                                                  stockTF: prod!.inStock,
                                                                   stockIO: s,
                                                                   // productType: prod!
                                                                   //     .productType,
@@ -586,13 +583,14 @@ class _ManageProductsState extends State<ManageProducts> {
   }
   //update Stock only
   Future<void> updateStock(bool value, ppid) async {
-    print(value);
-    print(ppid);
+    // print(value);
+    // print("value");
+    // print(ppid);
     final apiUrl = 'https://api.pehchankidukan.com/seller/${TokenId.id}/products/$ppid';
 
-    final Map<String, dynamic> productJson = {
-      "inStock":value
-    };
+    final Map<String, dynamic> productJson ;
+    if (value==true)
+      productJson = {"inStock":"true"}; else productJson = {"inStock":"false"};
     var uri = Uri.parse(apiUrl);
     try {
       final response = await http.put(
@@ -614,5 +612,8 @@ class _ManageProductsState extends State<ManageProducts> {
     } catch (e) {
       print(e);
     }
+  setState(() {
+
+  });
   }
 }

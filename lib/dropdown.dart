@@ -4,69 +4,7 @@ import 'package:e_commerce/services/User_api.dart';
 import 'package:e_commerce/services/tokenId.dart';
 import 'package:flutter/material.dart';
 import 'package:multiselect/multiselect.dart';
-
 import 'Regestration.dart';
-
-// var initialValue;
-// bool food_present=false;
-//
-// class dropDown extends StatefulWidget {
-//
-//   const dropDown({Key? key}) : super(key: key);
-//
-//   @override
-//   State<dropDown> createState() => _dropDownState();
-// }
-//
-// class _dropDownState extends State<dropDown> {
-//   List<String> StoreCategory = ['Grocery & Essentials', 'Fruits & Vegetables', 'Personal Care', 'Dairy Products', 'Food, Snacks & Sweets', 'Bakery & Namkeen', 'Electricals & Electronics', 'Books & Stationery', 'Gifts & Toys', 'Art & Decoration', 'Home & Office', 'Pharma', 'Wellness & Fitness', 'Pet Care', 'Sanitary & Hardware', 'Fashion', 'Others'];
-//   List<String> selectedStoreCategory = [];
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     // var isFood=
-//     return Column(
-//       children: [
-//
-//         Container(
-//           width: 400,
-//           child: DropDownMultiSelect(
-//             options: StoreCategory,
-//             selectedValues: selectedStoreCategory,
-//             onChanged: (value) {
-//               print('selected Store Category $value');
-//               setState(() {
-//                 selectedStoreCategory = value;
-//
-//
-//
-//
-//               });
-//               String searchString = 'Food, Snacks & Sweets';
-//               print('you have selected $selectedStoreCategory Store Categories.');
-//               if (selectedStoreCategory.contains(searchString)) {
-//                 // foodInformation();
-//                 food_present=true;
-//                setState(() {
-//
-//                });
-//                 print(food_present);
-//                 print("food_present");
-//               } else {
-//                 // print('$searchString not found in the list.');
-//               }
-//
-//             },
-//             whenEmpty: 'Select Store Category',
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
-
-
 
 class dropDown extends StatefulWidget {
   final bool initialValue;
@@ -101,8 +39,10 @@ class _dropDownState extends State<dropDown> {
   List<String> selectedStoreCategory = [];
 
   Future<void> saveStoreCategory() async {
+    print(selectedStoreCategory);
+    print("selectedStoreCategory");
     Map<String, dynamic> updatedFields = {
-      "shopCategoryDeatils": {
+      "shopCategoryDetails": {
         "category": selectedStoreCategory
       }
     };
@@ -179,9 +119,9 @@ class _dropDown2State extends State<dropDown2> {
     "Item 9",
     "Item 10"];
   List<String> selectedStoreType = [];
-  Future<void> saveStoreCategory() async {
+  Future<void> saveStoreType() async {
     Map<String, dynamic> updatedFields = {
-      "shopCategoryDeatils": {
+      "shopCategoryDetails": {
         "storeType": selectedStoreType
       }
     };
@@ -203,7 +143,7 @@ class _dropDown2State extends State<dropDown2> {
                 selectedStoreType = value;
               });
               print('you have selected $selectedStoreType Store Types.');
-              saveStoreCategory();
+              saveStoreType();
             },
             whenEmpty: 'Select Store Type',
           ),
@@ -255,7 +195,7 @@ class _cuisinesState extends State<cuisines> {
 
   Future<void> saveStoreCategory() async {
     Map<String, dynamic> updatedFields = {
-      "shopCategoryDeatils": {
+      "shopCategoryDetails": {
         "cusinesOffered": selectedCuisinesType
       }
     };
@@ -295,11 +235,20 @@ class RadioExample extends StatefulWidget {
 class _RadioExampleState extends State<RadioExample> {
   bool? _isYes;
   Future<void> saveStoreCategory() async {
-    Map<String, dynamic> updatedFields = {
-      "shopCategoryDeatils": {
-        "isPureVeg": _isYes
+    Map<String, dynamic> updatedFields ;
+    if(_isYes==true) {
+      updatedFields = {
+      "shopCategoryDetails": {
+        "isPureVeg":"true"
       }
     };
+    } else {
+      updatedFields = {
+        "shopCategoryDetails": {
+          "isPureVeg":"false"
+        }
+      };
+    }
     await UserApi.updateSeller(TokenId.token, TokenId.id, updatedFields);
   }
   @override
@@ -323,8 +272,9 @@ class _RadioExampleState extends State<RadioExample> {
               onChanged: (bool? value) {
                 setState(() {
                   _isYes = value;
+                  saveStoreCategory();
                 });
-                saveStoreCategory();
+
               },
             ),
           ),
@@ -336,6 +286,7 @@ class _RadioExampleState extends State<RadioExample> {
               onChanged: (bool? value) {
                 setState(() {
                   _isYes = value;
+                  saveStoreCategory();
                 });
               },
             ),

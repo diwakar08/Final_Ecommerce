@@ -569,8 +569,6 @@ class _SellerRegistrationPageState extends State<Regest> {
                             print('success');
                             postPersonalDetails();
                         }
-
-
                         },
                         child: const Text('Register'
                       ),

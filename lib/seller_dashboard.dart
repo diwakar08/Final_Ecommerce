@@ -485,8 +485,8 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: (prod!.images.length>0)? Image.network(prod!.images[0],height:150,width:80):
-                                            Image.network(
-                                                'https://source.unsplash.com/random/?food',height:150,width:80)
+                                            Image.asset(
+                                                'assets/images/a3.jpg',height:150,width:80)
                                           )),
                                       Expanded(
                                           flex: 2,
@@ -632,8 +632,8 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: (prod!.images.length>0)? Image.network(prod!.images[0], height:150,width:80):
-                                            Image.network(
-                                                'https://source.unsplash.com/random/900×700/?food',height:150,width:80)
+                                            Image.asset(
+                                                'assets/images/a2.jpg',height:150,width:80)
                                           )),
                                       Expanded(
                                           flex: 2,
