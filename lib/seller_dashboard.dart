@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:e_commerce/manage_products.dart';
 import 'package:e_commerce/order_details.dart';
 import 'package:e_commerce/main_dashboard.dart';
+import 'package:e_commerce/seller_profile_option.dart';
 import 'package:e_commerce/update_product.dart';
 import 'package:flutter/material.dart';
 import 'add_product.dart';
@@ -52,11 +53,34 @@ class _SellerDashboardState extends State<SellerDashboard> {
               ),
             ),
             Expanded(child: Icon(Icons.notifications, color: Colors.white)),
-            CircleAvatar(
-              backgroundColor: Colors.red.shade100,
-              backgroundImage: AssetImage('assets/images/avatar.png'),
-              radius: 18,
-            ),
+
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return profileOptions(); // Replace NewScreen with the screen you want to navigate to
+                    },
+                  ),
+                );
+                // Handle the click or tap action here
+                // For example, you can navigate to a new screen or perform some action.
+              },
+              child:CircleAvatar(
+                backgroundColor: Colors.red.shade100,
+                backgroundImage: AssetImage('assets/images/avatar.png'),
+                radius: 18,
+              ),),
+            // InkWell(
+            //   onTap: ()=>const profileOptions(),
+            //   child:CircleAvatar(
+            //     backgroundColor: Colors.red.shade100,
+            //     backgroundImage: AssetImage('assets/images/avatar.png'),
+            //     radius: 18,
+            //   ),
+            // )
+
           ],
         ),
         centerTitle: true,

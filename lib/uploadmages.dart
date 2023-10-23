@@ -1,6 +1,9 @@
 import 'package:e_commerce/main_dashboard.dart';
+import 'package:e_commerce/services/tokenId.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:http_parser/http_parser.dart';
 
 import 'apis/sellerModel.dart';
 import 'package:http/http.dart' as http;
@@ -177,21 +180,31 @@ class _BankDetailsFormState extends State<UploadImages> {
 
 Future<void> _getImage() async {
   final ImagePicker _picker = ImagePicker();
-  final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+  final XFile? imageFile = await _picker.pickImage(source: ImageSource.gallery);
 
-  if (pickedFile != null) {
-    var request = http.MultipartRequest('POST', Uri.parse('YOUR_BACKEND_ENDPOINT'));
+  final url = Uri.parse('https://api.pehchankidukan.com/seller/${TokenId.id}');
+  if (imageFile != null) {
+    var request = http.MultipartRequest('PUT', url);
 
     // Attach the file to the request
-    var file = await http.MultipartFile.fromPath('file', pickedFile.path);
-    request.files.add(file);
 
+    int length = await imageFile.length();
+    String fileName = basename(imageFile.path);
+    request.files.add(http.MultipartFile(
+        'photo', // Field name in the form
+        imageFile.readAsBytes().asStream(),
+        length,
+        filename: fileName,
+        contentType: MediaType(
+            'image', 'jpeg'))
+    );
+    request.headers['Authorization'] = 'Bearer ${TokenId.token}';
     // Send the request
     var response = await request.send();
 
     if (response.statusCode == 200) {
       // Successfully uploaded the image
-      print('Image uploaded');
+      print('fssai Image uploaded');
     } else {
       // Handle the error, e.g., show an error message
       print('Image upload failed with status code: ${response.statusCode}');
@@ -205,23 +218,34 @@ Future<void> _getImage() async {
 
 Future<void> _getfssaiImage() async {
   final ImagePicker _picker = ImagePicker();
-  final XFile? fsaaipickedFile = await _picker.pickImage(source: ImageSource.gallery);
+  final XFile? imageFile = await _picker.pickImage(source: ImageSource.gallery);
 
-  if (fsaaipickedFile != null) {
-    var request = http.MultipartRequest('POST', Uri.parse('YOUR_BACKEND_ENDPOINT'));
+  final url = Uri.parse('https://api.pehchankidukan.com/seller/${TokenId.id}');
+  if (imageFile != null) {
+    var request = http.MultipartRequest('PUT', url);
 
     // Attach the file to the request
-    var file = await http.MultipartFile.fromPath('file', fsaaipickedFile.path);
-    request.files.add(file);
 
+    int length = await imageFile.length();
+    String fileName = basename(imageFile.path);
+    request.files.add(http.MultipartFile(
+        'fssaiImageUrl', // Field name in the form
+        imageFile.readAsBytes().asStream(),
+        length,
+        filename: fileName,
+        contentType: MediaType(
+            'image', 'jpeg'))
+    );
+    request.headers['Authorization'] = 'Bearer ${TokenId.token}';
     // Send the request
     var response = await request.send();
 
     if (response.statusCode == 200) {
       // Successfully uploaded the image
-      print('Image uploaded');
+      print('fssai Image uploaded');
     } else {
       // Handle the error, e.g., show an error message
+      print(response);
       print('Image upload failed with status code: ${response.statusCode}');
     }
     // Handle the selected image (e.g., display it, upload it, etc.)
@@ -233,23 +257,34 @@ Future<void> _getfssaiImage() async {
 
 Future<void> _getGSTImage() async {
   final ImagePicker _picker = ImagePicker();
-  final XFile? fsaaipickedFile = await _picker.pickImage(source: ImageSource.gallery);
+  final XFile? imageFile = await _picker.pickImage(source: ImageSource.gallery);
 
-  if (fsaaipickedFile != null) {
-    var request = http.MultipartRequest('POST', Uri.parse('YOUR_BACKEND_ENDPOINT'));
+  final url = Uri.parse('https://api.pehchankidukan.com/seller/${TokenId.id}');
+  if (imageFile != null) {
+    var request = http.MultipartRequest('PUT', url);
 
     // Attach the file to the request
-    var file = await http.MultipartFile.fromPath('file', fsaaipickedFile.path);
-    request.files.add(file);
 
+    int length = await imageFile.length();
+    String fileName = basename(imageFile.path);
+    request.files.add(http.MultipartFile(
+        'gstinImage', // Field name in the form
+        imageFile.readAsBytes().asStream(),
+        length,
+        filename: fileName,
+        contentType: MediaType(
+            'image', 'jpeg'))
+    );
+    request.headers['Authorization'] = 'Bearer ${TokenId.token}';
     // Send the request
     var response = await request.send();
 
     if (response.statusCode == 200) {
       // Successfully uploaded the image
-      print('Image uploaded');
+      print('gst Image uploaded');
     } else {
       // Handle the error, e.g., show an error message
+      print(response);
       print('Image upload failed with status code: ${response.statusCode}');
     }
     // Handle the selected image (e.g., display it, upload it, etc.)
@@ -261,24 +296,34 @@ Future<void> _getGSTImage() async {
 
 Future<void> _getCancelledCheckImage() async {
   final ImagePicker _picker = ImagePicker();
-  final XFile? fsaaipickedFile = await _picker.pickImage(source: ImageSource.gallery);
+  final XFile? imageFile = await _picker.pickImage(source: ImageSource.gallery);
 
-  if (fsaaipickedFile != null) {
-    var request = http.MultipartRequest('POST', Uri.parse('YOUR_BACKEND_ENDPOINT'));
+  final url = Uri.parse('https://api.pehchankidukan.com/seller/${TokenId.id}');
+  if (imageFile != null) {
+    var request = http.MultipartRequest('PUT', url);
 
     // Attach the file to the request
-    var file = await http.MultipartFile.fromPath('file', fsaaipickedFile.path);
-    request.files.add(file);
 
+    int length = await imageFile.length();
+    String fileName = basename(imageFile.path);
+    request.files.add(http.MultipartFile(
+        'cancelledCheckImage', // Field name in the form
+        imageFile.readAsBytes().asStream(),
+        length,
+        filename: fileName,
+        contentType: MediaType(
+            'image', 'jpeg'))
+    );
+    request.headers['Authorization'] = 'Bearer ${TokenId.token}';
     // Send the request
     var response = await request.send();
 
     if (response.statusCode == 200) {
       // Successfully uploaded the image
-
-      print('Image uploaded');
+      print('fssai Image uploaded');
     } else {
       // Handle the error, e.g., show an error message
+      print(response);
       print('Image upload failed with status code: ${response.statusCode}');
     }
     // Handle the selected image (e.g., display it, upload it, etc.)

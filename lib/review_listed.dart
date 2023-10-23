@@ -127,21 +127,23 @@ class _ReviewListedState extends State<ReviewListed> {
         request.fields['subCategory2'] = widget.subCategory2;
         request.fields['description'] = pDescription;
         // Add each image file to the request
-        if(widget.imageFileList != null)
-        for (var imageFile in widget.imageFileList!) {
-          int length = await imageFile.length();
-          String fileName = basename(imageFile.path);
-          request.files.add(http.MultipartFile(
-            'images', // Field name in the form
-            imageFile.readAsBytes().asStream(),
-            length,
-            filename: fileName,
-            contentType: MediaType('image', 'jpeg'), // Adjust content type accordingly
-          ));
+        if(widget.imageFileList != null) {
+          for (var imageFile in widget.imageFileList!) {
+            int length = await imageFile.length();
+            String fileName = basename(imageFile.path);
+            request.files.add(http.MultipartFile(
+              'images', // Field name in the form
+              imageFile.readAsBytes().asStream(),
+              length,
+              filename: fileName,
+              contentType: MediaType(
+                  'image', 'jpeg'), // Adjust content type accordingly
+            ));
+          }
         }
 
         // Add the product details
-        request.fields['productDetails'] = itemOptionsMap as String;
+        request.fields['productDetails'] = jsonEncode(itemOptionsMap);
 
         // Send the request
         final response = await request.send();

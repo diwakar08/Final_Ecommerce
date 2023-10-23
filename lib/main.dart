@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: LoginScreen(),
+      home: const LoginScreen(),
     );
   }
 }
@@ -52,6 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
 
+    bool forAndroid=false;
     return Scaffold(
 
       appBar: AppBar(
@@ -61,12 +62,23 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
 
       ),
-      body: Container(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      body: Switch(
+        // thumb color (round icon)
+        activeColor: Colors.amber,
+        activeTrackColor: Colors.cyan,
+        inactiveThumbColor: Colors.blueGrey.shade600,
+        inactiveTrackColor: Colors.grey.shade400,
+        splashRadius: 50.0,
+        // boolean variable value
+        value: forAndroid,
+        // changes the state of the switch
+        onChanged: (value) => setState(() => forAndroid = value),
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: _incrementCounter,
+      //   tooltip: 'Increment',
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 }
