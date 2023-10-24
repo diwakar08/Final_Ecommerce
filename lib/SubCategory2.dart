@@ -21,22 +21,23 @@ class SubCategory2 extends StatefulWidget {
   final bool update;
   SubCategory2(
       {Key? key,
-        required this.cat,
-        required this.subCat,
-        required this.productName,
-        required this.productDescription,
-        required this.update,
-        required this.stockTF,
-        required this.stockIO,
-        required this.dummyProductList, required this.pid, required this.itemOptions
-      });
+      required this.cat,
+      required this.subCat,
+      required this.productName,
+      required this.productDescription,
+      required this.update,
+      required this.stockTF,
+      required this.stockIO,
+      required this.dummyProductList,
+      required this.pid,
+      required this.itemOptions});
 
- @override
+  @override
   State<SubCategory2> createState() => _SubCategory2State1();
 }
 
 class _SubCategory2State1 extends State<SubCategory2> {
-  List<String> categoryCodes=[];
+  List<String> categoryCodes = [];
   String subCat = '';
   String token = TokenId.token;
   String id = TokenId.id;
@@ -44,35 +45,34 @@ class _SubCategory2State1 extends State<SubCategory2> {
   Future<void> getCategories(String category) async {
     print("ksfnieanfs");
     print(widget.productName);
-    if(widget.update) {
+    if (widget.update) {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => UpdateProducts(
-            token: token,
-            id: id,
-            // category: widget.cat,
-            // subCategory1: widget.subCat,
-            // subCategory2: category,
-            // productDescription: widget.productDescription,
-            productName: widget.productName,
-            pid: widget.pid,
-            // productImage: '',
-            productCategory: widget.cat,
-            productSubCategory1: widget.subCat,
-            productSubCategory2: category,
-            stockTF: widget.stockTF,
-            stockIO: widget.stockIO,
-            // productType: '',
-            description: widget.productDescription,
-             quantityPricing:widget.dummyProductList
-          ),
+              token: token,
+              id: id,
+              // category: widget.cat,
+              // subCategory1: widget.subCat,
+              // subCategory2: category,
+              // productDescription: widget.productDescription,
+              productName: widget.productName,
+              pid: widget.pid,
+              // productImage: '',
+              productCategory: widget.cat,
+              productSubCategory1: widget.subCat,
+              productSubCategory2: category,
+              stockTF: widget.stockTF,
+              stockIO: widget.stockIO,
+              // productType: '',
+              description: widget.productDescription,
+              quantityPricing: widget.dummyProductList),
         ),
       );
     } else {
       print(widget.productName);
       print("widget.productNamesubcat2");
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => AddProduct(
@@ -82,7 +82,9 @@ class _SubCategory2State1 extends State<SubCategory2> {
             subCategory1: widget.subCat,
             subCategory2: category,
             productDescription: widget.productDescription,
-            productName: widget.productName, productDetails: [],itemOptions: widget.itemOptions,
+            productName: widget.productName,
+            productDetails: [],
+            itemOptions: widget.itemOptions,
           ),
         ),
       );
@@ -95,7 +97,7 @@ class _SubCategory2State1 extends State<SubCategory2> {
     print("subCat");
     cat = cat.replaceAll("&", "%26");
     subCat = subCat.replaceAll("&", "%26");
-    final apiUrl =//"https://api.pehchankidukan.com/seller/category?category=Beauty %26 Personal Care&subCategory1=Makeup";
+    final apiUrl = //"https://api.pehchankidukan.com/seller/category?category=Beauty %26 Personal Care&subCategory1=Makeup";
         "https://api.pehchankidukan.com/seller/category?category=${cat}&subCategory1=${subCat}";
     final response = await http.get(
       Uri.parse(apiUrl),
@@ -114,7 +116,6 @@ class _SubCategory2State1 extends State<SubCategory2> {
     //   setState(() {});
     // }
     if (response.statusCode == 200) {
-
       final Map<String, dynamic> jsonData = jsonDecode(response.body);
       print(jsonData);
       List<dynamic> data = jsonData['data'];
@@ -125,9 +126,7 @@ class _SubCategory2State1 extends State<SubCategory2> {
       }
 
       print(categoryCodes);
-      setState(() {
-
-      });
+      setState(() {});
     } else {
       // Handle the case where the "data" list is empty.
       throw Exception('Failed to load categories');

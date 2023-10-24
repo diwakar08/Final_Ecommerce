@@ -22,10 +22,6 @@ class SellerDashboard extends StatefulWidget {
 }
 
 class _SellerDashboardState extends State<SellerDashboard> {
-
-
-
-
   @override
   Widget build(BuildContext context) {
     var token = widget.token;
@@ -71,7 +67,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
             children: [
               Container(
                 margin:
-                EdgeInsets.only(right: 10, left: 10, top: 10, bottom: 10),
+                    EdgeInsets.only(right: 10, left: 10, top: 10, bottom: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -224,7 +220,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                   children: [
                                     CircleAvatar(
                                       backgroundColor:
-                                      Colors.lightBlue.shade900,
+                                          Colors.lightBlue.shade900,
                                       radius: 38,
                                       child: const CircleAvatar(
                                         backgroundColor: Colors.white,
@@ -266,7 +262,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
 
               Container(
                 margin:
-                EdgeInsets.only(right: 10, left: 10, top: 20, bottom: 5),
+                    EdgeInsets.only(right: 10, left: 10, top: 20, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -304,7 +300,9 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                   subCategory1: '',
                                   subCategory2: '',
                                   productName: '',
-                                  productDescription: '', productDetails: [], itemOptions: [],
+                                  productDescription: '',
+                                  productDetails: [],
+                                  itemOptions: [],
                                 ),
                               ));
                         },
@@ -325,7 +323,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                           radius: 24,
                                           child: Icon(Icons.add_circle_outline,
                                               color:
-                                              Colors.black)), //CircleAvatar
+                                                  Colors.black)), //CircleAvatar
                                     ), //CircleAvatar
                                     const SizedBox(
                                       height: 10,
@@ -382,7 +380,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                           radius: 24,
                                           child: Icon(Icons.edit,
                                               color:
-                                              Colors.black)), //CircleAvatar
+                                                  Colors.black)), //CircleAvatar
                                     ), //CircleAvatar
                                     const SizedBox(
                                       height: 10,
@@ -483,11 +481,17 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                       Expanded(
                                           flex: 5,
                                           child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: (prod!.images.length>0)? Image.network(prod!.images[0],height:150,width:80):
-                                            Image.asset(
-                                                'assets/images/a3.jpg',height:150,width:80)
-                                          )),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: (prod!.images.length > 0)
+                                                  ? Image.network(
+                                                      prod!.images[0],
+                                                      height: 150,
+                                                      width: 80)
+                                                  : Image.asset(
+                                                      'assets/images/a3.jpg',
+                                                      height: 150,
+                                                      width: 80))),
                                       Expanded(
                                           flex: 2,
                                           child: Text(prod!.productName,
@@ -500,7 +504,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                           flex: 2,
                                           child: Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
+                                                MainAxisAlignment.spaceAround,
                                             children: [
                                               Text(
                                                   '₹${prod!.offerPrice.toString()}',
@@ -510,7 +514,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                                       fontSize: 15,
                                                       fontFamily: 'Poppins',
                                                       fontWeight:
-                                                      FontWeight.bold)),
+                                                          FontWeight.bold)),
                                             ],
                                           )),
                                       Expanded(
@@ -522,7 +526,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             UpdateProducts(
-                                                              pid:prod.id,
+                                                              pid: prod.id,
                                                               token: token,
                                                               id: id,
                                                               productName: prod!
@@ -531,26 +535,28 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                                               //     .image
                                                               //     .toString(),
                                                               productCategory:
-                                                              prod!
-                                                                  .category,
+                                                                  prod!
+                                                                      .category,
                                                               productSubCategory2:
-                                                              prod!
-                                                                  .subCategory2,
+                                                                  prod!
+                                                                      .subCategory2,
 
                                                               stockTF: false,
                                                               stockIO: s,
                                                               // productType: prod!
                                                               //     .productType,
                                                               description: prod!
-                                                                  .description, productSubCategory1: '',
+                                                                  .description,
+                                                              productSubCategory1:
+                                                                  '',
                                                               quantityPricing: prod!
-                                                                .productDetails,
+                                                                  .productDetails,
                                                             )));
                                               },
                                               child: Text('Edit',
                                                   style: TextStyle(
                                                     color:
-                                                    Colors.green.shade900,
+                                                        Colors.green.shade900,
                                                     fontSize: 15,
                                                     fontFamily: 'Poppins',
                                                   ))))
@@ -626,15 +632,21 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
-                                    children:[
+                                    children: [
                                       Expanded(
                                           flex: 5,
                                           child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: (prod!.images.length>0)? Image.network(prod!.images[0], height:150,width:80):
-                                            Image.asset(
-                                                'assets/images/a2.jpg',height:150,width:80)
-                                          )),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: (prod!.images.length > 0)
+                                                  ? Image.network(
+                                                      prod!.images[0],
+                                                      height: 150,
+                                                      width: 80)
+                                                  : Image.asset(
+                                                      'assets/images/a2.jpg',
+                                                      height: 150,
+                                                      width: 80))),
                                       Expanded(
                                           flex: 2,
                                           child: Text(prod!.productName,
@@ -647,7 +659,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                           flex: 2,
                                           child: Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
+                                                MainAxisAlignment.spaceAround,
                                             children: [
                                               Text(
                                                   '₹${prod!.offerPrice.toString()}',
@@ -657,7 +669,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                                       fontSize: 15,
                                                       fontFamily: 'Poppins',
                                                       fontWeight:
-                                                      FontWeight.bold)),
+                                                          FontWeight.bold)),
                                             ],
                                           )),
                                       Expanded(
@@ -669,7 +681,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             UpdateProducts(
-                                                              pid:prod.id,
+                                                              pid: prod.id,
                                                               token: token,
                                                               id: id,
                                                               productName: prod!
@@ -678,11 +690,12 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                                               //     .image
                                                               //     .toString(),
                                                               productCategory:
-                                                              '',
+                                                                  '',
                                                               productSubCategory1:
-                                                              '',
+                                                                  '',
                                                               productSubCategory2:
-                                                              prod!.subCategory2,
+                                                                  prod!
+                                                                      .subCategory2,
 
                                                               quantityPricing: prod!
                                                                   .productDetails,
@@ -697,7 +710,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                               child: Text('Edit',
                                                   style: TextStyle(
                                                     color:
-                                                    Colors.green.shade900,
+                                                        Colors.green.shade900,
                                                     fontSize: 15,
                                                     fontFamily: 'Poppins',
                                                   ))))
@@ -722,7 +735,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
   }
 
   Future<List<Product>> fetchOrders(token, id) async {
-    final data = await UserApi.getProducts(token, id);
+    final data = await UserApi.getProducts(token, id, 1);
     print("printing Dataaaa");
     print(data);
     return data;

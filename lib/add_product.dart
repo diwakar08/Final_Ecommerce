@@ -54,7 +54,8 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
     unit: 'kg',
     offerPrice: '',
   );
-  List<String> dropDownItems = ["kg",
+  List<String> dropDownItems = [
+    "kg",
     "litre",
     "piece",
     "packet",
@@ -64,7 +65,8 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
     "bag",
     "sack",
     "tin",
-    "other",];
+    "other",
+  ];
 
   void addOption() {
     widget.onOptionAdded(newItem);
@@ -86,149 +88,122 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
       children: [
         Column(
           children: widget.options.map((option) {
-            return Container(
-              child: Padding(
-                padding: EdgeInsets.all(12),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 60,
-                            padding: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 1,
-                                color: Colors.black,
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: TextFormField(
-                              controller:
+            return Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller:
                               TextEditingController(text: option.quantity),
-                              onChanged: (value) => option.quantity = value,
-                              decoration: InputDecoration(
-                                hintText: 'Quantity',
-                                border: InputBorder.none,
-                                errorText:
+                          onChanged: (value) => option.quantity = value,
+                          decoration: InputDecoration(
+                            labelText: 'Quantity',
+                            hintText: 'Quantity',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            errorText:
                                 _validate4 ? 'Value Can\'t Be Empty' : null,
-                              ),
-                              style: TextStyle(
-                                color: Colors.black.withOpacity(1.0),
-                                fontSize: 16,
-                                fontFamily: 'Urbanist',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
+                          ),
+                          style: TextStyle(
+                            color: Colors.black.withOpacity(1.0),
+                            fontSize: 16,
+                            fontFamily: 'Urbanist',
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
-                        SizedBox(width: 16),
-                        Container(
-                          height: 60,
-                          padding: EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1,
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(12),
+                      ),
+                      SizedBox(width: 16),
+                      Container(
+                        height: 60,
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1,
+                            color: Colors.black,
                           ),
-                          child: DropdownButton<String>(
-                            value: option.unit,
-                            onChanged: (String? value) {
-                              setState(() {
-                                option.unit = value!;
-                              });
-                            },
-                            items: dropDownItems.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontFamily: 'Urbanist',
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: DropdownButton<String>(
+                          value: option.unit,
+                          onChanged: (String? value) {
+                            setState(() {
+                              option.unit = value!;
+                            });
+                          },
+                          items: dropDownItems.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontFamily: 'Urbanist',
+                                  fontWeight: FontWeight.w400,
                                 ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 60,
-                            padding: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 1,
-                                color: Colors.black,
                               ),
-                              borderRadius: BorderRadius.circular(12),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: TextEditingController(text: option.price),
+                          onChanged: (value) => option.price = value,
+                          decoration: InputDecoration(
+                            labelText: 'Price (In Rs.)',
+                            hintText: 'Price (In Rs.)',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0),
                             ),
-                            child: TextFormField(
-                              controller:
-                              TextEditingController(text: option.price),
-                              onChanged: (value) => option.price = value,
-                              decoration: InputDecoration(
-                                hintText: 'Price (In Rs.)',
-                                border: InputBorder.none,
-                                errorText:
+                            errorText:
                                 _validate5 ? 'Value Can\'t Be Empty' : null,
-                              ),
-                              style: TextStyle(
-                                color: Colors.black.withOpacity(1.0),
-                                fontSize: 16,
-                                fontFamily: 'Urbanist',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
+                          ),
+                          style: TextStyle(
+                            color: Colors.black.withOpacity(1.0),
+                            fontSize: 16,
+                            fontFamily: 'Urbanist',
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
-                        SizedBox(width: 16),
-                        Expanded(
-                          child: Container(
-                            height: 60,
-                            padding: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 1,
-                                color: Colors.black,
-                              ),
-                              borderRadius: BorderRadius.circular(12),
+                      ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: TextFormField(
+                          controller:
+                              TextEditingController(text: option.offerPrice),
+                          onChanged: (value) => option.offerPrice = value,
+                          decoration: InputDecoration(
+                            labelText: 'Offer Price',
+                            hintText: 'Offer Price',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0),
                             ),
-                            child: TextFormField(
-                              controller: TextEditingController(
-                                  text: option.offerPrice),
-                              onChanged: (value) => option.offerPrice = value,
-                              decoration: InputDecoration(
-                                hintText: 'Offer Price',
-                                border: InputBorder.none,
-                                errorText:
+                            errorText:
                                 _validate6 ? 'Value Can\'t Be Empty' : null,
-                              ),
-                              style: TextStyle(
-                                color: Colors.black.withOpacity(1.0),
-                                fontSize: 16,
-                                fontFamily: 'Urbanist',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
+                          ),
+                          style: TextStyle(
+                            color: Colors.black.withOpacity(1.0),
+                            fontSize: 16,
+                            fontFamily: 'Urbanist',
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             );
           }).toList(),
@@ -265,14 +240,15 @@ class AddProduct extends StatefulWidget {
   final List<ItemOption> itemOptions;
   AddProduct(
       {Key? key,
-        required this.token,
-        required this.id,
-        required this.category,
-        required this.subCategory1,
-        required this.subCategory2,
-        required this.productName,
-        required this.productDescription,
-        required this.productDetails, required this.itemOptions})
+      required this.token,
+      required this.id,
+      required this.category,
+      required this.subCategory1,
+      required this.subCategory2,
+      required this.productName,
+      required this.productDescription,
+      required this.productDetails,
+      required this.itemOptions})
       : super(key: key);
 
   @override
@@ -313,10 +289,10 @@ class _AddProductState extends State<AddProduct> {
   void valueUpdate(String pname, String desc) {
     productNameContt.text = pname;
     productDescriptionContt.text = desc;
-    productDescriptionContt.text=widget.productDescription;
-    productNameContt.text=widget.productName;
+    productDescriptionContt.text = widget.productDescription;
+    productNameContt.text = widget.productName;
     setState(() {
-      itemOptions=widget.itemOptions;
+      itemOptions = widget.itemOptions;
     });
   }
 
@@ -380,58 +356,58 @@ class _AddProductState extends State<AddProduct> {
                         bottomLeft: Radius.circular(30))),
                 child: Center(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 23,
-                          width: 23,
-                          decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.all(Radius.circular(6))),
-                          child: Center(
-                              child: Text(
-                                '1',
-                                style: TextStyle(
-                                    color: Colors.white, fontWeight: FontWeight.bold),
-                              )),
-                        ),
-                        Text(
-                          '-----------',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Container(
-                          height: 23,
-                          width: 23,
-                          decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.all(Radius.circular(6))),
-                          child: Center(
-                              child: Text(
-                                '2',
-                                style: TextStyle(
-                                    color: Colors.white, fontWeight: FontWeight.bold),
-                              )),
-                        ),
-                        Text(
-                          '-----------',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Container(
-                          height: 23,
-                          width: 23,
-                          decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.all(Radius.circular(6))),
-                          child: Center(
-                              child: Text(
-                                '3',
-                                style: TextStyle(
-                                    color: Colors.white, fontWeight: FontWeight.bold),
-                              )),
-                        ),
-                        //Text('Add Product',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15,fontFamily: 'Poppins', ),),
-                      ],
-                    )),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 23,
+                      width: 23,
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.all(Radius.circular(6))),
+                      child: Center(
+                          child: Text(
+                        '1',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      )),
+                    ),
+                    Text(
+                      '-----------',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Container(
+                      height: 23,
+                      width: 23,
+                      decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.all(Radius.circular(6))),
+                      child: Center(
+                          child: Text(
+                        '2',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      )),
+                    ),
+                    Text(
+                      '-----------',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Container(
+                      height: 23,
+                      width: 23,
+                      decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.all(Radius.circular(6))),
+                      child: Center(
+                          child: Text(
+                        '3',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      )),
+                    ),
+                    //Text('Add Product',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15,fontFamily: 'Poppins', ),),
+                  ],
+                )),
               ),
               Container(
                 child: SingleChildScrollView(
@@ -475,8 +451,14 @@ class _AddProductState extends State<AddProduct> {
                             MaterialPageRoute(
                               builder: (context) => Category(
                                 productName: productNameContt.text,
-                                productDescription: productDescriptionContt.text,
-                                update:false, stockIO: '', stockTF: false, itemOptions: itemOptions, pid: '', dummyProductList: [],
+                                productDescription:
+                                    productDescriptionContt.text,
+                                update: false,
+                                stockIO: '',
+                                stockTF: false,
+                                itemOptions: itemOptions,
+                                pid: '',
+                                dummyProductList: [],
                               ), //changed
                             ),
                           );
@@ -493,42 +475,60 @@ class _AddProductState extends State<AddProduct> {
                           ),
                         ),
                       ),
-                      Container(
-                          margin: EdgeInsets.only(left: 20, right: 20, top: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Product Category:",
-                                  textScaleFactor: 1.0,
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
-                              Text(widget.category, textScaleFactor: 1.5),
-                            ],
-                          )),
-                      Container(
-                          margin: EdgeInsets.only(left: 20, right: 20, top: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Product SubCategory1:",
-                                  textScaleFactor: 1.0,
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
-                              Text(widget.subCategory1, textScaleFactor: 1.5),
-                            ],
-                          )),
-                      Container(
-                          margin: EdgeInsets.only(left: 20, right: 20, top: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Product SubCategory2:",
-                                  textScaleFactor: 1.0,
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
-                              Text(widget.subCategory2, textScaleFactor: 1.5),
-                            ],
-                          )),
+                      widget.category == "" ||
+                              widget.subCategory1 == "" ||
+                              widget.subCategory2 == ""
+                          ? Container()
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.only(
+                                        left: 20, right: 20, top: 15),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Product Category:",
+                                            textScaleFactor: 1.0,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        Text(widget.category,
+                                            textScaleFactor: 1.5),
+                                      ],
+                                    )),
+                                Container(
+                                    margin: EdgeInsets.only(
+                                        left: 20, right: 20, top: 15),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Product SubCategory1:",
+                                            textScaleFactor: 1.0,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        Text(widget.subCategory1,
+                                            textScaleFactor: 1.5),
+                                      ],
+                                    )),
+                                Container(
+                                    margin: EdgeInsets.only(
+                                        left: 20, right: 20, top: 15),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Product SubCategory2:",
+                                            textScaleFactor: 1.0,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        Text(widget.subCategory2,
+                                            textScaleFactor: 1.5),
+                                      ],
+                                    )),
+                              ],
+                            ),
                       Container(
                         margin: EdgeInsets.only(right: 20, top: 20, left: 20),
                         child: Text(
@@ -555,7 +555,7 @@ class _AddProductState extends State<AddProduct> {
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
-                                    BorderRadius.all(Radius.circular(13)),
+                                        BorderRadius.all(Radius.circular(13)),
                                   ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -577,9 +577,9 @@ class _AddProductState extends State<AddProduct> {
                                     scrollDirection: Axis.horizontal,
                                     itemCount: imageFileList!.length,
                                     gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 1,
-                                        mainAxisSpacing: 5),
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 1,
+                                            mainAxisSpacing: 5),
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return Image.file(
@@ -592,35 +592,45 @@ class _AddProductState extends State<AddProduct> {
                           ),
                         ],
                       ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20, right: 20, top: 25),
-                        child: Text(
-                          'Product Type (Veg/Non-veg,/in case if applicable)',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontFamily: 'Poppins',
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20, right: 20),
-                        child: DropdownButton(
-                          value: productType,
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          items: items2.map((String items2) {
-                            return DropdownMenuItem(
-                              value: items2,
-                              child: Text(items2),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              productType = newValue!;
-                            });
-                          },
-                        ),
-                      ),
+                      widget.category == "Food" ||
+                              widget.subCategory1 == "Dairy" ||
+                              widget.subCategory1 == "Bread & Eggs"
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: 20, right: 20, top: 25),
+                                  child: Text(
+                                    'Product Type (Veg/Non-veg,/in case if applicable)',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontFamily: 'Poppins',
+                                      color: Colors.black87,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 20, right: 20),
+                                  child: DropdownButton(
+                                    value: productType,
+                                    icon: const Icon(Icons.keyboard_arrow_down),
+                                    items: items2.map((String items2) {
+                                      return DropdownMenuItem(
+                                        value: items2,
+                                        child: Text(items2),
+                                      );
+                                    }).toList(),
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        productType = newValue!;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Container(),
                       Container(
                         margin: EdgeInsets.only(left: 20, right: 20, top: 20),
                         child: Text(
@@ -642,11 +652,11 @@ class _AddProductState extends State<AddProduct> {
                           style: TextStyle(fontFamily: 'Poppins', fontSize: 15),
                           decoration: InputDecoration(
                             errorText:
-                            _validate1 ? 'Value Can\'t Be Empty' : null,
+                                _validate1 ? 'Value Can\'t Be Empty' : null,
                             hintText: 'Name of item (Ex-Oil)',
                             focusedBorder: OutlineInputBorder(
                                 borderSide:
-                                BorderSide(color: Colors.teal.shade900)),
+                                    BorderSide(color: Colors.teal.shade900)),
                           ),
                         ),
                       ),
@@ -663,7 +673,7 @@ class _AddProductState extends State<AddProduct> {
                       ),
                       Container(
                         margin:
-                        EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                            EdgeInsets.only(left: 20, right: 20, bottom: 10),
                         child: TextField(
                           onChanged: (value) {
                             productDescription = value;
@@ -672,11 +682,11 @@ class _AddProductState extends State<AddProduct> {
                           style: TextStyle(fontFamily: 'Poppins', fontSize: 16),
                           decoration: InputDecoration(
                             errorText:
-                            _validate2 ? 'Value Can\'t Be Empty' : null,
+                                _validate2 ? 'Value Can\'t Be Empty' : null,
                             hintText: 'Write here about product',
                             focusedBorder: OutlineInputBorder(
                                 borderSide:
-                                BorderSide(color: Colors.teal.shade900)),
+                                    BorderSide(color: Colors.teal.shade900)),
                           ),
                         ),
                       ),

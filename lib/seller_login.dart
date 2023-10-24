@@ -13,36 +13,30 @@ import 'bankDetails.dart';
 
 // import 'home.dart';
 
-
-
 class LoginScreen extends StatefulWidget {
   // const LoginScreen({super.key, required String token});
   const LoginScreen({Key? key}) : super(key: key);
-
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-
-
 class _LoginScreenState extends State<LoginScreen> {
-
   bool isRememberMe = false;
-
+  bool isOtpTrue = false;
   var phone_controller = TextEditingController();
   var password_controller = TextEditingController();
-  // String token1 ="" ;
+
   Future<void> postSeller() async {
     Map<String, dynamic> jsonData = {
-      "phone": "9111766052",//phone_controller.text,
-      "otp":"1234"
+      "phone": "9111766052", //phone_controller.text,
+      "otp": "1234"
     };
 
     var apiurl = "https://api.pehchankidukan.com/seller/verify-otp";
     var uri = Uri.parse(apiurl);
-    var token='';
-    var id='';
+    var token = '';
+    var id = '';
     try {
       final response = await http.post(
         uri,
@@ -56,11 +50,10 @@ class _LoginScreenState extends State<LoginScreen> {
         final Map<String, dynamic> responseData = json.decode(response.body);
 
         token = responseData['token'];
-        id=responseData['data']['_id'];
+        id = responseData['data']['_id'];
         print(responseData['message']);
-        TokenId.token=token;
-        TokenId.id=id;
-
+        TokenId.token = token;
+        TokenId.id = id;
       } else {
         print('Error: ${response.statusCode}');
       }
@@ -70,10 +63,32 @@ class _LoginScreenState extends State<LoginScreen> {
     print("token is printing");
     print("token is ${token}");
     // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Regest(token:token, id:id)));
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Regest(token:token, id:id)));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => Regest(token: token, id: id)));
     // Navigator.push(context, MaterialPageRoute(builder: (context) => BankDetailsForm( token:token, id:id)));
   }
 
+  Future<void> registerUser() async {
+    Map<String, dynamic> jsonData = {
+      "phone": phone_controller.text,
+    };
+
+    var apiurl = "https://api.pehchankidukan.com/seller/register";
+    try {
+      final response = await http.post(
+        Uri.parse(apiurl),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(jsonData),
+      );
+    } catch (e) {
+      print("User not register");
+    }
+    setState(() {
+      isOtpTrue = true;
+    });
+  }
 
   Widget buildPhone() {
     return Column(
@@ -82,12 +97,11 @@ class _LoginScreenState extends State<LoginScreen> {
         Text(
           "Phone Number",
           style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold
-          ),
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 10,),
+        SizedBox(
+          height: 10,
+        ),
         Container(
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
@@ -95,19 +109,13 @@ class _LoginScreenState extends State<LoginScreen> {
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 6,
-                    offset: Offset(0,2)
-                )
-              ]
-          ),
+                    color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
+              ]),
           height: 60,
           child: TextField(
             controller: phone_controller,
             keyboardType: TextInputType.phone,
-            style: TextStyle(
-                color: Colors.black87
-            ),
+            style: TextStyle(color: Colors.black87),
             decoration: InputDecoration(
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.only(top: 14),
@@ -116,10 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Color(0xff5ac18e),
                 ),
                 hintText: 'Phone Number',
-                hintStyle: TextStyle(
-                    color: Colors.black38
-                )
-            ),
+                hintStyle: TextStyle(color: Colors.black38)),
           ),
         )
       ],
@@ -133,12 +138,11 @@ class _LoginScreenState extends State<LoginScreen> {
         Text(
           "Enter OTP",
           style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold
-          ),
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 10,),
+        SizedBox(
+          height: 10,
+        ),
         Container(
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
@@ -146,19 +150,13 @@ class _LoginScreenState extends State<LoginScreen> {
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 6,
-                    offset: Offset(0,2)
-                )
-              ]
-          ),
+                    color: Colors.black26, blurRadius: 6, offset: Offset(0, 2))
+              ]),
           height: 60,
           child: TextField(
             controller: password_controller,
             obscureText: true,
-            style: TextStyle(
-                color: Colors.black87
-            ),
+            style: TextStyle(color: Colors.black87),
             decoration: InputDecoration(
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.only(top: 14),
@@ -167,27 +165,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Color(0xff5ac18e),
                 ),
                 hintText: 'Password',
-                hintStyle: TextStyle(
-                    color: Colors.black38
-                )
-            ),
+                hintStyle: TextStyle(color: Colors.black38)),
           ),
         )
       ],
     );
   }
 
-  Widget buildForgotPassBtn() {
+  Widget buildResendOtp() {
     return Container(
       alignment: Alignment.centerRight,
       child: TextButton(
         onPressed: () => print("Forgot Password Pressed"),
         // padding: EdgeInsets.only(right: 0),
         child: Text(
-          'Forgot Password?',
+          'Resend OTP',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
+            fontSize: 16,
           ),
         ),
       ),
@@ -210,23 +206,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Color(0x665ac18e),
-                          Color(0x995ac18e),
-                          Color(0xcc5ac18e),
-                          Color(0xff5ac18e),
-                          // Color(0x6608FFC8),
-                          // Color(0x9908FFC8),
-                          // Color(0xcc08FFC8),
-                          // Color(0xff08FFC8),
-                        ]
-                    )
-                ),
+                      Color(0x665ac18e),
+                      Color(0x995ac18e),
+                      Color(0xcc5ac18e),
+                      Color(0xff5ac18e),
+                      // Color(0x6608FFC8),
+                      // Color(0x9908FFC8),
+                      // Color(0xcc08FFC8),
+                      // Color(0xff08FFC8),
+                    ])),
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 25,
-                      vertical: 120
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 120),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -235,26 +226,42 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 40,
-                            fontWeight: FontWeight.bold
-                        ),
+                            fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 50,),
+                      SizedBox(
+                        height: 50,
+                      ),
                       buildPhone(),
-                      SizedBox(height: 20,),
-                      buildPassword(),
-                      buildForgotPassBtn(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      isOtpTrue ? buildPassword() : Container(),
+                      isOtpTrue ? buildResendOtp() : Container(),
                       Container(
                         width: double.infinity,
                         height: 50,
-                        child: ElevatedButton(
-                            onPressed: postSeller,
-                            child: Text('Login', style: TextStyle(
-                                color: Colors.black54,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18
-                            ),)
-                        ),
-                      )
+                        child: isOtpTrue
+                            ? ElevatedButton(
+                                onPressed: postSeller,
+                                child: Text(
+                                  'Login',
+                                  style: TextStyle(
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                              )
+                            : ElevatedButton(
+                                onPressed: registerUser,
+                                child: Text(
+                                  'Verify OTP',
+                                  style: TextStyle(
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                              ),
+                      ),
                       // buildRememberCb(),
                     ],
                   ),
@@ -265,6 +272,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-
   }
 }
