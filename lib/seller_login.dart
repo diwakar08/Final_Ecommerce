@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> postSeller() async {
     Map<String, dynamic> jsonData = {
-      "phone": "9111766052", //phone_controller.text,
+      "phone": "9111766852", //phone_controller.text,
       "otp": "1234"
     };
 

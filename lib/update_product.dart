@@ -558,21 +558,21 @@ class _UpdateProductsState extends State<UpdateProducts> {
                         onTap: () {
                           saveProductData(pName, pSCategory2, description,
                               token, id, widget.pid, dummyProductList, false);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Category(
-                                productName: pName.text,
-                                productDescription: description.text,
-                                update: true,
-                                stockIO: widget.stockIO,
-                                stockTF: widget.stockTF,
-                                dummyProductList: dummyProductList,
-                                pid: widget.pid,
-                                itemOptions: [],
-                              ), //changed
-                            ),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => Category(
+                          //         // productName: pName.text,
+                          //         // productDescription: description.text,
+                          //         // update: true,
+                          //         // stockIO: widget.stockIO,
+                          //         // stockTF: widget.stockTF,
+                          //         // dummyProductList: dummyProductList,
+                          //         // pid: widget.pid,
+                          //         // itemOptions: [],
+                          //         ), //changed
+                          //   ),
+                          // );
                         },
                         child: Container(
                           margin: EdgeInsets.only(left: 20, right: 20, top: 20),

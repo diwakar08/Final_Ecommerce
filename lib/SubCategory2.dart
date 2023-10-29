@@ -78,9 +78,6 @@ class _SubCategory2State1 extends State<SubCategory2> {
           builder: (context) => AddProduct(
             token: token,
             id: id,
-            category: widget.cat,
-            subCategory1: widget.subCat,
-            subCategory2: category,
             productDescription: widget.productDescription,
             productName: widget.productName,
             productDetails: [],

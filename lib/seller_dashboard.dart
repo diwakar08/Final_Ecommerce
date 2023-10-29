@@ -296,9 +296,6 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                 builder: (context) => AddProduct(
                                   token: token,
                                   id: id,
-                                  category: '',
-                                  subCategory1: '',
-                                  subCategory2: '',
                                   productName: '',
                                   productDescription: '',
                                   productDetails: [],
