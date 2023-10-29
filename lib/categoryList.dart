@@ -1,27 +1,24 @@
 import 'dart:convert';
 
 import 'package:e_commerce/services/tokenId.dart';
-import 'package:e_commerce/subCategory1.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'add_product.dart';
-
 class Category extends StatefulWidget {
-  final String productName;
-  final String pid;
-  final String productDescription;
-  final bool update;
-  final String stockIO;
-  final bool stockTF;
-  final quantityPricing;
-  final List dummyProductList;
-  final List<ItemOption> itemOptions;
+  // final String productName;
+  // final String pid;
+  // final String productDescription;
+  // final bool update;
+  // final String stockIO;
+  // final bool stockTF;
+  // final quantityPricing;
+  // final List dummyProductList;
+  // final List<ItemOption> itemOptions;
   Category({
     Key? key,
-    required this.productName,
-    required this.productDescription, required this.update, required this.stockIO, required this.stockTF,
-    this.quantityPricing, required this.dummyProductList, required this.pid, required this.itemOptions,
+    // required this.productName,
+    // required this.productDescription, required this.update, required this.stockIO, required this.stockTF,
+    // this.quantityPricing, required this.dummyProductList, required this.pid, required this.itemOptions,
   });
 
   @override
@@ -36,21 +33,21 @@ class _CategoryState extends State<Category> {
   List<String> categoryCodes = [];
 
   Future<void> getCategories(String category) async {
-      print(widget.productName);
-      print("widget.productNamecategoryme");
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SubCategory1(
-            cat: category,
-            productDescription: widget.productDescription,
-            productName: widget.productName,
-            update:widget.update, stockIO: widget.stockIO, stockTF: widget.stockTF,
-              dummyProductList:widget.dummyProductList,
-            itemOptions:widget.itemOptions,
-            pid: widget.pid,
-          ),
-        ));
+    // print(widget.productName);
+    print("widget.productNamecategoryme");
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => SubCategory1(
+    //         cat: category,
+    // productDescription: widget.productDescription,
+    // productName: widget.productName,
+    // update:widget.update, stockIO: widget.stockIO, stockTF: widget.stockTF,
+    //   dummyProductList:widget.dummyProductList,
+    // itemOptions:widget.itemOptions,
+    // pid: widget.pid,
+    //   ),
+    // ));
   }
 
   Future<void> getAllCategory() async {
@@ -69,9 +66,7 @@ class _CategoryState extends State<Category> {
       if (data.isNotEmpty) {
         List<dynamic> categoryList = data[0]['category'];
         if (categoryList.isNotEmpty) {
-          setState(() {
-            categoryCodes = List<String>.from(categoryList);
-          });
+          categoryCodes = List<String>.from(categoryList);
         } else {
           // Handle the case where the "category" list is empty.
         }
@@ -89,20 +84,11 @@ class _CategoryState extends State<Category> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(
-            leading: GestureDetector(
-              child: Icon(
-                Icons.arrow_back_ios,
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            title: Text('Category Codes List'),
-          ),
-          body: ListView.builder(
+    return Dialog(
+      child: FutureBuilder(
+        future: getAllCategory(),
+        builder: (context, snapshot) {
+          return ListView.builder(
             itemCount: categoryCodes.length,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
@@ -117,7 +103,9 @@ class _CategoryState extends State<Category> {
                 title: Text(categoryCodes[index]),
               );
             },
-          )),
+          );
+        },
+      ),
     );
   }
 }

@@ -25,9 +25,6 @@ class SellerDashboard extends StatefulWidget {
 }
 
 class _SellerDashboardState extends State<SellerDashboard> {
-
-
-
   final List<Map<String, String>> orders = [
     {
       'name': 'Abhishek',
@@ -66,18 +63,17 @@ class _SellerDashboardState extends State<SellerDashboard> {
     var token = widget.token;
     var id = widget.id;
 
-
-
     return Scaffold(
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-
-            Image.asset('assets/images/logo.png',width: 100,height: 30,)
-            ,
+            Image.asset(
+              'assets/images/logo.png',
+              width: 100,
+              height: 30,
+            ),
             // Expanded(child: Icon(Icons.notifications, color: Colors.white)),
-
 
             // GestureDetector(
             //   onTap: () {
@@ -97,7 +93,6 @@ class _SellerDashboardState extends State<SellerDashboard> {
             //     backgroundImage: AssetImage('assets/images/avatar.png'),
             //     radius: 18,
             //   ),),
-
           ],
         ),
         centerTitle: true,
@@ -113,12 +108,11 @@ class _SellerDashboardState extends State<SellerDashboard> {
             children: [
               Container(
                 margin:
-                EdgeInsets.only(right: 10, left: 10, top: 20, bottom: 10),
+                    EdgeInsets.only(right: 10, left: 10, top: 20, bottom: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
                     Container(
                       child: Text(
                         'Hello, Seller',
@@ -134,7 +128,8 @@ class _SellerDashboardState extends State<SellerDashboard> {
               ),
 
               Container(
-                margin: EdgeInsets.only(right: 10, left: 10, top: 15,bottom: 5),
+                margin:
+                    EdgeInsets.only(right: 10, left: 10, top: 15, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -254,10 +249,10 @@ class _SellerDashboardState extends State<SellerDashboard> {
               ),
 
               Visibility(
-                visible: orders.length>0 && false,
+                visible: orders.length > 0 && false,
                 child: Container(
                   margin:
-                  EdgeInsets.only(right: 10, left: 10, top: 30, bottom: 5),
+                      EdgeInsets.only(right: 10, left: 10, top: 30, bottom: 5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -277,10 +272,9 @@ class _SellerDashboardState extends State<SellerDashboard> {
                 ),
               ),
               Visibility(
-                visible: orders.length>0 && false,
+                visible: orders.length > 0 && false,
                 child: Container(
-                  margin:EdgeInsets.only(
-                      left: 15.0, right: 15.0),
+                  margin: EdgeInsets.only(left: 15.0, right: 15.0),
                   height: 420,
                   child: Expanded(
                     child: ListView.builder(
@@ -291,14 +285,13 @@ class _SellerDashboardState extends State<SellerDashboard> {
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 left: 8.0, right: 8.0, top: 10.0),
-
                             child: Card(
-                              elevation: 5, // Add elevation to make it appear as a card
+                              elevation:
+                                  5, // Add elevation to make it appear as a card
                               child: Container(
                                 decoration: BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20)
-                                ),
+                                    borderRadius: BorderRadius.circular(20)),
                                 child: ListTile(
                                   title: Column(
                                     children: [
@@ -307,18 +300,30 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                         width: double.infinity,
                                         color: const Color(0xFFDADADA),
                                         child: const Center(
-                                          child: Text('Preparing',style: TextStyle(color: Colors.black,fontSize: 15),),
+                                          child: Text(
+                                            'Preparing',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 15),
+                                          ),
                                         ),
                                       ),
                                       Row(
                                         children: [
                                           Text('Order ID: ${order['id']}'),
                                           const Spacer(),
-                                          Text(order['time']!,style: TextStyle(color: Colors.black,fontSize: 12),),
+                                          Text(
+                                            order['time']!,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12),
+                                          ),
                                           PopupMenuButton<String>(
                                             // onSelected: _selectOption,
-                                            itemBuilder: (BuildContext context) {
-                                              return {'See order Details'}.map((String choice) {
+                                            itemBuilder:
+                                                (BuildContext context) {
+                                              return {'See order Details'}
+                                                  .map((String choice) {
                                                 return PopupMenuItem<String>(
                                                   value: choice,
                                                   child: Text(choice),
@@ -335,38 +340,46 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                     children: [
                                       Row(
                                         children: [
-
-                                          Text('${order['name']}\'s Order',
+                                          Text(
+                                            '${order['name']}\'s Order',
                                             style: const TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.w500,
-                                            ),),
+                                            ),
+                                          ),
                                           const Spacer(),
-                                          const Text('Takeaway',
+                                          const Text(
+                                            'Takeaway',
                                             style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.w500,
-                                            ),)
+                                            ),
+                                          )
                                         ],
                                       ),
-                                      const SizedBox(height: 10,),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
                                       Visibility(
                                           child: Row(
-                                            children: [
-                                              Text('${amount[index]} ${product[index]}',
-                                                style: const TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500,
-                                                ),),
-                                              const Spacer(),
-                                              Text(price[index],
-                                                style: const TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500,
-                                                ),)
-                                            ],
+                                        children: [
+                                          Text(
+                                            '${amount[index]} ${product[index]}',
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          Text(
+                                            price[index],
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           )
-                                      ),
+                                        ],
+                                      )),
                                       const SizedBox(height: 10),
                                       //
                                       // const SizedBox(height: 10,),
@@ -376,21 +389,29 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                             height: 35,
                                             color: Colors.blue[900],
                                             width: 170,
-                                            child: ElevatedButton(onPressed: () {},
+                                            child: ElevatedButton(
+                                                onPressed: () {},
                                                 style: ElevatedButton.styleFrom(
-                                                  backgroundColor: Colors.blue[900],
+                                                  backgroundColor:
+                                                      Colors.blue[900],
                                                   // elevation: 3, // Remove button elevation if not needed
                                                 ),
                                                 child: const Center(
-                                                    child: Text('Make Order Ready',style: TextStyle(color: Colors.white,fontSize: 12),))
-                                            ),
+                                                    child: Text(
+                                                  'Make Order Ready',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 12),
+                                                ))),
                                           ),
                                           Spacer(),
-                                          Text('Total Bill: ${price[index]} ',
+                                          Text(
+                                            'Total Bill: ${price[index]} ',
                                             style: const TextStyle(
                                               fontSize: 17,
                                               fontWeight: FontWeight.w500,
-                                            ),),
+                                            ),
+                                          ),
                                         ],
                                       )
                                     ],
@@ -406,18 +427,20 @@ class _SellerDashboardState extends State<SellerDashboard> {
                 ),
               ),
               Visibility(
-                visible: orders.length>0 && false,
+                visible: orders.length > 0 && false,
                 child: Center(
-                  child: ViewMoreButton( onPressed: () {
-                    // Navigate to the desired route when the button is pressed
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => AllStoresScreen()));
-                  },),
+                  child: ViewMoreButton(
+                    onPressed: () {
+                      // Navigate to the desired route when the button is pressed
+                      // Navigator.push(context, MaterialPageRoute(builder: (context) => AllStoresScreen()));
+                    },
+                  ),
                 ),
               ),
 
               Container(
                 margin:
-                EdgeInsets.only(right: 10, left: 10, top: 25, bottom: 5),
+                    EdgeInsets.only(right: 10, left: 10, top: 25, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -437,7 +460,8 @@ class _SellerDashboardState extends State<SellerDashboard> {
               ),
               Card(
                 elevation: 5,
-                margin: EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 6),
+                margin:
+                    EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 6),
                 child: Row(
                   children: [
                     Expanded(
@@ -447,67 +471,82 @@ class _SellerDashboardState extends State<SellerDashboard> {
                           child: Row(
                             children: [
                               Expanded(
-                                child:
-                                Container(
+                                child: Container(
                                   decoration: BoxDecoration(
                                       color: Colors.white,
-                                      borderRadius: BorderRadius.all(Radius.circular(10))
-                                  ),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
                                   height: 130,
                                   padding: EdgeInsets.all(10),
                                   child: Column(
-
                                     children: [
-
                                       Expanded(
                                         flex: 3,
-                                        child:  Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Expanded(
                                                 child: Container(
-                                                  margin: EdgeInsets.only(right: 15),
-                                                  child:
-                                                  Image.asset(
-                                                      'assets/images/a1.jpg',height:150,width:80),)
-                                            ),
+                                              margin:
+                                                  EdgeInsets.only(right: 15),
+                                              child: Image.asset(
+                                                  'assets/images/a1.jpg',
+                                                  height: 150,
+                                                  width: 80),
+                                            )),
                                             Expanded(
                                               flex: 2,
                                               child: Container(
                                                 child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Expanded(
                                                         child: Container(
-                                                          // margin: EdgeInsets.only(left: 20),
-                                                          child: Text('Product',
-                                                              style: TextStyle(
-                                                                  color: Colors.black,
-                                                                  fontSize: 19,
-                                                                  fontFamily: 'comfart',
-                                                                  fontWeight: FontWeight.bold
-                                                              )),
-                                                        )),
+                                                      // margin: EdgeInsets.only(left: 20),
+                                                      child: Text('Product',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 19,
+                                                              fontFamily:
+                                                                  'comfart',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                    )),
                                                     Expanded(
                                                       child: Row(
                                                         children: [
-                                                          Text('₹500'
-                                                              ,style: TextStyle(
-                                                                  color: Colors.black,
+                                                          Text('₹500',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .black,
                                                                   fontSize: 16,
-                                                                  fontFamily: 'comfort',
-                                                                  fontWeight: FontWeight.bold)),
-                                                          SizedBox(width: 10,),
-                                                          Text('MRP '
+                                                                  fontFamily:
+                                                                      'comfort',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          Text(
+                                                              'MRP '
                                                               '₹456'
                                                               '${860}',
                                                               style: TextStyle(
-                                                                  color: Colors.black,
+                                                                  color: Colors
+                                                                      .black,
                                                                   fontSize: 14,
-                                                                  fontFamily: 'comfort',
-                                                                  decoration: TextDecoration.lineThrough
-                                                              )),
+                                                                  fontFamily:
+                                                                      'comfort',
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .lineThrough)),
                                                         ],
                                                       ),
                                                     ),
@@ -515,59 +554,70 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                                       child: Container(
                                                         width: 100,
                                                         height: 18,
-                                                        decoration: BoxDecoration(
-                                                          //  border: Border.all(color: Colors.black),
-                                                            borderRadius: BorderRadius.all(Radius.circular(5))
-                                                        ),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                //  border: Border.all(color: Colors.black),
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            5))),
                                                         //   margin: EdgeInsets.only(right: 20),
                                                         child: Text('⭐⭐⭐⭐',
                                                             style: TextStyle(
-                                                                color: Colors.black,
+                                                                color: Colors
+                                                                    .black,
                                                                 fontSize: 13.5,
-                                                                fontFamily: 'comfort',
-                                                                fontWeight: FontWeight.bold
-                                                            )),
+                                                                fontFamily:
+                                                                    'comfort',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
                                                       ),
                                                     ),
                                                     Expanded(
-                                                      child:  Container(
+                                                      child: Container(
                                                         width: 220,
                                                         child: MaterialButton(
-                                                          color: Colors.lightBlue.shade400,
-                                                          onPressed: (){
-
-                                                          }, child: Text('Edit',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),),
+                                                          color: Colors
+                                                              .lightBlue
+                                                              .shade400,
+                                                          onPressed: () {},
+                                                          child: Text(
+                                                            'Edit',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 16),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
-
                                                   ],
                                                 ),
                                               ),
                                             ),
-
-
                                           ],
                                         ),
                                       ),
-
-
                                     ],
                                   ),
                                 ),
                               ),
-
                             ],
                           ),
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
               Card(
                 elevation: 5,
-                margin: EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 6),
+                margin:
+                    EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 6),
                 child: Row(
                   children: [
                     Expanded(
@@ -577,67 +627,82 @@ class _SellerDashboardState extends State<SellerDashboard> {
                           child: Row(
                             children: [
                               Expanded(
-                                child:
-                                Container(
+                                child: Container(
                                   decoration: BoxDecoration(
                                       color: Colors.white,
-                                      borderRadius: BorderRadius.all(Radius.circular(10))
-                                  ),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
                                   height: 130,
                                   padding: EdgeInsets.all(10),
                                   child: Column(
-
                                     children: [
-
                                       Expanded(
                                         flex: 3,
-                                        child:  Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Expanded(
                                                 child: Container(
-                                                  margin: EdgeInsets.only(right: 15),
-                                                  child:
-                                                  Image.asset(
-                                                      'assets/images/g2.jpg',height:150,width:80),)
-                                            ),
+                                              margin:
+                                                  EdgeInsets.only(right: 15),
+                                              child: Image.asset(
+                                                  'assets/images/g2.jpg',
+                                                  height: 150,
+                                                  width: 80),
+                                            )),
                                             Expanded(
                                               flex: 2,
                                               child: Container(
                                                 child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Expanded(
                                                         child: Container(
-                                                          // margin: EdgeInsets.only(left: 20),
-                                                          child: Text('Product',
-                                                              style: TextStyle(
-                                                                  color: Colors.black,
-                                                                  fontSize: 19,
-                                                                  fontFamily: 'comfart',
-                                                                  fontWeight: FontWeight.bold
-                                                              )),
-                                                        )),
+                                                      // margin: EdgeInsets.only(left: 20),
+                                                      child: Text('Product',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 19,
+                                                              fontFamily:
+                                                                  'comfart',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                    )),
                                                     Expanded(
                                                       child: Row(
                                                         children: [
-                                                          Text('₹500'
-                                                              ,style: TextStyle(
-                                                                  color: Colors.black,
+                                                          Text('₹500',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .black,
                                                                   fontSize: 16,
-                                                                  fontFamily: 'comfort',
-                                                                  fontWeight: FontWeight.bold)),
-                                                          SizedBox(width: 10,),
-                                                          Text('MRP '
+                                                                  fontFamily:
+                                                                      'comfort',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          Text(
+                                                              'MRP '
                                                               '₹456'
                                                               '${860}',
                                                               style: TextStyle(
-                                                                  color: Colors.black,
+                                                                  color: Colors
+                                                                      .black,
                                                                   fontSize: 14,
-                                                                  fontFamily: 'comfort',
-                                                                  decoration: TextDecoration.lineThrough
-                                                              )),
+                                                                  fontFamily:
+                                                                      'comfort',
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .lineThrough)),
                                                         ],
                                                       ),
                                                     ),
@@ -645,73 +710,89 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                                       child: Container(
                                                         width: 100,
                                                         height: 18,
-                                                        decoration: BoxDecoration(
-                                                          //  border: Border.all(color: Colors.black),
-                                                            borderRadius: BorderRadius.all(Radius.circular(5))
-                                                        ),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                //  border: Border.all(color: Colors.black),
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            5))),
                                                         //   margin: EdgeInsets.only(right: 20),
                                                         child: Text('⭐⭐⭐⭐',
                                                             style: TextStyle(
-                                                                color: Colors.black,
+                                                                color: Colors
+                                                                    .black,
                                                                 fontSize: 13.5,
-                                                                fontFamily: 'comfort',
-                                                                fontWeight: FontWeight.bold
-                                                            )),
+                                                                fontFamily:
+                                                                    'comfort',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
                                                       ),
                                                     ),
                                                     Expanded(
-                                                      child:  Container(
+                                                      child: Container(
                                                         width: 220,
                                                         child: MaterialButton(
-                                                          color: Colors.lightBlue.shade400,
-                                                          onPressed: (){
-
-                                                          }, child: Text('Edit',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),),
+                                                          color: Colors
+                                                              .lightBlue
+                                                              .shade400,
+                                                          onPressed: () {},
+                                                          child: Text(
+                                                            'Edit',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 16),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
-
                                                   ],
                                                 ),
                                               ),
                                             ),
-
-
                                           ],
                                         ),
                                       ),
-
-
                                     ],
                                   ),
                                 ),
                               ),
-
                             ],
                           ),
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
               Center(
-                child: ViewMoreButton( onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MainDashboard(token: widget.token, id: widget.id, pageIndex: 0,sortt:"created_at"),
-                    ),
-                        (route) => false, // This line clears the navigator stack
-                  );
-                  // Navigate to the desired route when the button is pressed
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => AllStoresScreen()));
-                },),
+                child: ViewMoreButton(
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainDashboard(
+                            token: widget.token,
+                            id: widget.id,
+                            pageIndex: 0,
+                            sortt: "created_at"),
+                      ),
+                      (route) => false, // This line clears the navigator stack
+                    );
+                    // Navigate to the desired route when the button is pressed
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => AllStoresScreen()));
+                  },
+                ),
               ),
 
               Container(
                 margin:
-                EdgeInsets.only(right: 10, left: 10, top: 20, bottom: 15),
+                    EdgeInsets.only(right: 10, left: 10, top: 20, bottom: 15),
                 // child: Row(
                 //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 //   children: [
@@ -860,8 +941,6 @@ class _SellerDashboardState extends State<SellerDashboard> {
               //     ],
               //   ),
               // ),
-
-
             ],
           ),
         ),
@@ -870,16 +949,12 @@ class _SellerDashboardState extends State<SellerDashboard> {
   }
 
   Future<List<Product>> fetchOrders(token, id) async {
-    final data = await UserApi.getProducts(token, id);
+    final data = await UserApi.getProducts(token, id, 1);
     print("printing Dataaaa");
     print(data);
-    setState(() {
-
-    });
+    setState(() {});
     return data;
   }
-
-
 }
 
 class ViewMoreButton extends StatelessWidget {
@@ -889,16 +964,13 @@ class ViewMoreButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final screenWidth = MediaQuery.of(context).size.width;
     final buttonWidth = screenWidth * 0.4; // Adjust the width as needed
 
     return InkWell(
       onTap: onPressed, // Call the provided onPressed function when tapped
       child: Container(
-        margin: EdgeInsets.only(top: 20,bottom: 20),
+        margin: EdgeInsets.only(top: 20, bottom: 20),
         alignment: Alignment.center,
         width: buttonWidth,
         height: 40,

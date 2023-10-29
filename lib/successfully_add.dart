@@ -162,9 +162,6 @@ class _SuccessfulAddState extends State<SuccessfulAdd> {
                           builder: (context) => AddProduct(
                             token: token,
                             id: id,
-                            category: '',
-                            subCategory1: '',
-                            subCategory2: '',
                             productName: '',
                             productDescription: '', productDetails: [], itemOptions: [],
                           ),

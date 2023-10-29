@@ -336,11 +336,11 @@ print(keyword);
   }
 
 
-  static Future<List<Product>> getProducts(token, id) async {
+  static Future<List<Product>> getProducts(token, id,currentPage) async {
     print("called getProducts12 function");
     print("id-$id");
     print("token-$token");
-    final uri = Uri.parse('https://api.pehchankidukan.com/seller/${TokenId.id}/products');
+    final uri = Uri.parse('https://api.pehchankidukan.com/seller/${TokenId.id}/products?page=$currentPage');
     final response = await http.get(uri,
       headers: <String, String>{
         'Content-Type': 'application/json',

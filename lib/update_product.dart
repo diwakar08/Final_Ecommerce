@@ -1329,14 +1329,6 @@
 //   }
 // }
 
-
-
-
-
-
-
-
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:e_commerce/review_listed.dart';
@@ -1352,9 +1344,6 @@ import 'main.dart';
 import 'main_dashboard.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-
-
-
 
 class PriceQuantitySpinnerRow extends StatefulWidget {
   final List<ItemOption> options;
@@ -1380,7 +1369,8 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
     unit: 'kg',
     offerPrice: '',
   );
-  List<String> dropDownItems = ["kg",
+  List<String> dropDownItems = [
+    "kg",
     "litre",
     "piece",
     "packet",
@@ -1390,11 +1380,10 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
     "bag",
     "sack",
     "tin",
-    "other",];
-
+    "other",
+  ];
 
   void addOption() {
-
     widget.onOptionAdded(newItem);
     newItem = ItemOption(
       price: '',
@@ -1434,12 +1423,13 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
                             ),
                             child: TextFormField(
                               controller:
-                              TextEditingController(text: option.quantity),
+                                  TextEditingController(text: option.quantity),
                               onChanged: (value) => option.quantity = value,
                               decoration: InputDecoration(
                                 hintText: 'Quantity',
                                 border: InputBorder.none,
-                                errorText: _validate4 ? 'Value Can\'t Be Empty' : null,
+                                errorText:
+                                    _validate4 ? 'Value Can\'t Be Empty' : null,
                               ),
                               style: TextStyle(
                                 color: Colors.black.withOpacity(1.0),
@@ -1485,10 +1475,10 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-
-                          },
-                          child: Icon( Icons.delete_outlined, ),
+                          onTap: () {},
+                          child: Icon(
+                            Icons.delete_outlined,
+                          ),
                         )
                       ],
                     ),
@@ -1510,12 +1500,13 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
                             ),
                             child: TextFormField(
                               controller:
-                              TextEditingController(text: option.price),
+                                  TextEditingController(text: option.price),
                               onChanged: (value) => option.price = value,
                               decoration: InputDecoration(
                                 hintText: 'Price (In Rs.)',
                                 border: InputBorder.none,
-                                errorText: _validate5 ? 'Value Can\'t Be Empty' : null,
+                                errorText:
+                                    _validate5 ? 'Value Can\'t Be Empty' : null,
                               ),
                               style: TextStyle(
                                 color: Colors.black.withOpacity(1.0),
@@ -1545,7 +1536,8 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
                               decoration: InputDecoration(
                                 hintText: 'Offer Price',
                                 border: InputBorder.none,
-                                errorText: _validate6 ? 'Value Can\'t Be Empty' : null,
+                                errorText:
+                                    _validate6 ? 'Value Can\'t Be Empty' : null,
                               ),
                               style: TextStyle(
                                 color: Colors.black.withOpacity(1.0),
@@ -1566,7 +1558,10 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
         ),
         Container(
             margin: EdgeInsets.only(left: 20),
-            child: ElevatedButton(onPressed: addOption, child: Text("Add items"),)),
+            child: ElevatedButton(
+              onPressed: addOption,
+              child: Text("Add items"),
+            )),
         // ElevatedButton(
         //     onPressed: () {
         //       for (var data in widget.options) {
@@ -1582,15 +1577,12 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
   }
 }
 
-
-
-
 class UpdateProducts extends StatefulWidget {
   // String productImage = '';
   String productName = '';
-  String productCategory='';
-  String productSubCategory1='';
-  String productSubCategory2='';
+  String productCategory = '';
+  String productSubCategory1 = '';
+  String productSubCategory2 = '';
   final List quantityPricing;
   // String productType = '';
   bool stockTF = true;
@@ -1598,19 +1590,28 @@ class UpdateProducts extends StatefulWidget {
   String description = '';
   final String token, id;
   final String pid;
-  UpdateProducts({Key? key ,required this.pid,required this.token,required this.id ,required this.productName,
-    // required this.productImage,
-    required this.productCategory,required this.productSubCategory1,
-    required this.productSubCategory2,required this.stockTF,required this.stockIO,
-    // required this.productType,
-    required this.description, required this.quantityPricing}) : super(key: key);
+  UpdateProducts(
+      {Key? key,
+      required this.pid,
+      required this.token,
+      required this.id,
+      required this.productName,
+      // required this.productImage,
+      required this.productCategory,
+      required this.productSubCategory1,
+      required this.productSubCategory2,
+      required this.stockTF,
+      required this.stockIO,
+      // required this.productType,
+      required this.description,
+      required this.quantityPricing})
+      : super(key: key);
 
   @override
   _UpdateProductsState createState() => _UpdateProductsState();
 }
 
 class _UpdateProductsState extends State<UpdateProducts> {
-
   List<ItemOption> itemOptions = [];
   late List dummyProductList;
 
@@ -1622,11 +1623,9 @@ class _UpdateProductsState extends State<UpdateProducts> {
     });
   }
 
-
   late String s = widget.stockIO;
   late bool _switchValue = widget.stockTF;
   String stock = 'In Stock';
-
 
   late String pType = 'Veg';
 
@@ -1666,14 +1665,12 @@ class _UpdateProductsState extends State<UpdateProducts> {
   final description = TextEditingController();
 
   Future<void> stockUpdate() async {
-    final apiUrl = 'https://api.pehchankidukan.com/seller/${TokenId
-        .id}/products/$pid';
+    final apiUrl =
+        'https://api.pehchankidukan.com/seller/${TokenId.id}/products/$pid';
 
     // final itemOptions = quantityPricing;
 
-    final Map<String, dynamic> productJson = {
-      "inStock": _switchValue
-    };
+    final Map<String, dynamic> productJson = {"inStock": _switchValue};
     var uri = Uri.parse(apiUrl);
     try {
       final response = await http.put(
@@ -1706,21 +1703,17 @@ class _UpdateProductsState extends State<UpdateProducts> {
     setState(() {});
   }
 
-
   final List<String> imgList = [
-
     'https://media.istockphoto.com/id/1644722689/photo/autumn-decoration-with-leafs-on-rustic-background.jpg?s=2048x2048&w=is&k=20&c=dZFmEik-AnmQJum5Ve8GbQj-cjkPsFTJP26lPY5RTJg=',
     'https://media.istockphoto.com/id/1464561797/photo/artificial-intelligence-processor-unit-powerful-quantum-ai-component-on-pcb-motherboard-with.jpg?s=2048x2048&w=is&k=20&c=_h_lwe5-Xb4AK-w3nUfa0m3ZNPDZSqhQhkitrtdTpFQ=',
     'https://media.istockphoto.com/id/1486626509/photo/woman-use-ai-to-help-work-or-use-ai-everyday-life-at-home-ai-learning-and-artificial.jpg?s=2048x2048&w=is&k=20&c=I9i1MwJ29M2yQBC8BBLOfWyHJ3hlBpYoSmqSXAKFlZM='
   ];
-
 
   void removeImage(int index) {
     setState(() {
       imgList.removeAt(index);
     });
   }
-
 
   Future<void> showDeleteConfirmationDialog(int index) async {
     return showDialog(
@@ -1749,7 +1742,6 @@ class _UpdateProductsState extends State<UpdateProducts> {
     );
   }
 
-
   void showImageExpansion(int index) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -1772,7 +1764,6 @@ class _UpdateProductsState extends State<UpdateProducts> {
       ),
     );
   }
-
 
   void removeCameraImage(int index) {
     setState(() {
@@ -1807,7 +1798,6 @@ class _UpdateProductsState extends State<UpdateProducts> {
     );
   }
 
-
   void showCameraImageExpansion(int index) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -1822,8 +1812,7 @@ class _UpdateProductsState extends State<UpdateProducts> {
                   child: Image.file(
                     File(imageFileList![index].path),
                     fit: BoxFit.cover,
-                  )
-              ),
+                  )),
             ),
           );
         },
@@ -1855,9 +1844,11 @@ class _UpdateProductsState extends State<UpdateProducts> {
     pSCategory2.text = widget.productSubCategory2;
 
     description.text = widget.description;
-    AllpCategory.text =
-        widget.productCategory + ' / ' + widget.productSubCategory1 + ' / ' +
-            widget.productSubCategory2;
+    AllpCategory.text = widget.productCategory +
+        ' / ' +
+        widget.productSubCategory1 +
+        ' / ' +
+        widget.productSubCategory2;
 
     return Scaffold(
       appBar: AppBar(
@@ -1879,16 +1870,13 @@ class _UpdateProductsState extends State<UpdateProducts> {
         backgroundColor: Colors.lightBlue.shade900,
         iconTheme: IconThemeData(color: Colors.white),
       ),
-
       backgroundColor: Colors.grey.shade200,
-
       body: Container(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1903,14 +1891,14 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                 activeColor: Colors.green,
                                 value: _switchValue,
                                 onChanged: (bool value) {
-                                  s =
-                                  value == false ? 'In stock' : 'Out of stock';
+                                  s = value == false
+                                      ? 'In stock'
+                                      : 'Out of stock';
                                   _switchValue = value;
                                   updateStock(value);
                                 },
                               ),
                               Container(
-
                                 margin: EdgeInsets.only(left: 0),
                                 child: Center(
                                   child: Text(s,
@@ -1918,17 +1906,13 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                           color: Colors.green.shade900,
                                           fontSize: 18,
                                           fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.bold
-                                      )),
+                                          fontWeight: FontWeight.bold)),
                                 ),
                               ),
-
                             ],
                           ),
                         ),
                       ),
-
-
                       Container(
                         margin: EdgeInsets.only(right: 10, left: 15, top: 20),
                         child: Row(
@@ -1941,35 +1925,32 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                     fontSize: 28,
                                     fontFamily: 'Poppins',
                                     color: Colors.black87,
-                                    fontWeight: FontWeight.bold
-                                ),
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                           ],
                         ),
                       ),
-
-
                       Container(
                           margin: EdgeInsets.only(left: 20, right: 20, top: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Product Image:", textScaleFactor: 1.2,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold)),
+                              Text("Product Image:",
+                                  textScaleFactor: 1.2,
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
                               Container(
                                 height: 150,
-
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: GridView.builder(
                                       scrollDirection: Axis.horizontal,
                                       itemCount: imgList.length,
                                       gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 1,
-                                          mainAxisSpacing: 5),
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 1,
+                                              mainAxisSpacing: 5),
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         return Stack(
@@ -1992,12 +1973,12 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                               child: IconButton(
                                                 icon: Icon(
                                                   Icons.cancel_outlined,
-                                                  color: Colors.cyanAccent,),
+                                                  color: Colors.cyanAccent,
+                                                ),
                                                 onPressed: () {
                                                   showDeleteConfirmationDialog(
                                                       index);
                                                   // removeImage(index);
-
                                                 },
                                               ),
                                             ),
@@ -2006,7 +1987,6 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                       }),
                                 ),
                               ),
-
                               Container(
                                 margin: EdgeInsets.only(
                                     right: 20, top: 20, left: 20),
@@ -2036,13 +2016,12 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                               bottom: 5),
                                           decoration: BoxDecoration(
                                             color: Colors.white,
-                                            borderRadius:
-                                            BorderRadius.all(
+                                            borderRadius: BorderRadius.all(
                                                 Radius.circular(13)),
                                           ),
                                           child: Column(
-                                            mainAxisAlignment: MainAxisAlignment
-                                                .center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
                                               Icon(Icons.camera_alt),
                                               Icon(Icons.add_circle_outline),
@@ -2061,11 +2040,10 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                             scrollDirection: Axis.horizontal,
                                             itemCount: imageFileList!.length,
                                             gridDelegate:
-                                            SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 1,
-                                                mainAxisSpacing: 5),
-                                            itemBuilder:
-                                                (BuildContext context,
+                                                SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 1,
+                                                    mainAxisSpacing: 5),
+                                            itemBuilder: (BuildContext context,
                                                 int index) {
                                               return Stack(
                                                 children: [
@@ -2077,12 +2055,11 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                                               index);
                                                         },
                                                         child: Image.file(
-                                                          File(
-                                                              imageFileList![index]
-                                                                  .path),
+                                                          File(imageFileList![
+                                                                  index]
+                                                              .path),
                                                           fit: BoxFit.cover,
-                                                        )
-                                                    ),
+                                                        )),
                                                   ),
                                                   Positioned(
                                                     top: 0,
@@ -2090,13 +2067,13 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                                     child: IconButton(
                                                       icon: Icon(
                                                         Icons.cancel_outlined,
-                                                        color: Colors
-                                                            .cyanAccent,),
+                                                        color:
+                                                            Colors.cyanAccent,
+                                                      ),
                                                       onPressed: () {
                                                         showCameraDeleteConfirmationDialog(
                                                             index);
                                                         // removeImage(index);
-
                                                       },
                                                     ),
                                                   ),
@@ -2108,39 +2085,27 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                   ),
                                 ],
                               ),
-
                             ],
                           )),
-
-
                       InkWell(
                         onTap: () {
-                          saveProductData(
-                              pName,
-                              pSCategory2,
-                              description,
-                              token,
-                              id,
-                              widget.pid,
-                              dummyProductList,
-                              false);
-                          Navigator.push(
-
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  Category(
-                                    productName: pName.text,
-                                    productDescription: description.text,
-                                    update: true,
-                                    stockIO: widget.stockIO,
-                                    stockTF: widget.stockTF,
-                                    dummyProductList: dummyProductList,
-                                    pid: widget.pid,
-                                    itemOptions: [],
-                                  ), //changed
-                            ),
-                          );
+                          saveProductData(pName, pSCategory2, description,
+                              token, id, widget.pid, dummyProductList, false);
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => Category(
+                          //         // productName: pName.text,
+                          //         // productDescription: description.text,
+                          //         // update: true,
+                          //         // stockIO: widget.stockIO,
+                          //         // stockTF: widget.stockTF,
+                          //         // dummyProductList: dummyProductList,
+                          //         // pid: widget.pid,
+                          //         // itemOptions: [],
+                          //         ), //changed
+                          //   ),
+                          // );
                         },
                         child: Container(
                           margin: EdgeInsets.only(left: 20, right: 20, top: 20),
@@ -2172,16 +2137,11 @@ class _UpdateProductsState extends State<UpdateProducts> {
                           style: TextStyle(fontFamily: 'Poppins', fontSize: 18),
                           decoration: InputDecoration(
                             focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.teal.shade900
-                                )
-                            ),
-
+                                borderSide:
+                                    BorderSide(color: Colors.teal.shade900)),
                           ),
                         ),
                       ),
-
-
                       Container(
                         margin: EdgeInsets.only(left: 20, right: 20, top: 20),
                         child: Text(
@@ -2200,15 +2160,11 @@ class _UpdateProductsState extends State<UpdateProducts> {
                           style: TextStyle(fontFamily: 'Poppins', fontSize: 18),
                           decoration: InputDecoration(
                             focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.teal.shade900
-                                )
-                            ),
+                                borderSide:
+                                    BorderSide(color: Colors.teal.shade900)),
                           ),
                         ),
                       ),
-
-
                       Container(
                         margin: EdgeInsets.only(left: 20, right: 20, top: 25),
                         child: Text(
@@ -2238,7 +2194,6 @@ class _UpdateProductsState extends State<UpdateProducts> {
                           },
                         ),
                       ),
-
                       Container(
                         margin: EdgeInsets.only(left: 20, right: 20, top: 25),
                         child: Text(
@@ -2251,22 +2206,18 @@ class _UpdateProductsState extends State<UpdateProducts> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(
-                            left: 20, right: 20, bottom: 10),
+                        margin:
+                            EdgeInsets.only(left: 20, right: 20, bottom: 10),
                         child: TextField(
                           controller: description,
                           style: TextStyle(fontFamily: 'Poppins', fontSize: 18),
                           decoration: InputDecoration(
                             focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.teal.shade900
-                                )
-                            ),
+                                borderSide:
+                                    BorderSide(color: Colors.teal.shade900)),
                           ),
-
                         ),
                       ),
-
                       Container(
                         margin: EdgeInsets.only(left: 20, right: 20, top: 25),
                         child: Text(
@@ -2306,38 +2257,30 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                       Row(
                                         children: [
                                           Expanded(
-                                            child: Container(
-                                              height: 60,
-                                              padding: EdgeInsets.all(16),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  width: 1,
-                                                  color: Colors.black,
+                                            child: TextFormField(
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              controller: TextEditingController(
+                                                  text: product.quantity),
+                                              // onChanged: (value) => option.quantity = value,
+                                              onChanged: (value) {
+                                                itemOptions[index].quantity =
+                                                    value;
+                                              },
+                                              decoration: InputDecoration(
+                                                hintText: 'Quantity',
+                                                label: const Text('Quantity'),
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
                                                 ),
-                                                borderRadius: BorderRadius
-                                                    .circular(12),
                                               ),
-                                              child: TextFormField(
-                                                controller:
-                                                TextEditingController(
-                                                    text: product.quantity),
-                                                // onChanged: (value) => option.quantity = value,
-                                                onChanged: (value) {
-                                                  itemOptions[index].quantity =
-                                                      value;
-                                                },
-                                                decoration: InputDecoration(
-                                                  hintText: 'Quantity',
-                                                  border: InputBorder.none,
-
-                                                ),
-                                                style: TextStyle(
-                                                  color: Colors.black
-                                                      .withOpacity(1.0),
-                                                  fontSize: 16,
-                                                  fontFamily: 'Urbanist',
-                                                  fontWeight: FontWeight.w400,
-                                                ),
+                                              style: TextStyle(
+                                                color: Colors.black
+                                                    .withOpacity(1.0),
+                                                fontSize: 16,
+                                                fontFamily: 'Urbanist',
+                                                fontWeight: FontWeight.w400,
                                               ),
                                             ),
                                           ),
@@ -2350,8 +2293,8 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                                 width: 1,
                                                 color: Colors.black,
                                               ),
-                                              borderRadius: BorderRadius
-                                                  .circular(12),
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
                                             ),
                                             child: DropdownButton<String>(
                                               value: product.unit,
@@ -2360,8 +2303,8 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                                   product.unit = value!;
                                                 });
                                               },
-                                              items: dropDownItems.map((
-                                                  String value) {
+                                              items: dropDownItems
+                                                  .map((String value) {
                                                 return DropdownMenuItem<String>(
                                                   value: value,
                                                   child: Text(
@@ -2370,8 +2313,8 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                                       color: Colors.black,
                                                       fontSize: 16,
                                                       fontFamily: 'Urbanist',
-                                                      fontWeight: FontWeight
-                                                          .w400,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                     ),
                                                   ),
                                                 );
@@ -2386,75 +2329,61 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                       Row(
                                         children: [
                                           Expanded(
-                                            child: Container(
-                                              height: 60,
-                                              padding: EdgeInsets.all(16),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  width: 1,
-                                                  color: Colors.black,
+                                            child: TextFormField(
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              controller: TextEditingController(
+                                                  text: product.mrpPrice
+                                                      .toString()),
+                                              onChanged: (value) {
+                                                itemOptions[index].price =
+                                                    value;
+                                              },
+                                              decoration: InputDecoration(
+                                                hintText: 'Price (In Rs.)',
+                                                label: const Text(
+                                                    'Price (In Rs.)'),
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
                                                 ),
-                                                borderRadius: BorderRadius
-                                                    .circular(12),
                                               ),
-                                              child: TextFormField(
-                                                controller:
-                                                TextEditingController(
-                                                    text: product.mrpPrice
-                                                        .toString()),
-                                                onChanged: (value) {
-                                                  itemOptions[index].price =
-                                                      value;
-                                                },
-                                                decoration: InputDecoration(
-                                                  hintText: 'Price (In Rs.)',
-                                                  border: InputBorder.none,
-
-                                                ),
-                                                style: TextStyle(
-                                                  color: Colors.black
-                                                      .withOpacity(1.0),
-                                                  fontSize: 16,
-                                                  fontFamily: 'Urbanist',
-                                                  fontWeight: FontWeight.w400,
-                                                ),
+                                              style: TextStyle(
+                                                color: Colors.black
+                                                    .withOpacity(1.0),
+                                                fontSize: 16,
+                                                fontFamily: 'Urbanist',
+                                                fontWeight: FontWeight.w400,
                                               ),
                                             ),
                                           ),
                                           SizedBox(width: 16),
                                           Expanded(
-                                            child: Container(
-                                              height: 60,
-                                              padding: EdgeInsets.all(16),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  width: 1,
-                                                  color: Colors.black,
+                                            child: TextFormField(
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              controller: TextEditingController(
+                                                  text: product.offerPrice
+                                                      .toString()),
+                                              onChanged: (value) {
+                                                itemOptions[index].offerPrice =
+                                                    value;
+                                              },
+                                              decoration: InputDecoration(
+                                                hintText: 'Offer Price',
+                                                label:
+                                                    const Text('Offer Price'),
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
                                                 ),
-                                                borderRadius: BorderRadius
-                                                    .circular(12),
                                               ),
-                                              child: TextFormField(
-                                                controller:
-                                                TextEditingController(
-                                                    text: product.offerPrice
-                                                        .toString()),
-                                                onChanged: (value) {
-                                                  itemOptions[index]
-                                                      .offerPrice = value;
-                                                },
-                                                decoration: InputDecoration(
-                                                  hintText: 'Offer Price',
-                                                  border: InputBorder.none,
-
-                                                ),
-                                                style: TextStyle(
-                                                  color: Colors.black
-                                                      .withOpacity(1.0),
-                                                  fontSize: 16,
-                                                  fontFamily: 'Urbanist',
-                                                  fontWeight: FontWeight.w400,
-                                                ),
+                                              style: TextStyle(
+                                                color: Colors.black
+                                                    .withOpacity(1.0),
+                                                fontSize: 16,
+                                                fontFamily: 'Urbanist',
+                                                fontWeight: FontWeight.w400,
                                               ),
                                             ),
                                           ),
@@ -2468,36 +2397,28 @@ class _UpdateProductsState extends State<UpdateProducts> {
                           },
                         ),
                       ),
-
                       PriceQuantitySpinnerRow(
                           options: itemOptions,
                           onOptionAdded: handleOptionAdded,
                           updateInitialValue:
                               (pControllers, oController, qController) {}),
-
-
                       Container(
                         width: double.maxFinite,
                         margin: const EdgeInsets.only(
                             left: 20, right: 20, top: 20, bottom: 30),
                         child: ElevatedButton(
                           onPressed: () {
-                            saveProductData(
-                                pName,
-                                pSCategory2,
-                                description,
-                                token,
-                                id,
-                                widget.pid,
-                                dummyProductList,
-                                true);
+                            saveProductData(pName, pSCategory2, description,
+                                token, id, widget.pid, dummyProductList, true);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors
                                 .lightBlue, // Set the background color to white
                           ),
-                          child: const Text('Save And Update', style: TextStyle(
-                              color: Colors.white, fontSize: 15),),
+                          child: const Text(
+                            'Save And Update',
+                            style: TextStyle(color: Colors.white, fontSize: 15),
+                          ),
                         ),
                         color: Colors.lightBlue.shade500,
                       )
@@ -2517,8 +2438,8 @@ class _UpdateProductsState extends State<UpdateProducts> {
     print(value);
     print("value");
     print(widget.pid);
-    final apiUrl = 'https://api.pehchankidukan.com/seller/${TokenId
-        .id}/products/${widget.pid}';
+    final apiUrl =
+        'https://api.pehchankidukan.com/seller/${TokenId.id}/products/${widget.pid}';
 
     final Map<String, dynamic> productJson;
     if (value == true)
@@ -2545,44 +2466,39 @@ class _UpdateProductsState extends State<UpdateProducts> {
     } catch (e) {
       print(e);
     }
-    setState(() {
-
-    });
+    setState(() {});
   }
 
-  Future<void> saveProductData(TextEditingController pName,
+  Future<void> saveProductData(
+      TextEditingController pName,
       TextEditingController pSCategory2,
-      TextEditingController description, String token, String id, String pid,
-      dummyProductList, toSave) async {
+      TextEditingController description,
+      String token,
+      String id,
+      String pid,
+      dummyProductList,
+      toSave) async {
     print("dummyProductList");
     itemOptions.forEach((itemOption) {
-      dummyProductList.add(
-          QuantityPricing(offerPrice: int.parse(itemOption.offerPrice),
-              quantity: itemOption.price,
-              mrpPrice: double.parse(itemOption.quantity),
-              unit: itemOption.unit));
+      dummyProductList.add(QuantityPricing(
+          offerPrice: int.parse(itemOption.offerPrice),
+          quantity: itemOption.price,
+          mrpPrice: double.parse(itemOption.quantity),
+          unit: itemOption.unit));
     });
     itemOptions = [];
     print(dummyProductList.length);
     if (toSave) {
       print("updatinggggg");
-      await UserApi.updateProduct(
-          pName.text,
-          pCategory.text,
-          pSCategory2.text,
-          pSCategory2.text,
-          description.text,
-          token,
-          id,
-          pid,
-          dummyProductList);
+      await UserApi.updateProduct(pName.text, pCategory.text, pSCategory2.text,
+          pSCategory2.text, description.text, token, id, pid, dummyProductList);
 
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
             builder: (context) =>
-                MainDashboard(token: token, id: id, pageIndex: 2,sortt:"")),
-            (route) => false,
+                MainDashboard(token: token, id: id, pageIndex: 2, sortt: "")),
+        (route) => false,
       );
     }
   }
