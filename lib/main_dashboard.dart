@@ -32,13 +32,14 @@ class _MainDashboardState extends State<MainDashboard> {
 
     final pages = [
 
-       ManageProducts(token: token, id:id,),
-      const Orders(),
+      SellerDashboard(token: token,id: id,),
+      ManageProducts(token: token, id:id, selectedcategories: [], selectedsubcategories: {}, selectedminPrice: 0, selectedmaxPrice: 0,),
+      Orders(),
     ];
     return Scaffold(
       backgroundColor: const Color(0xfffcf5f4),
 
-      body: SellerDashboard(token: token, id:id),
+      body: pages[pageIndex],
       bottomNavigationBar: buildMyNavBar(context),
 
     );
@@ -80,7 +81,7 @@ class _MainDashboardState extends State<MainDashboard> {
             enableFeedback: false,
             onPressed: () {
               setState(() {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProducts(token: widget.token,id:widget.id),));
+                //Navigator.push(context, MaterialPageRoute(builder: (context) => ManageProducts(),));
                 pageIndex = 1;
               });
             },

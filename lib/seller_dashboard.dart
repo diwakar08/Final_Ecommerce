@@ -1,6 +1,7 @@
 import 'dart:io';
 
 // import 'package:e_commerce/home.dart';
+// import 'package:e_commerce/filterWidget.dart';
 import 'package:e_commerce/manage_products.dart';
 import 'package:e_commerce/order_details.dart';
 import 'package:e_commerce/main_dashboard.dart';
@@ -40,7 +41,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
             Expanded(
               child: InkWell(
                 onTap: () {
-                  //  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SellerDashboard2(),));
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) =>  FilterScreen(),));
                 },
                 child: Text(
                   "PKD ",
@@ -53,7 +54,6 @@ class _SellerDashboardState extends State<SellerDashboard> {
               ),
             ),
             Expanded(child: Icon(Icons.notifications, color: Colors.white)),
-
             GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -72,15 +72,6 @@ class _SellerDashboardState extends State<SellerDashboard> {
                 backgroundImage: AssetImage('assets/images/avatar.png'),
                 radius: 18,
               ),),
-            // InkWell(
-            //   onTap: ()=>const profileOptions(),
-            //   child:CircleAvatar(
-            //     backgroundColor: Colors.red.shade100,
-            //     backgroundImage: AssetImage('assets/images/avatar.png'),
-            //     radius: 18,
-            //   ),
-            // )
-
           ],
         ),
         centerTitle: true,
@@ -386,7 +377,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    ManageProducts(token: token, id: id),
+                                    ManageProducts(token: token, id: id, selectedcategories: [], selectedsubcategories: {}, selectedminPrice: 0, selectedmaxPrice: 0,),
                               ));
                         },
                         child: Card(
@@ -505,23 +496,23 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                   child: Column(
                                     children: [
                                       Expanded(
-                                          flex: 5,
+                                          flex: 6,
                                           child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: (prod!.images.length>0)? Image.network(prod!.images[0],height:150,width:80):
-                                            Image.asset(
-                                                'assets/images/a3.jpg',height:150,width:80)
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: (prod!.images.length>0)? Image.network(prod!.images[0],height:150,width:80):
+                                              Image.asset(
+                                                  'assets/images/g2.jpg',height:150,width:80)
                                           )),
                                       Expanded(
-                                          flex: 2,
+                                          flex: 5,
                                           child: Text(prod!.productName,
                                               style: TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 15,
+                                                fontSize: 14,
                                                 fontFamily: 'Poppins',
                                               ))),
                                       Expanded(
-                                          flex: 2,
+                                          flex: 3,
                                           child: Row(
                                             mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
@@ -538,7 +529,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                             ],
                                           )),
                                       Expanded(
-                                          flex: 2,
+                                          flex: 3,
                                           child: OutlinedButton(
                                               onPressed: () {
                                                 Navigator.push(
@@ -568,7 +559,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                                               description: prod!
                                                                   .description, productSubCategory1: '',
                                                               quantityPricing: prod!
-                                                                .productDetails,
+                                                                  .productDetails,
                                                             )));
                                               },
                                               child: Text('Edit',
@@ -652,23 +643,23 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                   child: Column(
                                     children:[
                                       Expanded(
-                                          flex: 5,
+                                          flex: 6,
                                           child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: (prod!.images.length>0)? Image.network(prod!.images[0], height:150,width:80):
-                                            Image.asset(
-                                                'assets/images/a2.jpg',height:150,width:80)
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: (prod!.images.length>0)? Image.network(prod!.images[0], height:150,width:80):
+                                              Image.asset(
+                                                  'assets/images/g2.jpg',height:150,width:80)
                                           )),
                                       Expanded(
-                                          flex: 2,
+                                          flex: 5,
                                           child: Text(prod!.productName,
                                               style: TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 15,
+                                                fontSize: 14,
                                                 fontFamily: 'Poppins',
                                               ))),
                                       Expanded(
-                                          flex: 2,
+                                          flex: 3,
                                           child: Row(
                                             mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
@@ -685,7 +676,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                             ],
                                           )),
                                       Expanded(
-                                          flex: 2,
+                                          flex: 3,
                                           child: OutlinedButton(
                                               onPressed: () {
                                                 Navigator.push(

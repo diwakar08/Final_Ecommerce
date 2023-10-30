@@ -10,9 +10,28 @@ import '../apis/Seller.dart';
 import '../apis/orderModel.dart';
 import 'package:http/http.dart' as http;
 
+import 'Categories.dart';
+
 class UserApi {
 
-  
+  static Future<void> getAllCategory() async {
+    print("getallcategoryforfilter called");
+    final apiUrl = "https://api.pehchankidukan.com/seller/category";
+    final response = await http.get(
+      Uri.parse(apiUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${TokenId.token}',
+      },
+    );
+
+    final jsonData = jsonDecode(response.body);
+    print(jsonData);
+    final data = (jsonData["data"][0]["category"]);
+    Categories.categories.addAll(List<String>.from(data));
+    // Categories.categories = jsonData["data"][0]["category"] as List<String>;
+
+  }
 
 
   //search
@@ -39,8 +58,9 @@ class UserApi {
   //sort and filter
   static Future<List<Product>> getSellerProducts( sort, token, id
   ) async {
-    print(token);
-    final baseUrl = 'https://api.pehchankidukan.com/seller/$id/products?sort=$sort';
+    // print(token);
+  print("called recentlyadded $sort");
+    final baseUrl = 'https://api.pehchankidukan.com/seller/$id/products?sort=$sort&limit=30';
     // final Map<String, dynamic> queryParams = {
     //   ...filters,
     //   'page': page.toString(),
@@ -55,7 +75,7 @@ class UserApi {
     //  url = Uri.parse('$baseUrl?sort=$sort');
     // else
       final url = Uri.parse(baseUrl);
-      print(url);
+      // print(url);
     final response = await http.get(
       url,
       headers: <String, String>{
@@ -72,6 +92,8 @@ class UserApi {
     List<Product> products = (responseBody['data'] as List<dynamic>?)
         ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
         .toList() ?? [];
+    print(products[0].productName);
+    print(products[1].productName);
     return products;
       return responseBody['data'];
     //
@@ -196,20 +218,30 @@ class UserApi {
 
 
   //create Product API
-  static Future<void> createProduct(Product product, token, id) async {
-    final apiUrl = 'https://api/seller/$id/product';
+  static Future<String> createProduct(pName, category ,pSCategory1 ,pSCategory2, description, token, id, dummyProductList) async {
+    final apiUrl = 'https://api.pehchankidukan.com/seller/$id/products';
+  // late List dummyProductList;
+  //   itemOptions.forEach((itemOption) {
+  //     dummyProductList.add(QuantityPricing(offerPrice: int.parse(itemOption.offerPrice),
+  //         quantity: itemOption.price, mrpPrice: double.parse(itemOption.quantity), unit: itemOption.unit));
+  //   });
 
+    List<dynamic> itemOptionsMap = dummyProductList.map((item) {
+      return {
+        'mrpPrice': item.mrpPrice,
+        'quantity': item.quantity,
+        'unit': item.unit,
+        'offerPrice': item.offerPrice,
+      };
+    }).toList();
     final Map<String, dynamic> productJson = {
-      "productName": product.productName,
-      "category": product.category,
-      "subCategory1": product.subCategory1,//"product.subCategory2",
-      "subCategory2": product.subCategory2,//"product.subCategory2",
-      "image": product.images,
-      "description": product.description,
-      "quantityType": product.quantityType,
-      "mrpPrice": product.mrpPrice,
-      "offerPrice": product.offerPrice,
-      "productType": product.productType,
+      "productName": pName,
+      "category": category,
+      "subCategory1": pSCategory1,
+      "subCategory2": pSCategory2,//pSCategory2,
+      // "image": product.image,
+      "description": description,
+      "productDetails": itemOptionsMap,
     };
     var uri = Uri.parse(apiUrl);
     try {
@@ -221,12 +253,22 @@ class UserApi {
         },
         body: jsonEncode(productJson),
       );
+        final body = jsonDecode(response.body);
+      if (response.statusCode == 201) {
+        print("product created succesfully");
+        print(body);
+        print("body['_id']");
+        print(body['data']['_id']);
+        return body['data']['_id'];
 
-      // if (response.statusCode == 200) {
-      // } else {
-      // }
+      } else {
+        print('Failed to create product. Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+      }
     } catch (e) {
+      print(e);
     }
+    return "";
   }
 
   //update Product API

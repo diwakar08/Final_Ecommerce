@@ -1,6 +1,7 @@
-
 import 'dart:convert';
 import 'dart:io';
+import 'package:e_commerce/filterWidget.dart';
+import 'package:e_commerce/services/Categories.dart';
 import 'package:e_commerce/services/tokenId.dart';
 import 'package:e_commerce/update_product.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,7 +19,11 @@ import 'package:http/http.dart' as http;
 
 class ManageProducts extends StatefulWidget {
   final String token, id;
-  const ManageProducts({Key? key, required  this.token, required this.id}) : super(key: key);
+
+  final  List<String> selectedcategories;
+  final  Map<String, List<String>> selectedsubcategories;
+  final  double  selectedminPrice,selectedmaxPrice;
+  const ManageProducts({Key? key, required  this.token, required this.id,required this.selectedcategories,required this.selectedsubcategories,required this.selectedminPrice,required this.selectedmaxPrice}) : super(key: key);
 
   @override
   _ManageProductsState createState() => _ManageProductsState();
@@ -36,7 +41,7 @@ class _ManageProductsState extends State<ManageProducts> {
   String response1 = "";
 
   Future<void> sortBy(fieldName) async {
-    product = await UserApi.getSellerProducts( fieldName, widget.token, widget.id);
+    product = await fetchOrders(fieldName, widget.token, widget.id);
     setState(() {
 
     });
@@ -44,7 +49,7 @@ class _ManageProductsState extends State<ManageProducts> {
 
   @override
   initState() {
-    fetchOrders(widget.token, widget.id);
+    fetchOrders("", widget.token, widget.id);
   }
 
   @override
@@ -56,43 +61,41 @@ class _ManageProductsState extends State<ManageProducts> {
     return Scaffold(
 
         appBar: AppBar(
-          title: Expanded(
-            flex: 3,
-            child: Container(
+          title: Container(
+            height: 50,
+            margin: EdgeInsets.only(left: 5,right: 5),
+            child:
+            Container(
               height: 50,
-              margin: EdgeInsets.only(left: 5,right: 5),
-              child:
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  border: Border.all(color: Colors.black,width: 1),
-                  boxShadow:[
-                    BoxShadow(
-                      color: Colors.black38.withOpacity(0.5), //color of shadow
-                      blurRadius: 7, // blur radius
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                border: Border.all(color: Colors.black,width: 1),
+                boxShadow:[
+                  BoxShadow(
+                    color: Colors.black38.withOpacity(0.5), //color of shadow
+                    blurRadius: 7, // blur radius
 
-                    ),
-                    //you can set more BoxShadow() here
-                  ],
-
-
-                ),
-                margin: EdgeInsets.only( bottom: 5),
-
-                child: TextField(
-                  style: TextStyle(fontSize: 16,color: Colors.black,fontFamily: 'comfort'),
-                  decoration: InputDecoration(
-                    hintText: 'search',
-                    hintStyle: TextStyle(color: Colors.black),
-                    prefixIcon: Icon(Icons.search,color: Colors.black,),
-                    border: InputBorder.none,
                   ),
+                  //you can set more BoxShadow() here
+                ],
+
+
+              ),
+              margin: EdgeInsets.only( bottom: 5),
+
+              child: TextField(
+                style: TextStyle(fontSize: 16,color: Colors.black,fontFamily: 'comfort'),
+                decoration: InputDecoration(
+                  hintText: 'search',
+                  hintStyle: TextStyle(color: Colors.black),
+                  prefixIcon: Icon(Icons.search,color: Colors.black,),
+                  border: InputBorder.none,
                 ),
               ),
             ),
           ),
+
 
           backgroundColor: Colors.lightBlue.shade900,
           iconTheme: IconThemeData(color: Colors.white),
@@ -103,7 +106,7 @@ class _ManageProductsState extends State<ManageProducts> {
 
         body:
         FutureBuilder<List<Product>>(
-          future: fetchOrders(token, id),
+          future: fetchOrders("", token, id),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -122,105 +125,45 @@ class _ManageProductsState extends State<ManageProducts> {
                         children: [
                           Expanded(
                             flex: 2,
-                            child: Container(
-                              height: 50,
-                              margin: EdgeInsets.only(left: 5,right: 2,top: 5),
-                              child:
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: FlutterPopupMenuButton(
-                                  direction: MenuDirection.left,
-                                  decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                                      color: Colors.white
+                            child: InkWell(
+                              onTap: (){
+                                UserApi.getAllCategory();
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => FilterScreen(),));
+                              },
+                              child: Container(
+                                height: 50,
+                                margin: EdgeInsets.only(left: 5,right: 2,top: 5),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                                    border: Border.all(color: Colors.black,width: 1),
+                                    boxShadow:[
+                                      BoxShadow(
+                                        color: Colors.black38.withOpacity(0.5),
+                                        blurRadius: 6,
+                                      ),
+                                    ],
                                   ),
-                                  popupMenuSize: const Size(180,210),
-                                  child: FlutterPopupMenuIcon(
-                                    key: GlobalKey(),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                                        border: Border.all(color: Colors.black,width: 1),
-                                        boxShadow:[
-                                          BoxShadow(
-                                            color: Colors.black38.withOpacity(0.5),
-                                            blurRadius: 6,
-                                          ),
-                                        ],
-                                      ),
-                                      margin: EdgeInsets.only( bottom: 5),
+                                  margin: EdgeInsets.only( bottom: 5),
 
-                                      child: Center(
-                                        child: Row(
-                                          children: [
-                                            SizedBox(width: 10,),
-                                            // Image.asset('assets/images/filter.png',width: 20,),
-                                            SizedBox(width: 6,),
-                                            Text('Filter',
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 14,
-                                                  fontFamily: 'comfort',
+                                  child: Center(
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 10,),
+                                        Image.asset('assets/images/filter.png',width: 20,),
+                                        SizedBox(width: 6,),
+                                        Text('Filter',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                              fontFamily: 'comfort',
 
-                                                )),
+                                            )),
 
-                                          ],
-                                        ),
-                                      ),
+                                      ],
                                     ),
                                   ),
-                                  children: [
-                                    FlutterPopupMenuItem(
-                                        onTap: (){
-
-                                        },
-                                        closeOnItemClick: true,
-                                        child: ListTile(
-                                          title: const Text('Category'),
-                                          leading: Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: BoxDecoration(
-                                                color: Colors.redAccent.withOpacity(0.3),
-                                                shape: BoxShape.circle
-                                            ),
-                                          ),
-                                        )),
-                                    FlutterPopupMenuItem(
-                                        onTap: (){
-
-                                        },
-                                        closeOnItemClick: true,
-                                        child: ListTile(
-                                          title: const Text('Low to High'),
-                                          leading: Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: BoxDecoration(
-                                                color: Colors.green.withOpacity(0.3),
-                                                shape: BoxShape.circle
-                                            ),
-                                          ),
-                                        )),
-                                    FlutterPopupMenuItem(
-                                        onTap: (){
-
-                                        },
-                                        closeOnItemClick: true,
-                                        child: ListTile(
-                                          title: const Text('High to Low'),
-                                          leading: Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: BoxDecoration(
-                                                color: Colors.blue.withOpacity(0.3),
-                                                shape: BoxShape.circle
-                                            ),
-                                          ),
-                                        )),
-
-                                  ],
                                 ),
                               ),
                             ),
@@ -239,7 +182,7 @@ class _ManageProductsState extends State<ManageProducts> {
                                       borderRadius: BorderRadius.all(Radius.circular(20)),
                                       color: Colors.white
                                   ),
-                                  popupMenuSize: const Size(180,270),
+                                  popupMenuSize: const Size(220,300),
                                   child: FlutterPopupMenuIcon(
                                     key: GlobalKey(),
                                     child: Container(
@@ -278,14 +221,14 @@ class _ManageProductsState extends State<ManageProducts> {
                                   children: [
                                     FlutterPopupMenuItem(
                                         onTap: ()async{
-                                          sortBy('productName');
+                                          sortBy('productDetails.mrpPrice');
                                         },
                                         closeOnItemClick: true,
                                         child: ListTile(
-                                          title: const Text('By Product'),
+                                          title: const Text('Price(Low to High)',style: TextStyle(fontSize: 15),),
                                           leading: Container(
-                                            height: 20,
-                                            width: 20,
+                                            height: 15,
+                                            width: 15,
                                             decoration: BoxDecoration(
                                                 color: Colors.redAccent.withOpacity(0.3),
                                                 shape: BoxShape.circle
@@ -294,32 +237,32 @@ class _ManageProductsState extends State<ManageProducts> {
                                         )),
                                     FlutterPopupMenuItem(
                                         onTap: (){
-                                          sortBy("productName");
+                                          sortBy('-productDetails.mrpPrice');
                                         },
                                         closeOnItemClick: true,
                                         child: ListTile(
-                                          title: const Text('By Price'),
+                                          title: const Text('Price(High to Low)',style: TextStyle(fontSize: 15),),
                                           leading: Container(
-                                            height: 20,
-                                            width: 20,
+                                            height: 15,
+                                            width: 15,
                                             decoration: BoxDecoration(
-                                                color: Colors.green.withOpacity(0.3),
+                                                color: Colors.redAccent.withOpacity(0.3),
                                                 shape: BoxShape.circle
                                             ),
                                           ),
                                         )),
                                     FlutterPopupMenuItem(
                                         onTap: (){
-                                          sortBy("productSoldCount");
+                                          sortBy("-productSoldCount");
                                         },
                                         closeOnItemClick: true,
                                         child: ListTile(
-                                          title: const Text('Most Selling'),
+                                          title: const Text('Most Selling',style: TextStyle(fontSize: 15),),
                                           leading: Container(
-                                            height: 20,
-                                            width: 20,
+                                            height: 15,
+                                            width: 15,
                                             decoration: BoxDecoration(
-                                                color: Colors.blue.withOpacity(0.3),
+                                                color: Colors.redAccent.withOpacity(0.3),
                                                 shape: BoxShape.circle
                                             ),
                                           ),
@@ -330,21 +273,41 @@ class _ManageProductsState extends State<ManageProducts> {
                                         },
                                         closeOnItemClick: true,
                                         child: ListTile(
-                                          title: const Text('Rating Wise'),
+                                          title: const Text('Rating',style: TextStyle(fontSize: 15),),
                                           leading: Container(
-                                            height: 20,
-                                            width: 20,
+                                            height: 15,
+                                            width: 15,
                                             decoration: BoxDecoration(
-                                                color: Colors.cyanAccent.withOpacity(0.3),
+                                                color: Colors.redAccent.withOpacity(0.3),
                                                 shape: BoxShape.circle
                                             ),
                                           ),
-                                        ))
+                                        )),
+                                    FlutterPopupMenuItem(
+                                        onTap: (){
+                                          sortBy("created_at");
+                                          setState(() {
+
+                                          });
+                                        },
+                                        closeOnItemClick: true,
+                                        child: ListTile(
+                                          title: const Text('Recently Added',style: TextStyle(fontSize: 15),),
+                                          leading: Container(
+                                            height: 15,
+                                            width: 15,
+                                            decoration: BoxDecoration(
+                                                color: Colors.redAccent.withOpacity(0.3),
+                                                shape: BoxShape.circle
+                                            ),
+                                          ),
+                                        )),
                                   ],
                                 ),
                               ),
                             ),
                           ),
+
                         ],
                       ),
                     ),
@@ -585,8 +548,12 @@ class _ManageProductsState extends State<ManageProducts> {
     );
   }
   //fetch product all
-  Future<List<Product>> fetchOrders(token, id) async {
-    final data = await UserApi.getProducts(token, id);
+  Future<List<Product>> fetchOrders(sort, token, id) async {
+    final data ;
+    if(sort=="")
+    data = await UserApi.getProducts(token, id);
+    else
+    data = await UserApi.getSellerProducts( sort, widget.token, widget.id);
     return data;
   }
 
@@ -654,4 +621,66 @@ class _ManageProductsState extends State<ManageProducts> {
 
     });
   }
+
+// void showSortOptions(BuildContext context) {
+//   String selectedSortOption = 'Price (Low to High)';
+//
+//   showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         title: const Text('Sort Options'),
+//         content: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           children: [
+//             DropdownButton<String>(
+//               value: selectedSortOption,
+//               onChanged: (String? newValue) {
+//                 setState(() {
+//                   selectedSortOption = newValue!;  // Ensure newValue is not null
+//                   // Apply sorting based on selectedSortOption
+//                   // Implement your sorting logic here
+//                 });
+//               },
+//               items: <String>[
+//                 'Price (Low to High)',
+//                 'Price (High to Low)',
+//                 'Most Selling',
+//                 'Rating',
+//                 'Recently Added'
+//               ].map<DropdownMenuItem<String>>((String value) {
+//                 return DropdownMenuItem<String>(
+//                   value: value,
+//                   child: Text(value),
+//                 );
+//               }).toList(),
+//             ),
+//
+//           ],
+//         ),
+//         actions: <Widget>[
+//           TextButton(
+//             child: const Text('Cancel'),
+//             onPressed: () {
+//               Navigator.of(context).pop();
+//             },
+//           ),
+//           TextButton(
+//             child: const Text('Apply'),
+//             onPressed: () {
+//               if(selectedSortOption=='Price (Low to High)'){
+//                 print('Hello low');
+//               }else if(selectedSortOption=='Rating'){
+//                 print('Hello rating');
+//               }
+//               // Apply sorting based on selectedSortOption
+//               // Implement your sorting logic here
+//               Navigator.of(context).pop();
+//             },
+//           ),
+//         ],
+//       );
+//     },
+//   );
+// }
 }

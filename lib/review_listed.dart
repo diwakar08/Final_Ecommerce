@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:e_commerce/services/User_api.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:path/path.dart';
 import 'dart:io';
@@ -6,6 +7,7 @@ import 'package:e_commerce/services/tokenId.dart';
 import 'package:e_commerce/sucessfully_add.dart';
 import 'package:flutter/material.dart';
 import 'add_product.dart';
+import 'apis/ProductModel.dart';
 import 'main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -44,90 +46,37 @@ class _ReviewListedState extends State<ReviewListed> {
     String pDescription  = widget.description;
     String token = widget.token;
     String id = widget.id;
-
-
-
-    // Future<void> postProductData() async {
-    //   final url = Uri.parse('https://api.pehchankidukan.com/seller/$id/products');
-    //
-    //   // Create item options
-    //   final itemOptions = widget.itemOptions;
-    //   List<dynamic> itemOptionsMap = itemOptions.map((item) {
-    //     return {
-    //       'mrpPrice': item.price,
-    //       'quantity': item.quantity,
-    //       'unit': item.unit,
-    //       'offerPrice': item.offerPrice,
-    //     };
-    //   }).toList();
-    //   // Create the request body
-    //   // print(pDescription);
-    //   // print(pName);
-    //   // print(pType);
-    //   final requestBody = {
-    //     'productName': pName,
-    //     "images": widget.imageFileList,
-    //     'category': widget.category,
-    //     'subCategory1': widget.subCategory1,
-    //     'subCategory2': widget.subCategory2,
-    //     'description': pDescription,
-    //     'productDetails': itemOptionsMap
-    //   };
-    //
-    //
-    //
-    //   try {
-    //     print(requestBody);
-    //     final response = await http.post(
-    //       url,
-    //       headers: <String, String>{
-    //         'Content-Type': 'Multipart/form-data',
-    //         'Authorization': 'Bearer ${TokenId.token}',
-    //       },
-    //       body: jsonEncode(requestBody),
-    //     );
-    //
-    //     if (response.statusCode == 200) {
-    //       print('POST request successful');
-    //       print('Response: ${response.body}');
-    //     } else {
-    //       print('Failed to make POST request: ${response.statusCode}');
-    //       print('Response: ${response.body}');
-    //     }
-    //   } catch (error) {
-    //     print('Error: $error');
-    //   }
-    // }
-
-
-
+    List dummyProductList =[];
     Future<void> postProductData() async {
-      final url = Uri.parse('https://api.pehchankidukan.com/seller/$id/products');
+      final url = Uri.parse(
+          'https://api.pehchankidukan.com/seller/$id/products');
 
       // Create item options
       final itemOptions = widget.itemOptions;
-      List<dynamic> itemOptionsMap = itemOptions.map((item) {
-        return {
-          'mrpPrice': item.price,
-          'quantity': item.quantity,
-          'unit': item.unit,
-          'offerPrice': item.offerPrice,
-        };
-      }).toList();
-
+      itemOptions.forEach((itemOption) {
+        dummyProductList.add(QuantityPricing(offerPrice: int.parse(itemOption.offerPrice),
+            quantity: itemOption.price, mrpPrice: double.parse(itemOption.quantity), unit: itemOption.unit));
+      });
+      print("pidddd");
+        final pid = await UserApi.createProduct(
+            pName,
+            widget.category,
+            widget.subCategory1,
+            widget.subCategory2,
+            pDescription,
+            token,
+            id,
+            dummyProductList);
+        print("pidddd");
+        print(pid);
+        final url1 = 'https://api.pehchankidukan.com/seller/${TokenId.id}/products/$pid';
       try {
-        var request = http.MultipartRequest('POST', url);
+        var request = http.MultipartRequest('PUT', (Uri.parse(url1)));
 
         request.headers['Authorization'] = 'Bearer ${TokenId.token}';
 
-        // Add text fields to the request
-        request.fields['productName'] = pName;
-        request.fields['category'] = widget.category;
-        request.fields['subCategory1'] = widget.subCategory1;
-        request.fields['subCategory2'] = widget.subCategory2;
-        request.fields['description'] = pDescription;
         // Add each image file to the request
-        if(widget.imageFileList != null) {
+        if (widget.imageFileList != null) {
           for (var imageFile in widget.imageFileList!) {
             int length = await imageFile.length();
             String fileName = basename(imageFile.path);
@@ -142,23 +91,20 @@ class _ReviewListedState extends State<ReviewListed> {
           }
         }
 
-        // Add the product details
-        request.fields['productDetails'] = jsonEncode(itemOptionsMap);
 
-        // Send the request
         final response = await request.send();
 
-        if (response.statusCode == 200) {
-          print('POST request successful');
-          print('Response: ${await response.stream.bytesToString()}');
-        } else {
-          print('Failed to make POST request: ${response.statusCode}');
-          print('Response: ${await response.stream.bytesToString()}');
+          if (response.statusCode == 200) {
+            print('PUT images request successful');
+            print('Response: ${await response.stream.bytesToString()}');
+          } else {
+            print('Failed to make PUT request: ${response.statusCode}');
+            print('Response: ${await response.stream.bytesToString()}');
+          }
+        } catch (error) {
+          print('Error: $error');
         }
-      } catch (error) {
-        print('Error: $error');
       }
-    }
 
 
     return Scaffold(
@@ -264,35 +210,35 @@ class _ReviewListedState extends State<ReviewListed> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                          margin: EdgeInsets.only(left: 20,right: 20,top: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Product Image:",textScaleFactor: 1.2,style: TextStyle(fontWeight: FontWeight.bold)),
-                              Container(
-                                height: 150,
-
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: GridView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: widget.imageFileList!.length,
-                                      gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 1,
-                                          mainAxisSpacing: 5),
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return Image.file(
-                                          File(widget.imageFileList![index].path),
-                                          fit: BoxFit.cover,
-                                        );
-                                      }),
-                                ),
-                              ),
-                            ],
-                          )),
+                      // Container(
+                      //     margin: EdgeInsets.only(left: 20,right: 20,top: 10),
+                      //     child: Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       children: [
+                      //         Text("Product Image:",textScaleFactor: 1.2,style: TextStyle(fontWeight: FontWeight.bold)),
+                      //         Container(
+                      //           height: 150,
+                      //
+                      //           child: Padding(
+                      //             padding: const EdgeInsets.all(8.0),
+                      //             child: GridView.builder(
+                      //                 scrollDirection: Axis.horizontal,
+                      //                 itemCount: widget.imageFileList!.length,
+                      //                 gridDelegate:
+                      //                 SliverGridDelegateWithFixedCrossAxisCount(
+                      //                     crossAxisCount: 1,
+                      //                     mainAxisSpacing: 5),
+                      //                 itemBuilder:
+                      //                     (BuildContext context, int index) {
+                      //                   return Image.file(
+                      //                     File(widget.imageFileList![index].path),
+                      //                     fit: BoxFit.cover,
+                      //                   );
+                      //                 }),
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     )),
                       Container(
                           margin: EdgeInsets.only(left: 20,right: 20,top: 15),
                           child: Column(
