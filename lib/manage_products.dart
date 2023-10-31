@@ -40,6 +40,8 @@ class _ManageProductsState extends State<ManageProducts> {
   late Order order;
   late List<Product> product;
   String response1 = "";
+  Future<List<Product>>? _productData;
+
 
 
   @override
@@ -61,8 +63,65 @@ class _ManageProductsState extends State<ManageProducts> {
       }
     });
   }
+
+  Future<void> showDeleteConfirmationDialog(int index) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete Product?'),
+          content: Text('Are you sure you want to delete this product?'),
+          actions: [
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+            TextButton(
+              child: Text('Delete'),
+              onPressed: () {
+                removeImage(index); // Remove the image from the list
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> updateOnSearch(query) async{
+    if(query.length==0) {
+      setState ((){
+        _productData = fetchOrders("", TokenId.token, TokenId.id);
+      });
+      return;
+    } else if(query.length<3) {
+      return;
+    }
+      else
+   {
+      setState(() {
+        _productData = UserApi.searchProducts(query, TokenId.token, TokenId.id);
+      });
+    }
+  }
+
+
+  void removeImage(int index) {
+    setState(() {
+      product.removeAt(index);
+    });
+  }
+
   @override
   initState() {
+    super.initState();
+    // Fetch the data and store it in _productData
+    _productData =  fetchOrders("", TokenId.token, TokenId.id);
+    print("_productData");
+    print(_productData);
   }
 
   @override
@@ -105,6 +164,10 @@ class _ManageProductsState extends State<ManageProducts> {
                   prefixIcon: Icon(Icons.search,color: Colors.black,),
                   border: InputBorder.none,
                 ),
+                onChanged: (query) async{
+
+                  await updateOnSearch(query);
+                },
               ),
             ),
           ),
@@ -119,7 +182,7 @@ class _ManageProductsState extends State<ManageProducts> {
 
         body:
         FutureBuilder<List<Product>>(
-          future: fetchOrders(sortt, token, id),
+          future: _productData,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -416,7 +479,7 @@ class _ManageProductsState extends State<ManageProducts> {
                                                                   )),
                                                               IconButton( icon: Icon(Icons.delete,color: Colors.red.shade900,size: 25,),
                                                                 onPressed: () {
-
+                                                                  showDeleteConfirmationDialog(index);
                                                                 },),
                                                             ],
                                                           ),

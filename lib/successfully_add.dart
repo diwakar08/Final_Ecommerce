@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:e_commerce/add_product.dart';
+import 'package:e_commerce/main_dashboard.dart';
 import 'package:e_commerce/seller_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
@@ -183,12 +184,15 @@ class _SuccessfulAddState extends State<SuccessfulAdd> {
                 EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 30),
                 child: MaterialButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              SellerDashboard(token: token, id: id),
-                        ));
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            MainDashboard(token: widget.token, id: widget.id),
+                      ),
+                          (
+                          route) => false, // This line clears the navigator stack
+                    );
                   },
                   child: Text(
                     'Go To Dashboard',

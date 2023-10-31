@@ -465,7 +465,7 @@ class _BankDetailsFormState extends State<BankDetailsForm> {
                         // Process the form data and perform submission
                         // You can access the entered data using the controllers
                       },
-                      child: const Text('Submit'),
+                      child: const Text('Next'),
                     ),
                   ),
                 ),

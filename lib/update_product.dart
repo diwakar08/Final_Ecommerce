@@ -1903,7 +1903,7 @@ class _UpdateProductsState extends State<UpdateProducts> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               CupertinoSwitch(
-                                activeColor: Colors.red,
+                                activeColor: Colors.green,
                                 value: _switchValue,
                                 onChanged: (bool value) {
                                   s = value == false ? 'In stock' : 'Out of stock';

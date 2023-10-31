@@ -308,6 +308,7 @@ class _AddProductState extends State<AddProduct> {
   bool _validate2 = false;
 
   String productType = 'Veg';
+  final _formkey = GlobalKey<FormState>();
   TextEditingController productTypeContt = TextEditingController();
   TextEditingController productNameContt = TextEditingController();
   TextEditingController productDescriptionContt = TextEditingController();
@@ -323,6 +324,64 @@ class _AddProductState extends State<AddProduct> {
   FocusNode descriptionFocusNode = FocusNode();
 
 // Initialize the FocusNode in your build method or constructor.
+
+  void showCameraImageExpansion(int index) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text('Expanded Image'),
+            ),
+            body: Center(
+              child: Hero(
+                  tag: 'image_$index',
+                  child:  Image.file(
+                    File(imageFileList![index].path),
+                    fit: BoxFit.cover,
+                  )
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+
+
+  Future<void> showCameraDeleteConfirmationDialog(int index) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete Image?'),
+          content: Text('Are you sure you want to delete this image?'),
+          actions: [
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+            TextButton(
+              child: Text('Delete'),
+              onPressed: () {
+                removeCameraImage(index); // Remove the image from the list
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void removeCameraImage(int index) {
+    setState(() {
+      imageFileList!.removeAt(index);
+    });
+  }
 
   @override
   void initState() {
@@ -574,9 +633,34 @@ class _AddProductState extends State<AddProduct> {
                                         mainAxisSpacing: 5),
                                     itemBuilder:
                                         (BuildContext context, int index) {
-                                      return Image.file(
-                                        File(imageFileList![index].path),
-                                        fit: BoxFit.cover,
+                                      return Stack(
+                                        children: [
+                                          Hero(
+                                            tag: 'image_$index',
+                                            child: GestureDetector(
+                                                onTap: () {
+                                                  showCameraImageExpansion(index);
+                                                },
+                                                child: Image.file(
+                                                  File(imageFileList![index].path),
+                                                  fit: BoxFit.cover,
+                                                )
+                                            ),
+                                          ),
+                                          Positioned(
+                                            top: 0,
+                                            right: 0,
+                                            child: IconButton(
+                                              icon: Icon(Icons.cancel_outlined,color: Colors.cyanAccent,),
+                                              onPressed: () {
+
+                                                showCameraDeleteConfirmationDialog(index);
+                                                // removeImage(index);
+
+                                              },
+                                            ),
+                                          ),
+                                        ],
                                       );
                                     }),
                               ),
@@ -614,143 +698,219 @@ class _AddProductState extends State<AddProduct> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-                        child: Text(
-                          'Product Name',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontFamily: 'Poppins',
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20, right: 20),
-                        child: TextField(
-                          onChanged: (value) {
-                            productName = value;
-                          },
-                          controller: productNameContt,
-                          style: TextStyle(fontFamily: 'Poppins', fontSize: 15),
-                          decoration: InputDecoration(
-                            errorText:
-                            _validate1 ? 'Value Can\'t Be Empty' : null,
-                            hintText: 'Name of item (Ex-Oil)',
-                            focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                BorderSide(color: Colors.teal.shade900)),
-                          ),
-                        ),
-                      ),
-                        Container(
-                        margin: EdgeInsets.only(left: 20, right: 20, top: 25),
-  child: Text(
-  'Product  Description',
-  style: TextStyle(
-  fontSize: 13,
-  fontFamily: 'Poppins',
-  color: Colors.black87,
-  ),
-  ),
-  ),
-  Container(
-  margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
-  // child: TextField(
-  // onChanged: (value) {
-  // productDescription = value;
-  // },
-  // focusNode: descriptionFocusNode, // Use the FocusNode
-  // controller: productDescriptionContt,
-  // style: TextStyle(fontFamily: 'Poppins', fontSize: 16),
-  // decoration: InputDecoration(
-  // errorText: _validate2 ? 'Value Can\'t Be Empty' : null,
-  // hintText: 'Write here about the product',
-  // focusedBorder: OutlineInputBorder(
-  // borderSide: BorderSide(color: Colors.teal.shade900),
-  // ),
-  // ),
-  // ),
-    child: TextFormField(
-      // onChanged: (value) {
-      //   productDescription = value;
-      // },
-
-      controller: productDescriptionController, // Use the controller
-      style: TextStyle(fontFamily: 'Poppins', fontSize: 16),
-      decoration: InputDecoration(
-
-        hintText: 'Write here about the product',
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.teal.shade900),
-        ),
-      ),
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'value cant be empty';
-          }
-          return null;
-        },
-    ),
-
-  ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20, right: 20, top: 25),
-                        child: Text(
-                          'Select Quantity/price',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontFamily: 'Poppins',
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ),
-                      PriceQuantitySpinnerRow(
-                          options: itemOptions,
-                          onOptionAdded: handleOptionAdded,
-                          updateInitialValue:
-                              (pControllers, oController, qController) {}),
-                      Container(
-                        width: double.maxFinite,
-                        margin: EdgeInsets.only(
-                            left: 20, right: 20, bottom: 40, top: 20),
-                        child: MaterialButton(
-                          onPressed: () {
-                            if (productName.isEmpty ||
-                                productDescription.isEmpty) {
-                              setState(() {
-                                productName.isEmpty
-                                    ? _validate1 = true
-                                    : _validate1 = false;
-                                productDescription.isEmpty
-                                    ? _validate2 = true
-                                    : _validate1 = false;
-                              });
-                            } else {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ReviewListed(
-                                      token: widget.token,
-                                      id: widget.id,
-                                      itemOptions: itemOptions,
-                                      productName: productName,
-                                      imageFileList: imageFileList,
-                                      productType: productType,
-                                      description: productDescription,
-                                      category: widget.category,
-                                      subCategory1: widget.subCategory1,
-                                      subCategory2: widget.subCategory2,
+                        child: Form(
+                          key: _formkey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start, // Align everything to the left
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                                child: Text(
+                                  'Product Name',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily: 'Poppins',
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                                child: TextFormField(
+                                  controller: productNameContt, // Use the controller
+                                  style: TextStyle(fontFamily: 'Poppins', fontSize: 16),
+                                  decoration: InputDecoration(
+                                    hintText: 'Write the productName',
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.teal.shade900),
                                     ),
-                                  ));
-                            }
-                          },
-                          child: Text(
-                            'Save And Continue',
-                            style: TextStyle(color: Colors.white, fontSize: 15),
+                                  ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Value can\'t be empty';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 20, right: 20, top: 25),
+                                child: Text(
+                                  'Product  Description',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily: 'Poppins',
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                                child: TextFormField(
+                                  controller: productDescriptionController, // Use the controller
+                                  style: TextStyle(fontFamily: 'Poppins', fontSize: 16),
+                                  decoration: InputDecoration(
+                                    hintText: 'Optional Field',
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.teal.shade900),
+                                    ),
+                                  ),
+                                  // validator: (value) {
+                                  //   if (value!.isEmpty) {
+                                  //     return 'Value can\'t be empty';
+                                  //   }
+                                  //   return null;
+                                  // },
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 20, right: 20, top: 25),
+                                child: Text(
+                                  'Select Quantity/price',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily: 'Poppins',
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                              ),
+                              PriceQuantitySpinnerRow(
+                                options: itemOptions,
+                                onOptionAdded: handleOptionAdded,
+                                updateInitialValue: (pControllers, oController, qController) {},
+                              ),
+                              Container(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    if (_formkey.currentState!.validate()) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ReviewListed(
+                                              token: widget.token,
+                                              id: widget.id,
+                                              itemOptions: itemOptions,
+                                              productName: productNameContt.text,
+                                              imageFileList: imageFileList,
+                                              productType: productType,
+                                              description: productDescriptionController.text,
+                                              category: widget.category,
+                                              subCategory1: widget.subCategory1,
+                                              subCategory2: widget.subCategory2,
+                                            ),
+                                          ));
+                                    }
+
+                                    // Process the form data and perform submission
+                                    // You can access the entered data using the controllers
+                                  },
+                                  child: const Text('Submit'),
+                                ),
+                              ),
+                            ],
                           ),
-                          color: Colors.lightBlue.shade500,
-                          height: 40,
                         ),
+
+                        // child: Form(
+                        //   key: _formkey,
+                        //   child: Column(
+                        //     children: [
+                        //       Container(
+                        //         margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                        //         child: Text(
+                        //           'Product Name',
+                        //           style: TextStyle(
+                        //             fontSize: 13,
+                        //             fontFamily: 'Poppins',
+                        //             color: Colors.black87,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       Container(
+                        //         margin: EdgeInsets.only(left: 20, right: 20),
+                        //         child: TextField(
+                        //           onChanged: (value) {
+                        //             productName = value;
+                        //           },
+                        //           controller: productNameContt,
+                        //           style: TextStyle(fontFamily: 'Poppins', fontSize: 15),
+                        //           decoration: InputDecoration(
+                        //             errorText:
+                        //             _validate1 ? 'Value Can\'t Be Empty' : null,
+                        //             hintText: 'Name of item (Ex-Oil)',
+                        //             focusedBorder: OutlineInputBorder(
+                        //                 borderSide:
+                        //                 BorderSide(color: Colors.teal.shade900)),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       Container(
+                        //         margin: EdgeInsets.only(left: 20, right: 20, top: 25),
+                        //         child: Text(
+                        //           'Product  Description',
+                        //           style: TextStyle(
+                        //             fontSize: 13,
+                        //             fontFamily: 'Poppins',
+                        //             color: Colors.black87,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       Container(
+                        //         margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                        //
+                        //         child: TextFormField(
+                        //           controller: productDescriptionController, // Use the controller
+                        //           style: TextStyle(fontFamily: 'Poppins', fontSize: 16),
+                        //           decoration: InputDecoration(
+                        //
+                        //             hintText: 'Write here about the product',
+                        //             focusedBorder: OutlineInputBorder(
+                        //               borderSide: BorderSide(color: Colors.teal.shade900),
+                        //             ),
+                        //           ),
+                        //           validator: (value) {
+                        //             if (value!.isEmpty) {
+                        //               return 'value cant be empty';
+                        //             }
+                        //             return null;
+                        //           },
+                        //         ),
+                        //
+                        //       ),
+                        //       Container(
+                        //         margin: EdgeInsets.only(left: 20, right: 20, top: 25),
+                        //         child: Text(
+                        //           'Select Quantity/price',
+                        //           style: TextStyle(
+                        //             fontSize: 13,
+                        //             fontFamily: 'Poppins',
+                        //             color: Colors.black87,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       PriceQuantitySpinnerRow(
+                        //           options: itemOptions,
+                        //           onOptionAdded: handleOptionAdded,
+                        //           updateInitialValue:
+                        //               (pControllers, oController, qController) {}),
+                        //       Container(
+                        //         width: double.infinity,
+                        //         child: ElevatedButton(
+                        //           onPressed: () {
+                        //             if(_formkey.currentState!.validate() || true){
+                        //               print('success');
+                        //             }
+                        //
+                        //             // Process the form data and perform submission
+                        //             // You can access the entered data using the controllers
+                        //           },
+                        //           child: const Text('Submit'),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                       ),
                     ],
                   ),

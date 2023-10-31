@@ -36,9 +36,10 @@ class UserApi {
 
   //search
   static Future<List<Product>> searchProducts(String keyword, token, id) async {
-    final Url = 'https://api.pehchankidukan.com/seller/$id';
+    final Url = 'https://api.pehchankidukan.com/seller/$id/products/search';
     final url = Uri.parse('$Url?keyword=$keyword');
-
+print("query");
+print(keyword);
     final response = await http.get(
       url,
       headers: <String, String>{
@@ -49,8 +50,15 @@ class UserApi {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
-      return responseBody['data'];
-    } else {
+      print(responseBody['status']);
+      print(responseBody['length']);
+      print(responseBody['message']);
+      List<Product> products = (responseBody['data'] as List<dynamic>?)
+          ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
+          .toList() ?? [];
+      // print(products[0].productName);
+      // print(products[1].productName);
+      return products;    } else {
       throw Exception('Failed to search products: ${response.reasonPhrase}');
     }
   }
