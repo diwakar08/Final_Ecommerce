@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
   // String token1 ="" ;
   Future<void> postSeller() async {
     Map<String, dynamic> jsonData = {
-      "phone": "9111766052",//phone_controller.text,
+      "phone": "9111766852",
       "otp":"1234"
     };
 
@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
         final Map<String, dynamic> responseData = json.decode(response.body);
 
         token = responseData['token'];
-        id=responseData['data']['_id'];
+        id=responseData['id'];
         print(responseData['message']);
         TokenId.token=token;
         TokenId.id=id;
@@ -69,6 +69,8 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     print("token is printing");
     print("token is ${token}");
+    TokenId.token=token;
+    TokenId.id=id;
     // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Regest(token:token, id:id)));
     Navigator.push(context, MaterialPageRoute(builder: (context) => Regest(token:token, id:id)));
     // Navigator.push(context, MaterialPageRoute(builder: (context) => BankDetailsForm( token:token, id:id)));

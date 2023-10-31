@@ -88,15 +88,11 @@ class _ManageProductsState extends State<ManageProducts> {
                   BoxShadow(
                     color: Colors.black38.withOpacity(0.5), //color of shadow
                     blurRadius: 7, // blur radius
-
                   ),
                   //you can set more BoxShadow() here
                 ],
-
-
               ),
               margin: EdgeInsets.only( bottom: 5),
-
               child: TextField(
                 style: TextStyle(fontSize: 16,color: Colors.black,fontFamily: 'comfort'),
                 decoration: InputDecoration(
@@ -113,12 +109,8 @@ class _ManageProductsState extends State<ManageProducts> {
           backgroundColor: Colors.lightBlue.shade900,
           iconTheme: IconThemeData(color: Colors.white),
         ),
-
-
         backgroundColor: Colors.white,
-
-        body:
-
+        // body:
     );
   }
   //fetch product all

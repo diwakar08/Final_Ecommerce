@@ -1,6 +1,7 @@
 // import 'package:e_commerce/home.dart';
 import 'package:e_commerce/seller_dashboard.dart';
 import 'package:e_commerce/seller_login.dart';
+import 'package:e_commerce/splash_screen.dart';
 import 'package:flutter/material.dart';
 // import 'dart:ui_web' show debugEmulateFlutterTesterEnvironment;
 
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: const SplashScreen(),
     );
   }
 }

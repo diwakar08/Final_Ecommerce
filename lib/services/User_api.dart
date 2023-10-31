@@ -14,6 +14,31 @@ import 'Categories.dart';
 
 class UserApi {
 
+
+  static Future<void> deleteProduct(id) async {
+    print("iddiidd");
+    print(id);
+    final Url = 'https://api.pehchankidukan.com/seller/${TokenId.id}/products';
+    final url = Uri.parse(Url);
+    final Map<String, dynamic> queryParameters = {
+      "productID": id
+    };
+    final response = await http.delete(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${TokenId.token}',
+      },
+      body:jsonEncode(queryParameters)
+    );
+    if (response.statusCode == 200) {
+      print("deletion successfull");
+    } else {
+      throw Exception('Failed to Delete product: ${response.reasonPhrase}');
+    }
+  }
+
+
   static Future<void> getAllCategory() async {
     print("getallcategoryforfilter called");
     final apiUrl = "https://api.pehchankidukan.com/seller/category";
@@ -58,7 +83,8 @@ print(keyword);
           .toList() ?? [];
       // print(products[0].productName);
       // print(products[1].productName);
-      return products;    } else {
+      return products;
+    } else {
       throw Exception('Failed to search products: ${response.reasonPhrase}');
     }
   }
@@ -332,11 +358,11 @@ print(keyword);
     print("called getProducts12 function");
     print("id-$id");
     print("token-$token");
-    final uri = Uri.parse('https://api.pehchankidukan.com/seller/$id/products');
+    final uri = Uri.parse('https://api.pehchankidukan.com/seller/${TokenId.id}/products');
     final response = await http.get(uri,
       headers: <String, String>{
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token'
+        'Authorization': 'Bearer ${TokenId.token}'
       },
     );
     final body = response.body;

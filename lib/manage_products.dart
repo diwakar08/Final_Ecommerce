@@ -1,14 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:e_commerce/filterWidget.dart';
-import 'package:e_commerce/services/Categories.dart';
 import 'package:e_commerce/services/tokenId.dart';
 import 'package:e_commerce/update_product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:toggle_switch/toggle_switch.dart';
-import 'add_product.dart';
-import 'main.dart';
 import 'package:flutter_popup_menu_button/custom_popup_menu_button.dart';
 
 import './services/User_api.dart';
@@ -30,7 +25,6 @@ class ManageProducts extends StatefulWidget {
 }
 
 class _ManageProductsState extends State<ManageProducts> {
-  bool _switchValue = true;
   String stockIn = 'In Stock';
   String stockOut = 'Out of stock';
   String sortt = "";
@@ -43,28 +37,9 @@ class _ManageProductsState extends State<ManageProducts> {
   Future<List<Product>>? _productData;
 
 
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-  void refreshContent() {
-    // Store the current scroll position
-    scrollPosition = _scrollController.offset;
-
-    // Simulate a refresh (replace this with your actual refresh logic)
-    Future.delayed(Duration(seconds: 2), () {
-      // Restore the scroll position after the refresh
-      if (_scrollController.hasClients) {
-        setState(() {
-          _scrollController.jumpTo(scrollPosition);
-        });
-      }
-    });
-  }
-
-  Future<void> showDeleteConfirmationDialog(int index) async {
+  Future<void> showDeleteConfirmationDialog(String id) async {
+    print("idddd12");
+    print(id);
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -81,8 +56,18 @@ class _ManageProductsState extends State<ManageProducts> {
             TextButton(
               child: Text('Delete'),
               onPressed: () {
-                removeImage(index); // Remove the image from the list
-                Navigator.of(context).pop(); // Close the dialog
+                // removeImage(0);
+                print("iddd");
+                print(id);
+                    UserApi.deleteProduct(id);
+                // Remove the image from the list
+
+                  _productData = fetchOrders("", TokenId.token, TokenId.id);
+
+                    setState(() {
+                      Navigator.of(context).pop();
+                    });
+                 // Close the dialog
               },
             ),
           ],
@@ -91,17 +76,16 @@ class _ManageProductsState extends State<ManageProducts> {
     );
   }
 
-  Future<void> updateOnSearch(query) async{
-    if(query.length==0) {
-      setState ((){
+  Future<void> updateOnSearch(query) async {
+    if (query.length == 0) {
+      setState(() {
         _productData = fetchOrders("", TokenId.token, TokenId.id);
       });
       return;
-    } else if(query.length<3) {
+    } else if (query.length < 3) {
       return;
     }
-      else
-   {
+    else {
       setState(() {
         _productData = UserApi.searchProducts(query, TokenId.token, TokenId.id);
       });
@@ -119,7 +103,7 @@ class _ManageProductsState extends State<ManageProducts> {
   initState() {
     super.initState();
     // Fetch the data and store it in _productData
-    _productData =  fetchOrders("", TokenId.token, TokenId.id);
+    _productData = fetchOrders("", TokenId.token, TokenId.id);
     print("_productData");
     print(_productData);
   }
@@ -128,22 +112,21 @@ class _ManageProductsState extends State<ManageProducts> {
   Widget build(BuildContext context) {
     String token = widget.token;
     String id = widget.id;
-    Icon stockINorOut = Icon(Icons.circle_outlined,color: Colors.red.shade900,);
 
     return Scaffold(
 
         appBar: AppBar(
           title: Container(
             height: 50,
-            margin: EdgeInsets.only(left: 5,right: 5),
+            margin: EdgeInsets.only(left: 5, right: 5),
             child:
             Container(
               height: 50,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                border: Border.all(color: Colors.black,width: 1),
-                boxShadow:[
+                border: Border.all(color: Colors.black, width: 1),
+                boxShadow: [
                   BoxShadow(
                     color: Colors.black38.withOpacity(0.5), //color of shadow
                     blurRadius: 7, // blur radius
@@ -154,18 +137,18 @@ class _ManageProductsState extends State<ManageProducts> {
 
 
               ),
-              margin: EdgeInsets.only( bottom: 5),
+              margin: EdgeInsets.only(bottom: 5),
 
               child: TextField(
-                style: TextStyle(fontSize: 16,color: Colors.black,fontFamily: 'comfort'),
+                style: TextStyle(
+                    fontSize: 16, color: Colors.black, fontFamily: 'comfort'),
                 decoration: InputDecoration(
                   hintText: 'search',
                   hintStyle: TextStyle(color: Colors.black),
-                  prefixIcon: Icon(Icons.search,color: Colors.black,),
+                  prefixIcon: Icon(Icons.search, color: Colors.black,),
                   border: InputBorder.none,
                 ),
-                onChanged: (query) async{
-
+                onChanged: (query) async {
                   await updateOnSearch(query);
                 },
               ),
@@ -202,32 +185,37 @@ class _ManageProductsState extends State<ManageProducts> {
                           Expanded(
                             flex: 2,
                             child: InkWell(
-                              onTap: () async{
+                              onTap: () async {
                                 await UserApi.getAllCategory();
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => FilterScreen(),));
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => FilterScreen(),));
                               },
                               child: Container(
                                 height: 50,
-                                margin: EdgeInsets.only(left: 5,right: 2,top: 5),
+                                margin: EdgeInsets.only(
+                                    left: 5, right: 2, top: 5),
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                                    border: Border.all(color: Colors.black,width: 1),
-                                    boxShadow:[
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(30)),
+                                    border: Border.all(
+                                        color: Colors.black, width: 1),
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.black38.withOpacity(0.5),
                                         blurRadius: 6,
                                       ),
                                     ],
                                   ),
-                                  margin: EdgeInsets.only( bottom: 5),
+                                  margin: EdgeInsets.only(bottom: 5),
 
                                   child: Center(
                                     child: Row(
                                       children: [
                                         SizedBox(width: 10,),
-                                        Image.asset('assets/images/filter.png',width: 20,),
+                                        Image.asset('assets/images/filter.png',
+                                          width: 20,),
                                         SizedBox(width: 6,),
                                         Text('Filter',
                                             style: TextStyle(
@@ -248,38 +236,44 @@ class _ManageProductsState extends State<ManageProducts> {
                             flex: 2,
                             child: Container(
                               height: 50,
-                              margin: EdgeInsets.only(left: 2,right: 5,top: 5),
+                              margin: EdgeInsets.only(
+                                  left: 2, right: 5, top: 5),
                               child:
                               Align(
                                 alignment: Alignment.topLeft,
                                 child: FlutterPopupMenuButton(
                                   direction: MenuDirection.left,
                                   decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20)),
                                       color: Colors.white
                                   ),
-                                  popupMenuSize: const Size(220,300),
+                                  popupMenuSize: const Size(220, 300),
                                   child: FlutterPopupMenuIcon(
                                     key: GlobalKey(),
                                     child: Container(
                                       decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                                        border: Border.all(color: Colors.black,width: 1),
-                                        boxShadow:[
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30)),
+                                        border: Border.all(
+                                            color: Colors.black, width: 1),
+                                        boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black38.withOpacity(0.5),
+                                            color: Colors.black38.withOpacity(
+                                                0.5),
                                             blurRadius: 5,
                                           ),
                                         ],
                                       ),
-                                      margin: EdgeInsets.only( bottom: 5),
+                                      margin: EdgeInsets.only(bottom: 5),
 
                                       child: Center(
                                         child: Row(
                                           children: [
                                             SizedBox(width: 10,),
-                                            Icon(Icons.sort,color: Colors.black ),
+                                            Icon(Icons.sort,
+                                                color: Colors.black),
                                             SizedBox(width: 6,),
                                             Text('Sort',
                                                 style: TextStyle(
@@ -296,90 +290,101 @@ class _ManageProductsState extends State<ManageProducts> {
                                   ),
                                   children: [
                                     FlutterPopupMenuItem(
-                                        onTap: ()async{
+                                        onTap: () async {
                                           setState(() {
                                             sortt = "productDetails.mrpPrice";
                                           });
                                         },
                                         closeOnItemClick: true,
                                         child: ListTile(
-                                          title: const Text('Price(Low to High)',style: TextStyle(fontSize: 15),),
+                                          title: const Text(
+                                            'Price(Low to High)',
+                                            style: TextStyle(fontSize: 15),),
                                           leading: Container(
                                             height: 15,
                                             width: 15,
                                             decoration: BoxDecoration(
-                                                color: Colors.redAccent.withOpacity(0.3),
+                                                color: Colors.redAccent
+                                                    .withOpacity(0.3),
                                                 shape: BoxShape.circle
                                             ),
                                           ),
                                         )),
                                     FlutterPopupMenuItem(
-                                        onTap: (){
+                                        onTap: () {
                                           setState(() {
                                             sortt = "-productDetails.mrpPrice";
                                           });
                                         },
                                         closeOnItemClick: true,
                                         child: ListTile(
-                                          title: const Text('Price(High to Low)',style: TextStyle(fontSize: 15),),
+                                          title: const Text(
+                                            'Price(High to Low)',
+                                            style: TextStyle(fontSize: 15),),
                                           leading: Container(
                                             height: 15,
                                             width: 15,
                                             decoration: BoxDecoration(
-                                                color: Colors.redAccent.withOpacity(0.3),
+                                                color: Colors.redAccent
+                                                    .withOpacity(0.3),
                                                 shape: BoxShape.circle
                                             ),
                                           ),
                                         )),
                                     FlutterPopupMenuItem(
-                                        onTap: (){
+                                        onTap: () {
                                           setState(() {
                                             sortt = "-productSoldCount";
                                           });
                                         },
                                         closeOnItemClick: true,
                                         child: ListTile(
-                                          title: const Text('Most Selling',style: TextStyle(fontSize: 15),),
+                                          title: const Text('Most Selling',
+                                            style: TextStyle(fontSize: 15),),
                                           leading: Container(
                                             height: 15,
                                             width: 15,
                                             decoration: BoxDecoration(
-                                                color: Colors.redAccent.withOpacity(0.3),
+                                                color: Colors.redAccent
+                                                    .withOpacity(0.3),
                                                 shape: BoxShape.circle
                                             ),
                                           ),
                                         )),
                                     FlutterPopupMenuItem(
-                                        onTap: (){
+                                        onTap: () {
 
                                         },
                                         closeOnItemClick: true,
                                         child: ListTile(
-                                          title: const Text('Rating',style: TextStyle(fontSize: 15),),
+                                          title: const Text('Rating',
+                                            style: TextStyle(fontSize: 15),),
                                           leading: Container(
                                             height: 15,
                                             width: 15,
                                             decoration: BoxDecoration(
-                                                color: Colors.redAccent.withOpacity(0.3),
+                                                color: Colors.redAccent
+                                                    .withOpacity(0.3),
                                                 shape: BoxShape.circle
                                             ),
                                           ),
                                         )),
                                     FlutterPopupMenuItem(
-                                        onTap: (){
-
+                                        onTap: () {
                                           setState(() {
                                             sortt = "created_at";
                                           });
                                         },
                                         closeOnItemClick: true,
                                         child: ListTile(
-                                          title: const Text('Recently Added',style: TextStyle(fontSize: 15),),
+                                          title: const Text('Recently Added',
+                                            style: TextStyle(fontSize: 15),),
                                           leading: Container(
                                             height: 15,
                                             width: 15,
                                             decoration: BoxDecoration(
-                                                color: Colors.redAccent.withOpacity(0.3),
+                                                color: Colors.redAccent
+                                                    .withOpacity(0.3),
                                                 shape: BoxShape.circle
                                             ),
                                           ),
@@ -400,31 +405,38 @@ class _ManageProductsState extends State<ManageProducts> {
                         itemCount: data?.length,
                         itemBuilder: (context, index) {
                           final prod = data?[index];
-                          String s = prod!.inStock.toString() == 'true' ? 'In stock' :'Out of stock';
+                          String s = prod!.inStock.toString() == 'true'
+                              ? 'In stock'
+                              : 'Out of stock';
 
-                          String starRating='';
-                          int prating = 4;
-                          if(prating == 0){
-                            starRating = '';
-                          }else if(prating <= 1){
+                          String starRating = '';
+                          double prating = prod.productName.length%6;
+                          if (prating == 0) {
                             starRating = '⭐';
-                          }else if(prating <= 2){
-                            starRating = '⭐⭐';
-                          }else if(prating <= 3){
-                            starRating = '⭐⭐⭐';
-                          }else if(prating <= 4){
-                            starRating = '⭐⭐⭐⭐';
-                          }else if(prating >= 5){
-                            starRating = '⭐⭐⭐⭐⭐';
-                          } else{
-                            starRating = '⭐';
+                          } else {
+                            int fullStars = prating.floor();
+                            double remaining = (prating - fullStars) as double;
+
+                            starRating = '⭐' * fullStars;
                           }
+
+                          // if (remaining > 0.25) {
+                          //   starRating += '¼';
+                          // }
+                          // if (remaining > 0.5) {
+                          //   starRating += '½';
+                          // }
+                          // if (remaining > 0.75) {
+                          //   starRating += '¾';
+                          // }
+
                           return Container(
                             color: Colors.grey.shade300,
                             child: Column(
                               children: [
                                 Card(
-                                  margin: EdgeInsets.only(left: 10,right: 10,top: 6,bottom: 6),
+                                  margin: EdgeInsets.only(
+                                      left: 10, right: 10, top: 6, bottom: 6),
                                   child: Row(
                                     children: [
                                       Expanded(
@@ -439,7 +451,9 @@ class _ManageProductsState extends State<ManageProducts> {
                                                   Container(
                                                     decoration: BoxDecoration(
                                                         color: Colors.white,
-                                                        borderRadius: BorderRadius.all(Radius.circular(10))
+                                                        borderRadius: BorderRadius
+                                                            .all(
+                                                            Radius.circular(10))
                                                     ),
                                                     height: 170,
                                                     padding: EdgeInsets.all(10),
@@ -448,38 +462,48 @@ class _ManageProductsState extends State<ManageProducts> {
                                                       children: [
                                                         Expanded(
                                                           child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                            mainAxisAlignment: MainAxisAlignment
+                                                                .spaceBetween,
                                                             children: [
 
                                                               Transform.scale(
                                                                 scale: 0.7,
                                                                 child: CupertinoSwitch(
-
                                                                   activeColor: Colors.green,
-
-                                                                  value: prod!.inStock,
+                                                                  value: prod.inStock,
                                                                   onChanged: (bool value) {
-                                                                    refreshContent();
                                                                     s = value == true ? 'In stock' : 'Out of stock';
-                                                                    _switchValue = value;
-                                                                    updateStock(value, prod!.id);
+                                                                    setState(() {
+                                                                      prod.inStock=value;
+                                                                      updateStock(value, prod.id);
+                                                                    });
                                                                   },
                                                                 ),
                                                               ),
                                                               Expanded(
-                                                                  flex:2,
+                                                                  flex: 2,
                                                                   child: Container(
-                                                                    child: Text(s,
+                                                                    child: Text(
+                                                                        s,
                                                                         style: TextStyle(
-                                                                            color: Colors.green.shade900,
+                                                                            color: Colors
+                                                                                .green
+                                                                                .shade900,
                                                                             fontSize: 11,
                                                                             fontFamily: 'Poppins',
-                                                                            fontWeight: FontWeight.bold
+                                                                            fontWeight: FontWeight
+                                                                                .bold
                                                                         )),
                                                                   )),
-                                                              IconButton( icon: Icon(Icons.delete,color: Colors.red.shade900,size: 25,),
+                                                              IconButton(
+                                                                icon: Icon(
+                                                                  Icons.delete,
+                                                                  color: Colors
+                                                                      .red
+                                                                      .shade900,
+                                                                  size: 25,),
                                                                 onPressed: () {
-                                                                  showDeleteConfirmationDialog(index);
+                                                                  showDeleteConfirmationDialog(prod.id);
                                                                 },),
                                                             ],
                                                           ),
@@ -487,52 +511,86 @@ class _ManageProductsState extends State<ManageProducts> {
                                                         SizedBox(height: 5,),
                                                         Expanded(
                                                           flex: 3,
-                                                          child:  Row(
-                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment
+                                                                .spaceBetween,
                                                             children: [
                                                               Expanded(
                                                                   child: Container(
-                                                                    margin: EdgeInsets.only(right: 15),
-                                                                    child:  (prod!.images.length>0)? Image.asset('assets/images/a1.jpg', height:150,width:80):
+                                                                    margin: EdgeInsets
+                                                                        .only(
+                                                                        right: 15),
+                                                                    child: (prod
+                                                                        .images
+                                                                        .length >
+                                                                        0)
+                                                                        ? Image
+                                                                        .network(
+                                                                        prod.images[0],
+                                                                        height: 150,
+                                                                        width: 80,
+                                                                      fit: BoxFit.fill,
+                                                                    )
+                                                                        :
                                                                     Image.asset(
-                                                                        'assets/images/a1.jpg',height:150,width:80),)
+                                                                        'assets/images/a1.jpg',
+                                                                        height: 150,
+                                                                        width: 80),)
                                                               ),
                                                               Expanded(
                                                                 flex: 2,
                                                                 child: Container(
                                                                   child: Column(
-                                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    mainAxisAlignment: MainAxisAlignment
+                                                                        .start,
+                                                                    crossAxisAlignment: CrossAxisAlignment
+                                                                        .start,
                                                                     children: [
                                                                       Expanded(
                                                                           child: Container(
                                                                             // margin: EdgeInsets.only(left: 20),
-                                                                            child: Text(prod!.productName,
+                                                                            child: Text(
+                                                                                prod
+                                                                                    .productName,
                                                                                 style: TextStyle(
-                                                                                    color: Colors.black,
+                                                                                    color: Colors
+                                                                                        .black,
                                                                                     fontSize: 19,
                                                                                     fontFamily: 'comfart',
-                                                                                    fontWeight: FontWeight.bold
+                                                                                    fontWeight: FontWeight
+                                                                                        .bold
                                                                                 )),
                                                                           )),
                                                                       Expanded(
                                                                         child: Row(
                                                                           children: [
-                                                                            Text('₹${prod!.offerPrice.toString()}'
-                                                                                ,style: TextStyle(
-                                                                                    color: Colors.black,
+                                                                            Text(
+                                                                                '₹${prod
+                                                                                    .offerPrice
+                                                                                    .toString()}'
+                                                                                ,
+                                                                                style: TextStyle(
+                                                                                    color: Colors
+                                                                                        .black,
                                                                                     fontSize: 16,
                                                                                     fontFamily: 'comfort',
-                                                                                    fontWeight: FontWeight.bold)),
-                                                                            SizedBox(width: 10,),
-                                                                            Text('MRP '
-                                                                                '₹${prod!.mrpPrice.toString()}'
-                                                                                '${860}',
+                                                                                    fontWeight: FontWeight
+                                                                                        .bold)),
+                                                                            SizedBox(
+                                                                              width: 10,),
+                                                                            Text(
+                                                                                'MRP '
+                                                                                    '₹${prod
+                                                                                    .mrpPrice
+                                                                                    .toString()}'
+                                                                                    '${860}',
                                                                                 style: TextStyle(
-                                                                                    color: Colors.black,
+                                                                                    color: Colors
+                                                                                        .black,
                                                                                     fontSize: 14,
-                                                                                    fontFamily: 'comfort' ,
-                                                                                    decoration: TextDecoration.lineThrough
+                                                                                    fontFamily: 'comfort',
+                                                                                    decoration: TextDecoration
+                                                                                        .lineThrough
                                                                                 )),
                                                                           ],
                                                                         ),
@@ -541,52 +599,80 @@ class _ManageProductsState extends State<ManageProducts> {
                                                                         child: Container(
                                                                           width: 100,
                                                                           height: 18,
-                                                                          decoration: BoxDecoration(
+                                                                          decoration: const BoxDecoration(
                                                                             //  border: Border.all(color: Colors.black),
-                                                                              borderRadius: BorderRadius.all(Radius.circular(5))
+                                                                              borderRadius: BorderRadius
+                                                                                  .all(
+                                                                                  Radius
+                                                                                      .circular(
+                                                                                      5))
                                                                           ),
                                                                           //   margin: EdgeInsets.only(right: 20),
-                                                                          child: Text(starRating,
-                                                                              style: TextStyle(
-                                                                                  color: Colors.black,
+                                                                          child: Text(
+                                                                              starRating,
+                                                                              style: const TextStyle(
+                                                                                  color: Colors
+                                                                                      .black,
                                                                                   fontSize: 13.5,
                                                                                   fontFamily: 'comfort',
-                                                                                  fontWeight: FontWeight.bold
+                                                                                  fontWeight: FontWeight
+                                                                                      .bold
                                                                               )),
                                                                         ),
                                                                       ),
                                                                       Expanded(
-                                                                        child:  Container(
+                                                                        child: Container(
                                                                           width: 220,
                                                                           child: MaterialButton(
-                                                                            color: Colors.lightBlue.shade400,
-                                                                            onPressed: (){
-                                                                              Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProducts(
-                                                                                pid:prod!.id,
-                                                                                token: token,
-                                                                                id: id,
-                                                                                productName: prod!
-                                                                                    .productName,
-                                                                                // productImage: prod!
-                                                                                //     .image
-                                                                                //     .toString(),
-                                                                                productCategory:
-                                                                                prod!.category,
-                                                                                productSubCategory1:
-                                                                                prod!.subCategory1,
-                                                                                productSubCategory2:
-                                                                                prod!.subCategory2,
+                                                                            color: Colors
+                                                                                .lightBlue
+                                                                                .shade400,
+                                                                            onPressed: () {
+                                                                              Navigator
+                                                                                  .push(
+                                                                                  context,
+                                                                                  MaterialPageRoute(
+                                                                                      builder: (
+                                                                                          context) =>
+                                                                                          UpdateProducts(
+                                                                                            pid: prod
+                                                                                                .id,
+                                                                                            token: token,
+                                                                                            id: id,
+                                                                                            productName: prod
+                                                                                                .productName,
+                                                                                            // productImage: prod!
+                                                                                            //     .image
+                                                                                            //     .toString(),
+                                                                                            productCategory:
+                                                                                            prod
+                                                                                                .category,
+                                                                                            productSubCategory1:
+                                                                                            prod
+                                                                                                .subCategory1,
+                                                                                            productSubCategory2:
+                                                                                            prod
+                                                                                                .subCategory2,
 
-                                                                                quantityPricing: prod!
-                                                                                    .productDetails,
-                                                                                stockTF: prod!.inStock,
-                                                                                stockIO: s,
-                                                                                // productType: prod!
-                                                                                //     .productType,
-                                                                                description: prod!
-                                                                                    .description,
-                                                                              )));
-                                                                            }, child: Text('Edit',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),),
+                                                                                            quantityPricing: prod
+                                                                                                .productDetails,
+                                                                                            stockTF: prod
+                                                                                                .inStock,
+                                                                                            stockIO: s,
+                                                                                            // productType: prod!
+                                                                                            //     .productType,
+                                                                                            description: prod
+                                                                                                .description,
+                                                                                          )));
+                                                                            },
+                                                                            child: Text(
+                                                                              'Edit',
+                                                                              style: TextStyle(
+                                                                                  color: Colors
+                                                                                      .white,
+                                                                                  fontWeight: FontWeight
+                                                                                      .bold,
+                                                                                  fontSize: 16),),),
                                                                         ),
                                                                       ),
 
@@ -619,68 +705,41 @@ class _ManageProductsState extends State<ManageProducts> {
                             ),
 
                           );
-
                         },
                       ),
                     ),
                   ],
                 );
-
             }
           },
         )
     );
   }
+
   //fetch product all
   Future<List<Product>> fetchOrders(sort, token, id) async {
-    final List<Product> data ;
-    if(sort=="") {
+    final List<Product> data;
+    if (sort == "") {
       data = await UserApi.getProducts(token, id);
     } else {
-      data = await UserApi.getSellerProducts( sort, token, id);
+      data = await UserApi.getSellerProducts(sort, token, id);
     }
     return data;
   }
 
-  Future<void> stockUpdate() async{
-    final apiUrl = 'https://api.pehchankidukan.com/seller/${TokenId.id}/products/$pid';
-
-    // final itemOptions = quantityPricing;
-
-    final Map<String, dynamic> productJson = {
-      "inStock": _switchValue
-    };
-    var uri = Uri.parse(apiUrl);
-    try {
-      final response = await http.put(
-        uri,
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${TokenId.token}'
-        },
-        body: jsonEncode(productJson),
-      );
-
-      if (response.statusCode == 200) {
-        print("product updated succesfully");
-
-      } else {
-        print('Failed to update product. Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
-      }
-    } catch (e) {
-    }
-  }
   //update Stock only
   Future<void> updateStock(bool value, ppid) async {
     // print(value);
     // print("value");
     // print(ppid);
-    final apiUrl = 'https://api.pehchankidukan.com/seller/${TokenId.id}/products/$ppid';
+    final apiUrl = 'https://api.pehchankidukan.com/seller/${TokenId
+        .id}/products/$ppid';
 
-    final Map<String, dynamic> productJson ;
-    if (value==true)
-      productJson = {"inStock":"true"}; else productJson = {"inStock":"false"};
+    final Map<String, dynamic> productJson;
+    if (value == true)
+      productJson = {"inStock": "true"};
+    else
+      productJson = {"inStock": "false"};
     var uri = Uri.parse(apiUrl);
     try {
       final response = await http.put(
@@ -694,7 +753,6 @@ class _ManageProductsState extends State<ManageProducts> {
 
       if (response.statusCode == 200) {
         print("product updated succesfully");
-
       } else {
         print('Failed to update product. Status code: ${response.statusCode}');
         print('Response body: ${response.body}');
@@ -702,70 +760,5 @@ class _ManageProductsState extends State<ManageProducts> {
     } catch (e) {
       print(e);
     }
-    // setState(() {
-    //
-    // });
   }
-
-// void showSortOptions(BuildContext context) {
-//   String selectedSortOption = 'Price (Low to High)';
-//
-//   showDialog(
-//     context: context,
-//     builder: (BuildContext context) {
-//       return AlertDialog(
-//         title: const Text('Sort Options'),
-//         content: Column(
-//           mainAxisSize: MainAxisSize.min,
-//           children: [
-//             DropdownButton<String>(
-//               value: selectedSortOption,
-//               onChanged: (String? newValue) {
-//                 setState(() {
-//                   selectedSortOption = newValue!;  // Ensure newValue is not null
-//                   // Apply sorting based on selectedSortOption
-//                   // Implement your sorting logic here
-//                 });
-//               },
-//               items: <String>[
-//                 'Price (Low to High)',
-//                 'Price (High to Low)',
-//                 'Most Selling',
-//                 'Rating',
-//                 'Recently Added'
-//               ].map<DropdownMenuItem<String>>((String value) {
-//                 return DropdownMenuItem<String>(
-//                   value: value,
-//                   child: Text(value),
-//                 );
-//               }).toList(),
-//             ),
-//
-//           ],
-//         ),
-//         actions: <Widget>[
-//           TextButton(
-//             child: const Text('Cancel'),
-//             onPressed: () {
-//               Navigator.of(context).pop();
-//             },
-//           ),
-//           TextButton(
-//             child: const Text('Apply'),
-//             onPressed: () {
-//               if(selectedSortOption=='Price (Low to High)'){
-//                 print('Hello low');
-//               }else if(selectedSortOption=='Rating'){
-//                 print('Hello rating');
-//               }
-//               // Apply sorting based on selectedSortOption
-//               // Implement your sorting logic here
-//               Navigator.of(context).pop();
-//             },
-//           ),
-//         ],
-//       );
-//     },
-//   );
-// }
 }
