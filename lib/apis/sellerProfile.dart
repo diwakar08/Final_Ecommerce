@@ -105,11 +105,11 @@ class Address {
 
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
-      addressLine: json['addressLine'],
-      city: json['city'],
-      state: json['state'],
-      pincode: json['pincode'],
-      location: json['location'],
+      addressLine: json['addressLine'] ?? '',
+      city: json['city'] ?? '',
+      state: json['state'] ?? '',
+      pincode: json['pincode'] ?? '',
+      location: json['location'] ?? '',
     );
   }
 }
@@ -122,8 +122,8 @@ class PanCard {
 
   factory PanCard.fromJson(Map<String, dynamic> json) {
     return PanCard(
-      panNo: json['panNo'],
-      panImage: json['panImage'],
+      panNo: json['panNo'] ?? '',
+      panImage: json['panImage'] ?? '',
     );
   }
 }

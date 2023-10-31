@@ -759,8 +759,14 @@ class _UploadImagesState extends State<UploadImages> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MainDashboard( token: widget.token, id: widget.id,)));
+
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MainDashboard(token: widget.token, id: widget.id),
+                        ),
+                            (route) => false, // This line clears the navigator stack
+                      );
                       // Process the form data and perform submission
                       // Process the form data and perform submission
 

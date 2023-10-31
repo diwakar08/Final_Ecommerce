@@ -33,23 +33,36 @@ class _ManageProductsState extends State<ManageProducts> {
   bool _switchValue = true;
   String stockIn = 'In Stock';
   String stockOut = 'Out of stock';
-
+  String sortt = "";
   bool isSelected = false;
-
+  final ScrollController _scrollController = ScrollController();
+  double scrollPosition = 0.0;
   late Order order;
   late List<Product> product;
   String response1 = "";
 
-  Future<void> sortBy(fieldName) async {
-    product = await fetchOrders(fieldName, widget.token, widget.id);
-    setState(() {
-
-    });
-  }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+  void refreshContent() {
+    // Store the current scroll position
+    scrollPosition = _scrollController.offset;
+
+    // Simulate a refresh (replace this with your actual refresh logic)
+    Future.delayed(Duration(seconds: 2), () {
+      // Restore the scroll position after the refresh
+      if (_scrollController.hasClients) {
+        setState(() {
+          _scrollController.jumpTo(scrollPosition);
+        });
+      }
+    });
+  }
+  @override
   initState() {
-    fetchOrders("", widget.token, widget.id);
   }
 
   @override
@@ -106,7 +119,7 @@ class _ManageProductsState extends State<ManageProducts> {
 
         body:
         FutureBuilder<List<Product>>(
-          future: fetchOrders("", token, id),
+          future: fetchOrders(sortt, token, id),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -126,8 +139,8 @@ class _ManageProductsState extends State<ManageProducts> {
                           Expanded(
                             flex: 2,
                             child: InkWell(
-                              onTap: (){
-                                UserApi.getAllCategory();
+                              onTap: () async{
+                                await UserApi.getAllCategory();
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => FilterScreen(),));
                               },
                               child: Container(
@@ -221,7 +234,9 @@ class _ManageProductsState extends State<ManageProducts> {
                                   children: [
                                     FlutterPopupMenuItem(
                                         onTap: ()async{
-                                          sortBy('productDetails.mrpPrice');
+                                          setState(() {
+                                            sortt = "productDetails.mrpPrice";
+                                          });
                                         },
                                         closeOnItemClick: true,
                                         child: ListTile(
@@ -237,7 +252,9 @@ class _ManageProductsState extends State<ManageProducts> {
                                         )),
                                     FlutterPopupMenuItem(
                                         onTap: (){
-                                          sortBy('-productDetails.mrpPrice');
+                                          setState(() {
+                                            sortt = "-productDetails.mrpPrice";
+                                          });
                                         },
                                         closeOnItemClick: true,
                                         child: ListTile(
@@ -253,7 +270,9 @@ class _ManageProductsState extends State<ManageProducts> {
                                         )),
                                     FlutterPopupMenuItem(
                                         onTap: (){
-                                          sortBy("-productSoldCount");
+                                          setState(() {
+                                            sortt = "-productSoldCount";
+                                          });
                                         },
                                         closeOnItemClick: true,
                                         child: ListTile(
@@ -285,9 +304,9 @@ class _ManageProductsState extends State<ManageProducts> {
                                         )),
                                     FlutterPopupMenuItem(
                                         onTap: (){
-                                          sortBy("created_at");
-                                          setState(() {
 
+                                          setState(() {
+                                            sortt = "created_at";
                                           });
                                         },
                                         closeOnItemClick: true,
@@ -313,11 +332,12 @@ class _ManageProductsState extends State<ManageProducts> {
                     ),
                     Expanded(
                       child: ListView.builder(
+                        controller: _scrollController,
                         // scrollDirection: Axis.horizontal,
                         itemCount: data?.length,
                         itemBuilder: (context, index) {
                           final prod = data?[index];
-                          String s = prod!.inStock.toString() == 'false' ? 'In stock' :'Out of stock';
+                          String s = prod!.inStock.toString() == 'true' ? 'In stock' :'Out of stock';
 
                           String starRating='';
                           int prating = 4;
@@ -372,11 +392,12 @@ class _ManageProductsState extends State<ManageProducts> {
                                                                 scale: 0.7,
                                                                 child: CupertinoSwitch(
 
-                                                                  activeColor: Colors.red,
+                                                                  activeColor: Colors.green,
 
                                                                   value: prod!.inStock,
                                                                   onChanged: (bool value) {
-                                                                    s = value == false ? 'In stock' : 'Out of stock';
+                                                                    refreshContent();
+                                                                    s = value == true ? 'In stock' : 'Out of stock';
                                                                     _switchValue = value;
                                                                     updateStock(value, prod!.id);
                                                                   },
@@ -411,7 +432,7 @@ class _ManageProductsState extends State<ManageProducts> {
                                                                     margin: EdgeInsets.only(right: 15),
                                                                     child:  (prod!.images.length>0)? Image.asset('assets/images/a1.jpg', height:150,width:80):
                                                                     Image.asset(
-                                                                        'assets/images/g2.jpg',height:150,width:80),)
+                                                                        'assets/images/a1.jpg',height:150,width:80),)
                                                               ),
                                                               Expanded(
                                                                 flex: 2,
@@ -447,7 +468,7 @@ class _ManageProductsState extends State<ManageProducts> {
                                                                                 style: TextStyle(
                                                                                     color: Colors.black,
                                                                                     fontSize: 14,
-                                                                                    fontFamily: 'comfort',
+                                                                                    fontFamily: 'comfort' ,
                                                                                     decoration: TextDecoration.lineThrough
                                                                                 )),
                                                                           ],
@@ -549,11 +570,12 @@ class _ManageProductsState extends State<ManageProducts> {
   }
   //fetch product all
   Future<List<Product>> fetchOrders(sort, token, id) async {
-    final data ;
-    if(sort=="")
-    data = await UserApi.getProducts(token, id);
-    else
-    data = await UserApi.getSellerProducts( sort, widget.token, widget.id);
+    final List<Product> data ;
+    if(sort=="") {
+      data = await UserApi.getProducts(token, id);
+    } else {
+      data = await UserApi.getSellerProducts( sort, token, id);
+    }
     return data;
   }
 
@@ -617,9 +639,9 @@ class _ManageProductsState extends State<ManageProducts> {
     } catch (e) {
       print(e);
     }
-    setState(() {
-
-    });
+    // setState(() {
+    //
+    // });
   }
 
 // void showSortOptions(BuildContext context) {

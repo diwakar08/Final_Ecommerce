@@ -1657,7 +1657,7 @@ class _UpdateProductsState extends State<UpdateProducts> {
 
   final qController = TextEditingController();
 
-
+  final AllpCategory = TextEditingController();
   final pName = TextEditingController();
   final pCategory = TextEditingController();
   final pSCategory1 = TextEditingController();
@@ -1860,7 +1860,7 @@ class _UpdateProductsState extends State<UpdateProducts> {
     pSCategory2.text = widget.productSubCategory2;
 
     description.text = widget.description;
-
+    AllpCategory.text = widget.productCategory+' / '+widget.productSubCategory1+' / '+widget.productSubCategory2;
 
     return Scaffold(
       appBar: AppBar(
@@ -1876,10 +1876,6 @@ class _UpdateProductsState extends State<UpdateProducts> {
                 ),
               ),
             ),
-
-
-            CircleAvatar(backgroundColor: Colors.red.shade100,backgroundImage: AssetImage('assets/images/avatar.png'),radius: 18,),
-
           ],
         ),
         centerTitle: true,
@@ -1894,32 +1890,6 @@ class _UpdateProductsState extends State<UpdateProducts> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-              Container(
-                height: 35,
-
-                decoration: BoxDecoration(
-                    color: Colors.lightBlue.shade900,
-                    borderRadius: BorderRadius.only(bottomRight: Radius.circular(30),bottomLeft: Radius.circular(30))
-                ),
-                child: Center(child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 25,
-                      width: 73,
-                      decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.all(Radius.circular(6))
-                      ),
-                      child: Center(child: Text('Update',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
-                    ),
-
-                    //Text('Add Product',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15,fontFamily: 'Poppins', ),),
-                  ],
-                )),
-              ),
-
               Container(
 
                 child: SingleChildScrollView(
@@ -2174,7 +2144,7 @@ class _UpdateProductsState extends State<UpdateProducts> {
                       Container(
                         margin: EdgeInsets.only(left: 20,right: 20),
                         child: TextField(
-                          controller: pCategory,
+                          controller: AllpCategory,
                           style: TextStyle(fontFamily: 'Poppins',fontSize: 18),
                           decoration: InputDecoration(
                             focusedBorder: OutlineInputBorder(
@@ -2186,58 +2156,8 @@ class _UpdateProductsState extends State<UpdateProducts> {
                           ),
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20,right: 20,top: 20),
-                        child: Text(
-                          'SubCategory1',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontFamily: 'Poppins',
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20,right: 20),
-                        child: TextField(
-                          controller: pSCategory1,
-                          style: TextStyle(fontFamily: 'Poppins',fontSize: 18),
-                          decoration: InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.teal.shade900
-                                )
-                            ),
 
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20,right: 20,top: 20),
-                        child: Text(
-                          'SubCategory2',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontFamily: 'Poppins',
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20,right: 20),
-                        child: TextField(
-                          controller: pSCategory2,
-                          style: TextStyle(fontFamily: 'Poppins',fontSize: 18),
-                          decoration: InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.teal.shade900
-                                )
-                            ),
 
-                          ),
-                        ),
-                      ),
 
                       Container(
                         margin: EdgeInsets.only(left: 20,right: 20,top: 20),

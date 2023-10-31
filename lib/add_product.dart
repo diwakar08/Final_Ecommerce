@@ -281,13 +281,14 @@ class AddProduct extends StatefulWidget {
 
 class _AddProductState extends State<AddProduct> {
   List<ItemOption> itemOptions = [];
+  TextEditingController productDescriptionController = TextEditingController();
 
   void handleOptionAdded(ItemOption newItem) {
     setState(() {
       itemOptions.add(newItem);
     });
   }
-
+  final AllpCategory = TextEditingController();
   final ImagePicker imagePicker = ImagePicker();
   List<XFile>? imageFileList = [];
 
@@ -319,6 +320,9 @@ class _AddProductState extends State<AddProduct> {
       itemOptions=widget.itemOptions;
     });
   }
+  FocusNode descriptionFocusNode = FocusNode();
+
+// Initialize the FocusNode in your build method or constructor.
 
   @override
   void initState() {
@@ -332,7 +336,14 @@ class _AddProductState extends State<AddProduct> {
       'Non Veg',
       'Not required',
     ];
-
+    descriptionFocusNode.addListener(() {
+      if (!descriptionFocusNode.hasFocus) {
+        setState(() {
+          _validate2 = productDescriptionContt.text.isEmpty;
+        });
+      }
+    });
+    AllpCategory.text = widget.category+' / '+widget.subCategory1+' / '+widget.subCategory2;
     String productName = widget.productName;
     String productDescription = widget.productDescription;
     return Scaffold(
@@ -348,16 +359,6 @@ class _AddProductState extends State<AddProduct> {
                   fontSize: 20,
                 ),
               ),
-            ),
-            // Expanded(
-            //     child: Icon(
-            //       Icons.add_circle_outline,
-            //       color: Colors.white,
-            //     )),
-            CircleAvatar(
-              backgroundColor: Colors.red.shade100,
-              // backgroundImage: AssetImage('assets/images/a1.png'),
-              radius: 18,
             ),
           ],
         ),
@@ -494,41 +495,32 @@ class _AddProductState extends State<AddProduct> {
                         ),
                       ),
                       Container(
-                          margin: EdgeInsets.only(left: 20, right: 20, top: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Product Category:",
-                                  textScaleFactor: 1.0,
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
-                              Text(widget.category, textScaleFactor: 1.5),
-                            ],
-                          )),
+                        margin: EdgeInsets.only(left: 20,right: 20,top: 20),
+                        child: Text(
+                          'Category',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontFamily: 'Poppins',
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
                       Container(
-                          margin: EdgeInsets.only(left: 20, right: 20, top: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Product SubCategory1:",
-                                  textScaleFactor: 1.0,
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
-                              Text(widget.subCategory1, textScaleFactor: 1.5),
-                            ],
-                          )),
-                      Container(
-                          margin: EdgeInsets.only(left: 20, right: 20, top: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Product SubCategory2:",
-                                  textScaleFactor: 1.0,
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
-                              Text(widget.subCategory2, textScaleFactor: 1.5),
-                            ],
-                          )),
+                        margin: EdgeInsets.only(left: 20,right: 20),
+                        child: TextField(
+                          controller: AllpCategory,
+                          style: TextStyle(fontFamily: 'Poppins',fontSize: 18),
+                          decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.teal.shade900
+                                )
+                            ),
+
+                          ),
+                        ),
+                      ),
+
                       Container(
                         margin: EdgeInsets.only(right: 20, top: 20, left: 20),
                         child: Text(
@@ -650,36 +642,57 @@ class _AddProductState extends State<AddProduct> {
                           ),
                         ),
                       ),
-                      Container(
+                        Container(
                         margin: EdgeInsets.only(left: 20, right: 20, top: 25),
-                        child: Text(
-                          'Product Description',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontFamily: 'Poppins',
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin:
-                        EdgeInsets.only(left: 20, right: 20, bottom: 10),
-                        child: TextField(
-                          onChanged: (value) {
-                            productDescription = value;
-                          },
-                          controller: productDescriptionContt,
-                          style: TextStyle(fontFamily: 'Poppins', fontSize: 16),
-                          decoration: InputDecoration(
-                            errorText:
-                            _validate2 ? 'Value Can\'t Be Empty' : null,
-                            hintText: 'Write here about product',
-                            focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                BorderSide(color: Colors.teal.shade900)),
-                          ),
-                        ),
-                      ),
+  child: Text(
+  'Product  Description',
+  style: TextStyle(
+  fontSize: 13,
+  fontFamily: 'Poppins',
+  color: Colors.black87,
+  ),
+  ),
+  ),
+  Container(
+  margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+  // child: TextField(
+  // onChanged: (value) {
+  // productDescription = value;
+  // },
+  // focusNode: descriptionFocusNode, // Use the FocusNode
+  // controller: productDescriptionContt,
+  // style: TextStyle(fontFamily: 'Poppins', fontSize: 16),
+  // decoration: InputDecoration(
+  // errorText: _validate2 ? 'Value Can\'t Be Empty' : null,
+  // hintText: 'Write here about the product',
+  // focusedBorder: OutlineInputBorder(
+  // borderSide: BorderSide(color: Colors.teal.shade900),
+  // ),
+  // ),
+  // ),
+    child: TextFormField(
+      // onChanged: (value) {
+      //   productDescription = value;
+      // },
+
+      controller: productDescriptionController, // Use the controller
+      style: TextStyle(fontFamily: 'Poppins', fontSize: 16),
+      decoration: InputDecoration(
+
+        hintText: 'Write here about the product',
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.teal.shade900),
+        ),
+      ),
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'value cant be empty';
+          }
+          return null;
+        },
+    ),
+
+  ),
                       Container(
                         margin: EdgeInsets.only(left: 20, right: 20, top: 25),
                         child: Text(
