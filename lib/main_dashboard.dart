@@ -76,9 +76,6 @@ class _MainDashboardState extends State<MainDashboard> with TickerProviderStateM
           AddProduct(
             token: token,
             id: id,
-            category: '',
-            subCategory1: '',
-            subCategory2: '',
             productName: '',
             productDescription: '', productDetails: [], itemOptions: [],
           ),
