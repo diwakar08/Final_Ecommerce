@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1037460954730",
+    "project_id": "pehchankidukan-24b1a",
+    "storage_bucket": "pehchankidukan-24b1a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037460954730:android:87fbedbeb336659418f413",
+        "android_client_info": {
+          "package_name": "com.rays.e_commerce"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANm-dRxTQgTInc1QFqBNvmlhkH3iQuNw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
