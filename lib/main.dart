@@ -1,12 +1,18 @@
-// import 'package:e_commerce/home.dart';
+import 'package:e_commerce/firebase_api.dart';
+import 'package:e_commerce/firebase_options.dart';
 import 'package:e_commerce/seller_dashboard.dart';
 import 'package:e_commerce/seller_login.dart';
 import 'package:e_commerce/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // import 'dart:ui_web' show debugEmulateFlutterTesterEnvironment;
 
-void main() {
-  // debugEmulateFlutterTesterEnvironment = true;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform);
+  await FirebaseApi().initNotifications();
   runApp(const MyApp());
 }
 
@@ -20,7 +26,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
@@ -31,8 +36,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
-
 
   final String title;
 
@@ -45,23 +48,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-
       _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
-    bool forAndroid=false;
+    bool forAndroid = false;
     return Scaffold(
-
       appBar: AppBar(
-
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-
         title: Text(widget.title),
-
       ),
       body: Switch(
         // thumb color (round icon)
