@@ -1613,12 +1613,12 @@ class _UpdateProductsState extends State<UpdateProducts> {
 
   List<ItemOption> itemOptions = [];
   late List dummyProductList;
+
   void handleOptionAdded(ItemOption itemOption) {
     // dummyProductList.add(QuantityPricing(offerPrice: int.parse(itemOption.offerPrice),
     //     quantity: itemOption.price, mrpPrice: double.parse(itemOption.quantity), unit: itemOption.unit));
     setState(() {
       itemOptions.add(itemOption);
-
     });
   }
 
@@ -1628,8 +1628,8 @@ class _UpdateProductsState extends State<UpdateProducts> {
   String stock = 'In Stock';
 
 
-
   late String pType = 'Veg';
+
   // var items = [
   //   'gm',
   //   'ml',
@@ -1653,7 +1653,8 @@ class _UpdateProductsState extends State<UpdateProducts> {
     "bag",
     "sack",
     "tin",
-    "other",];
+    "other",
+  ];
 
   final qController = TextEditingController();
 
@@ -1664,8 +1665,9 @@ class _UpdateProductsState extends State<UpdateProducts> {
   final pSCategory2 = TextEditingController();
   final description = TextEditingController();
 
-  Future<void> stockUpdate() async{
-    final apiUrl = 'https://api.pehchankidukan.com/seller/${TokenId.id}/products/$pid';
+  Future<void> stockUpdate() async {
+    final apiUrl = 'https://api.pehchankidukan.com/seller/${TokenId
+        .id}/products/$pid';
 
     // final itemOptions = quantityPricing;
 
@@ -1685,13 +1687,11 @@ class _UpdateProductsState extends State<UpdateProducts> {
 
       if (response.statusCode == 200) {
         print("product updated succesfully");
-
       } else {
         print('Failed to update product. Status code: ${response.statusCode}');
         print('Response body: ${response.body}');
       }
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   final ImagePicker imagePicker = ImagePicker();
@@ -1705,7 +1705,6 @@ class _UpdateProductsState extends State<UpdateProducts> {
     print("Image List Length:" + imageFileList!.length.toString());
     setState(() {});
   }
-
 
 
   final List<String> imgList = [
@@ -1775,7 +1774,6 @@ class _UpdateProductsState extends State<UpdateProducts> {
   }
 
 
-
   void removeCameraImage(int index) {
     setState(() {
       imageFileList!.removeAt(index);
@@ -1821,7 +1819,7 @@ class _UpdateProductsState extends State<UpdateProducts> {
             body: Center(
               child: Hero(
                   tag: 'image_$index',
-                  child:  Image.file(
+                  child: Image.file(
                     File(imageFileList![index].path),
                     fit: BoxFit.cover,
                   )
@@ -1835,9 +1833,6 @@ class _UpdateProductsState extends State<UpdateProducts> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     dummyProductList = widget.quantityPricing;
     print("dummyProductList1234");
     print(dummyProductList);
@@ -1860,7 +1855,9 @@ class _UpdateProductsState extends State<UpdateProducts> {
     pSCategory2.text = widget.productSubCategory2;
 
     description.text = widget.description;
-    AllpCategory.text = widget.productCategory+' / '+widget.productSubCategory1+' / '+widget.productSubCategory2;
+    AllpCategory.text =
+        widget.productCategory + ' / ' + widget.productSubCategory1 + ' / ' +
+            widget.productSubCategory2;
 
     return Scaffold(
       appBar: AppBar(
@@ -1897,7 +1894,7 @@ class _UpdateProductsState extends State<UpdateProducts> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        margin: EdgeInsets.only(left: 20,right: 20,top: 10),
+                        margin: EdgeInsets.only(left: 20, right: 20, top: 10),
                         child: Center(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -1906,7 +1903,8 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                 activeColor: Colors.green,
                                 value: _switchValue,
                                 onChanged: (bool value) {
-                                  s = value == false ? 'In stock' : 'Out of stock';
+                                  s =
+                                  value == false ? 'In stock' : 'Out of stock';
                                   _switchValue = value;
                                   updateStock(value);
                                 },
@@ -1952,13 +1950,14 @@ class _UpdateProductsState extends State<UpdateProducts> {
                       ),
 
 
-
                       Container(
-                          margin: EdgeInsets.only(left: 20,right: 20,top: 10),
+                          margin: EdgeInsets.only(left: 20, right: 20, top: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Product Image:",textScaleFactor: 1.2,style: TextStyle(fontWeight: FontWeight.bold)),
+                              Text("Product Image:", textScaleFactor: 1.2,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold)),
                               Container(
                                 height: 150,
 
@@ -1991,10 +1990,12 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                               top: 0,
                                               right: 0,
                                               child: IconButton(
-                                                icon: Icon(Icons.cancel_outlined,color: Colors.cyanAccent,),
+                                                icon: Icon(
+                                                  Icons.cancel_outlined,
+                                                  color: Colors.cyanAccent,),
                                                 onPressed: () {
-
-                                                  showDeleteConfirmationDialog(index);
+                                                  showDeleteConfirmationDialog(
+                                                      index);
                                                   // removeImage(index);
 
                                                 },
@@ -2007,7 +2008,8 @@ class _UpdateProductsState extends State<UpdateProducts> {
                               ),
 
                               Container(
-                                margin: EdgeInsets.only(right: 20, top: 20, left: 20),
+                                margin: EdgeInsets.only(
+                                    right: 20, top: 20, left: 20),
                                 child: Text(
                                   'Add Images',
                                   style: TextStyle(
@@ -2028,14 +2030,19 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                           height: 100,
                                           width: 100,
                                           margin: EdgeInsets.only(
-                                              left: 20, right: 20, top: 10, bottom: 5),
+                                              left: 20,
+                                              right: 20,
+                                              top: 10,
+                                              bottom: 5),
                                           decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
-                                            BorderRadius.all(Radius.circular(13)),
+                                            BorderRadius.all(
+                                                Radius.circular(13)),
                                           ),
                                           child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .center,
                                             children: [
                                               Icon(Icons.camera_alt),
                                               Icon(Icons.add_circle_outline),
@@ -2058,17 +2065,21 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                                 crossAxisCount: 1,
                                                 mainAxisSpacing: 5),
                                             itemBuilder:
-                                                (BuildContext context, int index) {
+                                                (BuildContext context,
+                                                int index) {
                                               return Stack(
                                                 children: [
                                                   Hero(
                                                     tag: 'image_$index',
                                                     child: GestureDetector(
                                                         onTap: () {
-                                                          showCameraImageExpansion(index);
+                                                          showCameraImageExpansion(
+                                                              index);
                                                         },
                                                         child: Image.file(
-                                                          File(imageFileList![index].path),
+                                                          File(
+                                                              imageFileList![index]
+                                                                  .path),
                                                           fit: BoxFit.cover,
                                                         )
                                                     ),
@@ -2077,10 +2088,13 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                                     top: 0,
                                                     right: 0,
                                                     child: IconButton(
-                                                      icon: Icon(Icons.cancel_outlined,color: Colors.cyanAccent,),
+                                                      icon: Icon(
+                                                        Icons.cancel_outlined,
+                                                        color: Colors
+                                                            .cyanAccent,),
                                                       onPressed: () {
-
-                                                        showCameraDeleteConfirmationDialog(index);
+                                                        showCameraDeleteConfirmationDialog(
+                                                            index);
                                                         // removeImage(index);
 
                                                       },
@@ -2099,22 +2113,32 @@ class _UpdateProductsState extends State<UpdateProducts> {
                           )),
 
 
-
-
                       InkWell(
                         onTap: () {
-                          saveProductData(pName, pSCategory2, description, token,id, widget.pid, dummyProductList, false);
+                          saveProductData(
+                              pName,
+                              pSCategory2,
+                              description,
+                              token,
+                              id,
+                              widget.pid,
+                              dummyProductList,
+                              false);
                           Navigator.push(
 
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Category(
-                                productName: pName.text,
-                                productDescription: description.text,
-                                update:true, stockIO: widget.stockIO, stockTF: widget.stockTF,
-                                dummyProductList: dummyProductList,
-                                pid:widget.pid, itemOptions: [],
-                              ), //changed
+                              builder: (context) =>
+                                  Category(
+                                    productName: pName.text,
+                                    productDescription: description.text,
+                                    update: true,
+                                    stockIO: widget.stockIO,
+                                    stockTF: widget.stockTF,
+                                    dummyProductList: dummyProductList,
+                                    pid: widget.pid,
+                                    itemOptions: [],
+                                  ), //changed
                             ),
                           );
                         },
@@ -2131,7 +2155,7 @@ class _UpdateProductsState extends State<UpdateProducts> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: 20,right: 20,top: 20),
+                        margin: EdgeInsets.only(left: 20, right: 20, top: 20),
                         child: Text(
                           'Category',
                           style: TextStyle(
@@ -2142,10 +2166,10 @@ class _UpdateProductsState extends State<UpdateProducts> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: 20,right: 20),
+                        margin: EdgeInsets.only(left: 20, right: 20),
                         child: TextField(
                           controller: AllpCategory,
-                          style: TextStyle(fontFamily: 'Poppins',fontSize: 18),
+                          style: TextStyle(fontFamily: 'Poppins', fontSize: 18),
                           decoration: InputDecoration(
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -2158,9 +2182,8 @@ class _UpdateProductsState extends State<UpdateProducts> {
                       ),
 
 
-
                       Container(
-                        margin: EdgeInsets.only(left: 20,right: 20,top: 20),
+                        margin: EdgeInsets.only(left: 20, right: 20, top: 20),
                         child: Text(
                           'Product Name',
                           style: TextStyle(
@@ -2171,10 +2194,10 @@ class _UpdateProductsState extends State<UpdateProducts> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: 20,right: 20),
+                        margin: EdgeInsets.only(left: 20, right: 20),
                         child: TextField(
                           controller: pName,
-                          style: TextStyle(fontFamily: 'Poppins',fontSize: 18),
+                          style: TextStyle(fontFamily: 'Poppins', fontSize: 18),
                           decoration: InputDecoration(
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -2186,9 +2209,8 @@ class _UpdateProductsState extends State<UpdateProducts> {
                       ),
 
 
-
                       Container(
-                        margin: EdgeInsets.only(left: 20,right: 20,top: 25),
+                        margin: EdgeInsets.only(left: 20, right: 20, top: 25),
                         child: Text(
                           'Product Type (Veg/Non-veg,/in case if applicable)',
                           style: TextStyle(
@@ -2199,7 +2221,7 @@ class _UpdateProductsState extends State<UpdateProducts> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: 20,right: 20),
+                        margin: EdgeInsets.only(left: 20, right: 20),
                         child: DropdownButton(
                           value: pType,
                           icon: const Icon(Icons.keyboard_arrow_down),
@@ -2209,7 +2231,7 @@ class _UpdateProductsState extends State<UpdateProducts> {
                               child: Text(items2),
                             );
                           }).toList(),
-                          onChanged: (String? newValue){
+                          onChanged: (String? newValue) {
                             setState(() {
                               pType = newValue!;
                             });
@@ -2218,7 +2240,7 @@ class _UpdateProductsState extends State<UpdateProducts> {
                       ),
 
                       Container(
-                        margin: EdgeInsets.only(left: 20,right: 20,top: 25),
+                        margin: EdgeInsets.only(left: 20, right: 20, top: 25),
                         child: Text(
                           'Product Description',
                           style: TextStyle(
@@ -2229,10 +2251,11 @@ class _UpdateProductsState extends State<UpdateProducts> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: 20,right: 20,bottom: 10),
+                        margin: EdgeInsets.only(
+                            left: 20, right: 20, bottom: 10),
                         child: TextField(
                           controller: description,
-                          style: TextStyle(fontFamily: 'Poppins',fontSize: 18),
+                          style: TextStyle(fontFamily: 'Poppins', fontSize: 18),
                           decoration: InputDecoration(
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -2245,7 +2268,7 @@ class _UpdateProductsState extends State<UpdateProducts> {
                       ),
 
                       Container(
-                        margin: EdgeInsets.only(left: 20,right: 20,top: 25),
+                        margin: EdgeInsets.only(left: 20, right: 20, top: 25),
                         child: Text(
                           'Product Quantity/Price',
                           style: TextStyle(
@@ -2256,7 +2279,7 @@ class _UpdateProductsState extends State<UpdateProducts> {
                         ),
                       ),
                       Container(
-                        height: 188.0*(data),
+                        height: 188.0 * (data),
                         child: ListView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: dummyProductList.length,
@@ -2266,9 +2289,9 @@ class _UpdateProductsState extends State<UpdateProducts> {
                             return Column(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(left: 20,right: 20 ),
+                                  margin: EdgeInsets.only(left: 20, right: 20),
                                   child: Text(
-                                    'Variant ${(index+1).toString()}',
+                                    'Variant ${(index + 1).toString()}',
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontFamily: 'Poppins',
@@ -2291,14 +2314,17 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                                   width: 1,
                                                   color: Colors.black,
                                                 ),
-                                                borderRadius: BorderRadius.circular(12),
+                                                borderRadius: BorderRadius
+                                                    .circular(12),
                                               ),
                                               child: TextFormField(
                                                 controller:
-                                                TextEditingController(text: product.quantity),
+                                                TextEditingController(
+                                                    text: product.quantity),
                                                 // onChanged: (value) => option.quantity = value,
-                                                onChanged: (value){
-                                                  itemOptions[index].quantity = value;
+                                                onChanged: (value) {
+                                                  itemOptions[index].quantity =
+                                                      value;
                                                 },
                                                 decoration: InputDecoration(
                                                   hintText: 'Quantity',
@@ -2306,7 +2332,8 @@ class _UpdateProductsState extends State<UpdateProducts> {
 
                                                 ),
                                                 style: TextStyle(
-                                                  color: Colors.black.withOpacity(1.0),
+                                                  color: Colors.black
+                                                      .withOpacity(1.0),
                                                   fontSize: 16,
                                                   fontFamily: 'Urbanist',
                                                   fontWeight: FontWeight.w400,
@@ -2323,16 +2350,18 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                                 width: 1,
                                                 color: Colors.black,
                                               ),
-                                              borderRadius: BorderRadius.circular(12),
+                                              borderRadius: BorderRadius
+                                                  .circular(12),
                                             ),
                                             child: DropdownButton<String>(
                                               value: product.unit,
                                               onChanged: (String? value) {
                                                 setState(() {
-                                                  product.unit  = value!;
+                                                  product.unit = value!;
                                                 });
                                               },
-                                              items: dropDownItems.map((String value) {
+                                              items: dropDownItems.map((
+                                                  String value) {
                                                 return DropdownMenuItem<String>(
                                                   value: value,
                                                   child: Text(
@@ -2341,7 +2370,8 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                                       color: Colors.black,
                                                       fontSize: 16,
                                                       fontFamily: 'Urbanist',
-                                                      fontWeight: FontWeight.w400,
+                                                      fontWeight: FontWeight
+                                                          .w400,
                                                     ),
                                                   ),
                                                 );
@@ -2364,13 +2394,17 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                                   width: 1,
                                                   color: Colors.black,
                                                 ),
-                                                borderRadius: BorderRadius.circular(12),
+                                                borderRadius: BorderRadius
+                                                    .circular(12),
                                               ),
                                               child: TextFormField(
                                                 controller:
-                                                TextEditingController(text: product.mrpPrice.toString()),
-                                                onChanged: (value){
-                                                  itemOptions[index].price = value;
+                                                TextEditingController(
+                                                    text: product.mrpPrice
+                                                        .toString()),
+                                                onChanged: (value) {
+                                                  itemOptions[index].price =
+                                                      value;
                                                 },
                                                 decoration: InputDecoration(
                                                   hintText: 'Price (In Rs.)',
@@ -2378,7 +2412,8 @@ class _UpdateProductsState extends State<UpdateProducts> {
 
                                                 ),
                                                 style: TextStyle(
-                                                  color: Colors.black.withOpacity(1.0),
+                                                  color: Colors.black
+                                                      .withOpacity(1.0),
                                                   fontSize: 16,
                                                   fontFamily: 'Urbanist',
                                                   fontWeight: FontWeight.w400,
@@ -2396,13 +2431,17 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                                   width: 1,
                                                   color: Colors.black,
                                                 ),
-                                                borderRadius: BorderRadius.circular(12),
+                                                borderRadius: BorderRadius
+                                                    .circular(12),
                                               ),
                                               child: TextFormField(
                                                 controller:
-                                                TextEditingController(text: product.offerPrice.toString()),
-                                                onChanged: (value){
-                                                  itemOptions[index].offerPrice = value;
+                                                TextEditingController(
+                                                    text: product.offerPrice
+                                                        .toString()),
+                                                onChanged: (value) {
+                                                  itemOptions[index]
+                                                      .offerPrice = value;
                                                 },
                                                 decoration: InputDecoration(
                                                   hintText: 'Offer Price',
@@ -2410,7 +2449,8 @@ class _UpdateProductsState extends State<UpdateProducts> {
 
                                                 ),
                                                 style: TextStyle(
-                                                  color: Colors.black.withOpacity(1.0),
+                                                  color: Colors.black
+                                                      .withOpacity(1.0),
                                                   fontSize: 16,
                                                   fontFamily: 'Urbanist',
                                                   fontWeight: FontWeight.w400,
@@ -2433,22 +2473,31 @@ class _UpdateProductsState extends State<UpdateProducts> {
                           options: itemOptions,
                           onOptionAdded: handleOptionAdded,
                           updateInitialValue:
-                              (pControllers, oController, qController) {
-                          }),
+                              (pControllers, oController, qController) {}),
 
 
                       Container(
                         width: double.maxFinite,
-                        margin: const EdgeInsets.only(left: 20,right: 20,top: 20,bottom: 30),
+                        margin: const EdgeInsets.only(
+                            left: 20, right: 20, top: 20, bottom: 30),
                         child: ElevatedButton(
-                          onPressed: (){
-                            saveProductData(pName, pSCategory2, description, token,id, widget.pid, dummyProductList, true);
-
+                          onPressed: () {
+                            saveProductData(
+                                pName,
+                                pSCategory2,
+                                description,
+                                token,
+                                id,
+                                widget.pid,
+                                dummyProductList,
+                                true);
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.lightBlue, // Set the background color to white
+                            backgroundColor: Colors
+                                .lightBlue, // Set the background color to white
                           ),
-                          child: const Text('Save And Update',style: TextStyle(color: Colors.white,fontSize: 15),),
+                          child: const Text('Save And Update', style: TextStyle(
+                              color: Colors.white, fontSize: 15),),
                         ),
                         color: Colors.lightBlue.shade500,
                       )
@@ -2468,11 +2517,14 @@ class _UpdateProductsState extends State<UpdateProducts> {
     print(value);
     print("value");
     print(widget.pid);
-    final apiUrl = 'https://api.pehchankidukan.com/seller/${TokenId.id}/products/${widget.pid}';
+    final apiUrl = 'https://api.pehchankidukan.com/seller/${TokenId
+        .id}/products/${widget.pid}';
 
-    final Map<String, dynamic> productJson ;
-    if (value==true)
-      productJson = {"inStock":"true"}; else productJson = {"inStock":"false"};
+    final Map<String, dynamic> productJson;
+    if (value == true)
+      productJson = {"inStock": "true"};
+    else
+      productJson = {"inStock": "false"};
     var uri = Uri.parse(apiUrl);
     try {
       final response = await http.put(
@@ -2486,7 +2538,6 @@ class _UpdateProductsState extends State<UpdateProducts> {
 
       if (response.statusCode == 200) {
         print("product updated succesfully");
-
       } else {
         print('Failed to update product. Status code: ${response.statusCode}');
         print('Response body: ${response.body}');
@@ -2499,26 +2550,40 @@ class _UpdateProductsState extends State<UpdateProducts> {
     });
   }
 
-  Future<void> saveProductData(TextEditingController pName, TextEditingController pSCategory2,
-      TextEditingController description,String token, String id, String pid, dummyProductList, toSave) async{
-
+  Future<void> saveProductData(TextEditingController pName,
+      TextEditingController pSCategory2,
+      TextEditingController description, String token, String id, String pid,
+      dummyProductList, toSave) async {
     print("dummyProductList");
     itemOptions.forEach((itemOption) {
-      dummyProductList.add(QuantityPricing(offerPrice: int.parse(itemOption.offerPrice),
-          quantity: itemOption.price, mrpPrice: double.parse(itemOption.quantity), unit: itemOption.unit));
+      dummyProductList.add(
+          QuantityPricing(offerPrice: int.parse(itemOption.offerPrice),
+              quantity: itemOption.price,
+              mrpPrice: double.parse(itemOption.quantity),
+              unit: itemOption.unit));
     });
-    itemOptions=[];
+    itemOptions = [];
     print(dummyProductList.length);
-    if(toSave)
-    {
+    if (toSave) {
       print("updatinggggg");
-      await UserApi.updateProduct(pName.text, pCategory.text, pSCategory2.text,
-          pSCategory2.text, description.text, token, id, pid, dummyProductList);
+      await UserApi.updateProduct(
+          pName.text,
+          pCategory.text,
+          pSCategory2.text,
+          pSCategory2.text,
+          description.text,
+          token,
+          id,
+          pid,
+          dummyProductList);
 
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => MainDashboard(token: token, id: id)));
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                MainDashboard(token: token, id: id, pageIndex: 2,sortt:"")),
+            (route) => false,
+      );
     }
-    }
+  }
 }

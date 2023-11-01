@@ -188,7 +188,7 @@ class _SuccessfulAddState extends State<SuccessfulAdd> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            MainDashboard(token: widget.token, id: widget.id),
+                            MainDashboard(token: widget.token, id: widget.id, pageIndex: 2,sortt:""),
                       ),
                           (
                           route) => false, // This line clears the navigator stack

@@ -184,7 +184,7 @@ class _UploadImagesState extends State<UploadImages> {
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => MainDashboard(token: widget.token, id: widget.id),
+                          builder: (context) => MainDashboard(token: widget.token, id: widget.id, pageIndex: 2,sortt:"created_at"),
                         ),
                             (route) => false, // This line clears the navigator stack
                       );

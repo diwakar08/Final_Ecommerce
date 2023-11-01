@@ -28,45 +28,45 @@ class _SellerDashboardState extends State<SellerDashboard> {
 
 
 
-
+  final List<Map<String, String>> orders = [
+    {
+      'name': 'Abhishek',
+      'amount': '₹50',
+      'id': '123',
+      'order': 'Item 1',
+      'time': '10:00 AM',
+    },
+    {
+      'name': 'Sahil',
+      'amount': '\$30',
+      'id': '124',
+      'order': 'Item 2',
+      'time': '11:30 AM',
+    },
+    {
+      'name': 'Rohan',
+      'amount': '\$70',
+      'id': '125',
+      'order': 'Item 3',
+      'time': '1:45 PM',
+    },
+    {
+      'name': 'Rishi',
+      'amount': '\$40',
+      'id': '126',
+      'order': 'Item 4',
+      'time': '3:15 PM',
+    },
+  ];
+  final List<String> product = ["sugar", "rice", "soap", "flour"];
+  final List<String> amount = ["1 kg", "2 kg", "2 Dozen", "5 kg"];
+  final List<String> price = ["₹50", "₹70", "₹200", "₹150"];
   @override
   Widget build(BuildContext context) {
     var token = widget.token;
     var id = widget.id;
 
-    final List<Map<String, String>> orders = [
-      {
-        'name': 'Abhishek',
-        'amount': '₹50',
-        'id': '123',
-        'order': 'Item 1',
-        'time': '10:00 AM',
-      },
-      {
-        'name': 'Sahil',
-        'amount': '\$30',
-        'id': '124',
-        'order': 'Item 2',
-        'time': '11:30 AM',
-      },
-      {
-        'name': 'Rohan',
-        'amount': '\$70',
-        'id': '125',
-        'order': 'Item 3',
-        'time': '1:45 PM',
-      },
-      {
-        'name': 'Rishi',
-        'amount': '\$40',
-        'id': '126',
-        'order': 'Item 4',
-        'time': '3:15 PM',
-      },
-    ];
-    final List<String> product = ["sugar", "rice", "soap", "flour"];
-    final List<String> amount = ["1 kg", "2 kg", "2 Dozen", "5 kg"];
-    final List<String> price = ["₹50", "₹70", "₹200", "₹150"];
+
 
     return Scaffold(
       appBar: AppBar(
@@ -253,157 +253,166 @@ class _SellerDashboardState extends State<SellerDashboard> {
                 ),
               ),
 
-              Container(
-                margin:
-                EdgeInsets.only(right: 10, left: 10, top: 30, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: Text(
-                        'Recent Orders',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'comfort',
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
+              Visibility(
+                visible: orders.length>0 && false,
+                child: Container(
+                  margin:
+                  EdgeInsets.only(right: 10, left: 10, top: 30, bottom: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        child: Text(
+                          'Recent Orders',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'comfort',
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ),
-                    Icon(Icons.arrow_drop_down_outlined, color: Colors.black)
-                  ],
+                      Icon(Icons.arrow_drop_down_outlined, color: Colors.black)
+                    ],
+                  ),
                 ),
               ),
-              Container(
-                margin:EdgeInsets.only(
-                    left: 15.0, right: 15.0),
-                height: 420,
-                child: Expanded(
-                  child: ListView.builder(
-                    itemCount: 2,
-                    itemBuilder: (BuildContext context, int index) {
-                      final order = orders[index];
-                      return Container(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 8.0, right: 8.0, top: 10.0),
+              Visibility(
+                visible: orders.length>0 && false,
+                child: Container(
+                  margin:EdgeInsets.only(
+                      left: 15.0, right: 15.0),
+                  height: 420,
+                  child: Expanded(
+                    child: ListView.builder(
+                      itemCount: 2,
+                      itemBuilder: (BuildContext context, int index) {
+                        final order = orders[index];
+                        return Container(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 8.0, right: 8.0, top: 10.0),
 
-                          child: Card(
-                            elevation: 5, // Add elevation to make it appear as a card
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20)
-                              ),
-                              child: ListTile(
-                                title: Column(
-                                  children: [
-                                    Container(
-                                      height: 25,
-                                      width: double.infinity,
-                                      color: const Color(0xFFDADADA),
-                                      child: const Center(
-                                        child: Text('Preparing',style: TextStyle(color: Colors.black,fontSize: 15),),
-                                      ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text('Order ID: ${order['id']}'),
-                                        const Spacer(),
-                                        Text(order['time']!,style: TextStyle(color: Colors.black,fontSize: 12),),
-                                        PopupMenuButton<String>(
-                                          // onSelected: _selectOption,
-                                          itemBuilder: (BuildContext context) {
-                                            return {'See order Details'}.map((String choice) {
-                                              return PopupMenuItem<String>(
-                                                value: choice,
-                                                child: Text(choice),
-                                              );
-                                            }).toList();
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                            child: Card(
+                              elevation: 5, // Add elevation to make it appear as a card
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20)
                                 ),
-                                subtitle: Column(
-                                  // crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-
-                                        Text('${order['name']}\'s Order',
-                                          style: const TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w500,
-                                          ),),
-                                        const Spacer(),
-                                        const Text('Takeaway',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w500,
-                                          ),)
-                                      ],
-                                    ),
-                                    const SizedBox(height: 10,),
-                                    Visibility(
-                                        child: Row(
-                                          children: [
-                                            Text('${amount[index]} ${product[index]}',
-                                              style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500,
-                                              ),),
-                                            const Spacer(),
-                                            Text(price[index],
-                                              style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500,
-                                              ),)
-                                          ],
-                                        )
-                                    ),
-                                    const SizedBox(height: 10),
-                                    //
-                                    // const SizedBox(height: 10,),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          height: 35,
-                                          color: Colors.blue[900],
-                                          width: 170,
-                                          child: ElevatedButton(onPressed: () {},
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.blue[900],
-                                                // elevation: 3, // Remove button elevation if not needed
-                                              ),
-                                              child: const Center(
-                                                  child: Text('Make Order Ready',style: TextStyle(color: Colors.white,fontSize: 12),))
-                                          ),
+                                child: ListTile(
+                                  title: Column(
+                                    children: [
+                                      Container(
+                                        height: 25,
+                                        width: double.infinity,
+                                        color: const Color(0xFFDADADA),
+                                        child: const Center(
+                                          child: Text('Preparing',style: TextStyle(color: Colors.black,fontSize: 15),),
                                         ),
-                                        Spacer(),
-                                        Text('Total Bill: ${price[index]} ',
-                                          style: const TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
-                                          ),),
-                                      ],
-                                    )
-                                  ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text('Order ID: ${order['id']}'),
+                                          const Spacer(),
+                                          Text(order['time']!,style: TextStyle(color: Colors.black,fontSize: 12),),
+                                          PopupMenuButton<String>(
+                                            // onSelected: _selectOption,
+                                            itemBuilder: (BuildContext context) {
+                                              return {'See order Details'}.map((String choice) {
+                                                return PopupMenuItem<String>(
+                                                  value: choice,
+                                                  child: Text(choice),
+                                                );
+                                              }).toList();
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  subtitle: Column(
+                                    // crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+
+                                          Text('${order['name']}\'s Order',
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                            ),),
+                                          const Spacer(),
+                                          const Text('Takeaway',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                            ),)
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10,),
+                                      Visibility(
+                                          child: Row(
+                                            children: [
+                                              Text('${amount[index]} ${product[index]}',
+                                                style: const TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500,
+                                                ),),
+                                              const Spacer(),
+                                              Text(price[index],
+                                                style: const TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500,
+                                                ),)
+                                            ],
+                                          )
+                                      ),
+                                      const SizedBox(height: 10),
+                                      //
+                                      // const SizedBox(height: 10,),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            height: 35,
+                                            color: Colors.blue[900],
+                                            width: 170,
+                                            child: ElevatedButton(onPressed: () {},
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.blue[900],
+                                                  // elevation: 3, // Remove button elevation if not needed
+                                                ),
+                                                child: const Center(
+                                                    child: Text('Make Order Ready',style: TextStyle(color: Colors.white,fontSize: 12),))
+                                            ),
+                                          ),
+                                          Spacer(),
+                                          Text('Total Bill: ${price[index]} ',
+                                            style: const TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w500,
+                                            ),),
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
-              Center(
-                child: ViewMoreButton( onPressed: () {
-                  // Navigate to the desired route when the button is pressed
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => AllStoresScreen()));
-                },),
+              Visibility(
+                visible: orders.length>0 && false,
+                child: Center(
+                  child: ViewMoreButton( onPressed: () {
+                    // Navigate to the desired route when the button is pressed
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => AllStoresScreen()));
+                  },),
+                ),
               ),
 
               Container(
@@ -460,7 +469,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
                                                   margin: EdgeInsets.only(right: 15),
                                                   child:
                                                   Image.asset(
-                                                      'assets/images/g2.jpg',height:150,width:80),)
+                                                      'assets/images/a1.jpg',height:150,width:80),)
                                             ),
                                             Expanded(
                                               flex: 2,
@@ -688,6 +697,13 @@ class _SellerDashboardState extends State<SellerDashboard> {
               ),
               Center(
                 child: ViewMoreButton( onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MainDashboard(token: widget.token, id: widget.id, pageIndex: 0,sortt:"created_at"),
+                    ),
+                        (route) => false, // This line clears the navigator stack
+                  );
                   // Navigate to the desired route when the button is pressed
                   // Navigator.push(context, MaterialPageRoute(builder: (context) => AllStoresScreen()));
                 },),
@@ -857,6 +873,9 @@ class _SellerDashboardState extends State<SellerDashboard> {
     final data = await UserApi.getProducts(token, id);
     print("printing Dataaaa");
     print(data);
+    setState(() {
+
+    });
     return data;
   }
 

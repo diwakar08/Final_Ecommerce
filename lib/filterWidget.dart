@@ -94,7 +94,9 @@ class _FilterScreenState extends State<FilterScreen> {
     selectedFilters.minPrice = _minPrice;
     selectedFilters.maxPrice = _maxPrice;
 
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ManageProducts(token:  '', id: '',selectedcategories: selectedFilters.categories,selectedsubcategories: selectedFilters.subcategories, selectedmaxPrice: selectedFilters.minPrice,selectedminPrice: selectedFilters.maxPrice),));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ManageProducts(token:  '', id: '',
+      selectedcategories: selectedFilters.categories,selectedsubcategories: selectedFilters.subcategories,
+      selectedmaxPrice: selectedFilters.minPrice,selectedminPrice: selectedFilters.maxPrice, sortt: "",),));
 
   }
 

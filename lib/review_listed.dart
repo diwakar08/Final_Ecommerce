@@ -57,7 +57,7 @@ class _ReviewListedState extends State<ReviewListed> {
         dummyProductList.add(QuantityPricing(offerPrice: int.parse(itemOption.offerPrice),
             quantity: itemOption.price, mrpPrice: double.parse(itemOption.quantity), unit: itemOption.unit));
       });
-      print("pidddd");
+      print("pidddd1");
         final pid = await UserApi.createProduct(
             pName,
             widget.category,
@@ -67,16 +67,16 @@ class _ReviewListedState extends State<ReviewListed> {
             token,
             id,
             dummyProductList);
-        print("pidddd");
+        print("pidddd2");
         print(pid);
-        final url1 = 'https://api.pehchankidukan.com/seller/${TokenId.id}/products/$pid';
+
       try {
-        var request = http.MultipartRequest('PUT', (Uri.parse(url1)));
-
-        request.headers['Authorization'] = 'Bearer ${TokenId.token}';
-
         // Add each image file to the request
         if (widget.imageFileList != null) {
+          final url1 = 'https://api.pehchankidukan.com/seller/${TokenId.id}/products/$pid';
+          var request = http.MultipartRequest('PUT', (Uri.parse(url1)));
+
+          request.headers['Authorization'] = 'Bearer ${TokenId.token}';
           for (var imageFile in widget.imageFileList!) {
             int length = await imageFile.length();
             String fileName = basename(imageFile.path);
@@ -88,19 +88,16 @@ class _ReviewListedState extends State<ReviewListed> {
               contentType: MediaType(
                   'image', 'jpeg'), // Adjust content type accordingly
             ));
+            final response = await request.send();
+            if (response.statusCode == 200) {
+              print('PUT images request successful');
+              print('Response: ${await response.stream.bytesToString()}');
+            } else {
+              print('Failed to make PUT request: ${response.statusCode}');
+              print('Response: ${await response.stream.bytesToString()}');
+            }
           }
         }
-
-
-        final response = await request.send();
-
-          if (response.statusCode == 200) {
-            print('PUT images request successful');
-            print('Response: ${await response.stream.bytesToString()}');
-          } else {
-            print('Failed to make PUT request: ${response.statusCode}');
-            print('Response: ${await response.stream.bytesToString()}');
-          }
         } catch (error) {
           print('Error: $error');
         }

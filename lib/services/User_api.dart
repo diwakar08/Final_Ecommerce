@@ -94,27 +94,15 @@ print(keyword);
   ) async {
     // print(token);
   print("called recentlyadded $sort");
-    final baseUrl = 'https://api.pehchankidukan.com/seller/$id/products?sort=$sort&limit=30';
-    // final Map<String, dynamic> queryParams = {
-    //   ...filters,
-    //   'page': page.toString(),
-    //   'limit': limit.toString(),
-    // };
+    final baseUrl = 'https://api.pehchankidukan.com/seller/${TokenId.id}/products?sort=$sort';
 
-    // if (sort != null) {
-    //   queryParams['sort'] = sort;
-    // }
-    //  var url;
-    // if(sort!='' && sort!.length>0)
-    //  url = Uri.parse('$baseUrl?sort=$sort');
-    // else
       final url = Uri.parse(baseUrl);
       // print(url);
     final response = await http.get(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token'
+        'Authorization': 'Bearer ${TokenId.token}'
       },
     );
 
@@ -126,8 +114,8 @@ print(keyword);
     List<Product> products = (responseBody['data'] as List<dynamic>?)
         ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
         .toList() ?? [];
-    print(products[0].productName);
-    print(products[1].productName);
+    // print(products[0].productName);
+    // print(products[1].productName);
     return products;
       return responseBody['data'];
     //
@@ -253,13 +241,7 @@ print(keyword);
 
   //create Product API
   static Future<String> createProduct(pName, category ,pSCategory1 ,pSCategory2, description, token, id, dummyProductList) async {
-    final apiUrl = 'https://api.pehchankidukan.com/seller/$id/products';
-  // late List dummyProductList;
-  //   itemOptions.forEach((itemOption) {
-  //     dummyProductList.add(QuantityPricing(offerPrice: int.parse(itemOption.offerPrice),
-  //         quantity: itemOption.price, mrpPrice: double.parse(itemOption.quantity), unit: itemOption.unit));
-  //   });
-
+    final apiUrl = 'https://api.pehchankidukan.com/seller/${TokenId.id}/products';
     List<dynamic> itemOptionsMap = dummyProductList.map((item) {
       return {
         'mrpPrice': item.mrpPrice,
@@ -283,7 +265,7 @@ print(keyword);
         uri,
         headers: <String, String>{
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token'
+          'Authorization': 'Bearer ${TokenId.token}'
         },
         body: jsonEncode(productJson),
       );
@@ -291,7 +273,7 @@ print(keyword);
       if (response.statusCode == 201) {
         print("product created succesfully");
         print(body);
-        print("body['_id']");
+        print("body['id']");
         print(body['data']['_id']);
         return body['data']['_id'];
 

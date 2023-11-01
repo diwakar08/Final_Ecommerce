@@ -18,7 +18,9 @@ class ManageProducts extends StatefulWidget {
   final  List<String> selectedcategories;
   final  Map<String, List<String>> selectedsubcategories;
   final  double  selectedminPrice,selectedmaxPrice;
-  const ManageProducts({Key? key, required  this.token, required this.id,required this.selectedcategories,required this.selectedsubcategories,required this.selectedminPrice,required this.selectedmaxPrice}) : super(key: key);
+  final sortt;
+  const ManageProducts({Key? key, required  this.token, required this.id,required this.selectedcategories,
+    required this.selectedsubcategories,required this.selectedminPrice,required this.selectedmaxPrice, required this.sortt}) : super(key: key);
 
   @override
   _ManageProductsState createState() => _ManageProductsState();
@@ -102,8 +104,9 @@ class _ManageProductsState extends State<ManageProducts> {
   @override
   initState() {
     super.initState();
+    sortt=widget.sortt;
     // Fetch the data and store it in _productData
-    _productData = fetchOrders("", TokenId.token, TokenId.id);
+    _productData = fetchOrders(sortt, TokenId.token, TokenId.id);
     print("_productData");
     print(_productData);
   }
@@ -292,6 +295,7 @@ class _ManageProductsState extends State<ManageProducts> {
                                     FlutterPopupMenuItem(
                                         onTap: () async {
                                           setState(() {
+                                            _productData = fetchOrders("productDetails.mrpPrice",token,id);
                                             sortt = "productDetails.mrpPrice";
                                           });
                                         },
@@ -313,6 +317,7 @@ class _ManageProductsState extends State<ManageProducts> {
                                     FlutterPopupMenuItem(
                                         onTap: () {
                                           setState(() {
+                                            _productData = fetchOrders("-productDetails.mrpPrice",token,id);
                                             sortt = "-productDetails.mrpPrice";
                                           });
                                         },
@@ -334,6 +339,7 @@ class _ManageProductsState extends State<ManageProducts> {
                                     FlutterPopupMenuItem(
                                         onTap: () {
                                           setState(() {
+                                            _productData = fetchOrders("-productSoldCount",token,id);
                                             sortt = "-productSoldCount";
                                           });
                                         },
@@ -353,7 +359,9 @@ class _ManageProductsState extends State<ManageProducts> {
                                         )),
                                     FlutterPopupMenuItem(
                                         onTap: () {
-
+                                          setState(() {
+                                            _productData = fetchOrders("created_at",token,id);
+                                          });
                                         },
                                         closeOnItemClick: true,
                                         child: ListTile(
@@ -372,7 +380,7 @@ class _ManageProductsState extends State<ManageProducts> {
                                     FlutterPopupMenuItem(
                                         onTap: () {
                                           setState(() {
-                                            sortt = "created_at";
+                                            _productData = fetchOrders("created_at",token,id);
                                           });
                                         },
                                         closeOnItemClick: true,

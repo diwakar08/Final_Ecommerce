@@ -18,7 +18,9 @@ import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
 
 class MainDashboard extends StatefulWidget {
   final String token, id;
-  const MainDashboard({Key? key, required  this.token, required this.id}) : super(key: key);
+  final int pageIndex;
+  final String sortt;
+  const MainDashboard({Key? key, required  this.token, required this.id, required this.pageIndex, required this.sortt}) : super(key: key);
 
 
   @override
@@ -26,10 +28,9 @@ class MainDashboard extends StatefulWidget {
 }
 
 class _MainDashboardState extends State<MainDashboard> with TickerProviderStateMixin{
-  int pageIndex = 0;
 
   MotionTabBarController? _motionTabBarController;
-
+ List<String> screen =["Manage","Add","Home", "Orders", "Profile"];
   @override
   void initState() {
     super.initState();
@@ -42,7 +43,7 @@ class _MainDashboardState extends State<MainDashboard> with TickerProviderStateM
 
     //// use "MotionTabBarController" to replace with "TabController", if you need to programmatically change the tab
     _motionTabBarController = MotionTabBarController(
-      initialIndex: 2,
+      initialIndex: widget.pageIndex,
       length: 5,
       vsync: this,
     );
@@ -61,7 +62,7 @@ class _MainDashboardState extends State<MainDashboard> with TickerProviderStateM
 
     final pages = [
       SellerDashboard(token: token,id: id,),
-      ManageProducts(token: token, id:id, selectedcategories: [], selectedsubcategories: {}, selectedminPrice: 0, selectedmaxPrice: 0,),
+      ManageProducts(token: token, id:id, selectedcategories: [], selectedsubcategories: {}, selectedminPrice: 0, selectedmaxPrice: 0, sortt: widget.sortt,),
       Orders(),
     ];
     return Scaffold(
@@ -71,7 +72,7 @@ class _MainDashboardState extends State<MainDashboard> with TickerProviderStateM
         physics: const NeverScrollableScrollPhysics(), // swipe navigation handling is not supported
         controller: _motionTabBarController,
         children: <Widget>[
-          ManageProducts(token: token, id:id, selectedcategories: [], selectedsubcategories: {}, selectedminPrice: 0, selectedmaxPrice: 0,),
+          ManageProducts(token: token, id:id, selectedcategories: [], selectedsubcategories: {}, selectedminPrice: 0, selectedmaxPrice: 0, sortt: widget.sortt,),
           AddProduct(
             token: token,
             id: id,
@@ -88,9 +89,9 @@ class _MainDashboardState extends State<MainDashboard> with TickerProviderStateM
       ),
       bottomNavigationBar: MotionTabBar(
         controller: _motionTabBarController, // ADD THIS if you need to change your tab programmatically
-        initialSelectedTab: "Home",
+        initialSelectedTab: screen[widget.pageIndex],
         useSafeArea: true, // default: true, apply safe area wrapper
-        labels: const ["Manage","Add","Home", "Orders", "Profile"],
+        labels:  screen,
         icons: const [Icons.edit,Icons.add_circle_outline,Icons.home ,Icons.line_style_sharp, Icons.account_circle_outlined],
 
         // optional badges, length must be same with labels
