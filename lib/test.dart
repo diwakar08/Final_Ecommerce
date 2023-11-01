@@ -106,6 +106,55 @@ class _ManageProductsState extends State<ManageProducts> {
           ),
 
 
+
+
+
+
+
+
+
+          Switch(
+            // thumb color (round icon)
+              activeColor: Colors.white,
+              activeTrackColor: Colors.green,
+              inactiveThumbColor: Colors.blueGrey.shade600,
+              inactiveTrackColor: Colors.grey.shade400,
+              splashRadius: 50.0,
+              // boolean variable value
+              value: prod.inStock,
+              // changes the state of the switch
+              onChanged: (value) { setState(() {
+                s = value == true ? 'In stock' : 'Out of stock';
+                prod.inStock=value;
+                updateStock(value, prod.id);
+              });
+              }
+          ),
+
+
+
+          CupertinoSwitch(
+            activeColor: Colors.green,
+            value: prod.inStock,
+            onChanged: (bool value) {
+              s = value == true ? 'In stock' : 'Out of stock';
+              setState(() {
+                prod.inStock=value;
+                updateStock(value, prod.id);
+              });
+            },
+          ),
+
+
+
+
+
+
+
+
+
+
+
           backgroundColor: Colors.lightBlue.shade900,
           iconTheme: IconThemeData(color: Colors.white),
         ),

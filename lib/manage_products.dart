@@ -81,7 +81,7 @@ class _ManageProductsState extends State<ManageProducts> {
   Future<void> updateOnSearch(query) async {
     if (query.length == 0) {
       setState(() {
-        _productData = fetchOrders("", TokenId.token, TokenId.id);
+        _productData = fetchOrders("created_at", TokenId.token, TokenId.id);
       });
       return;
     } else if (query.length < 3) {
@@ -104,11 +104,12 @@ class _ManageProductsState extends State<ManageProducts> {
   @override
   initState() {
     super.initState();
-    sortt=widget.sortt;
-    // Fetch the data and store it in _productData
-    _productData = fetchOrders(sortt, TokenId.token, TokenId.id);
-    print("_productData");
-    print(_productData);
+
+      sortt=widget.sortt;
+      _productData = fetchOrders(sortt, TokenId.token, TokenId.id);
+      print("_productData");
+      print(_productData);
+    
   }
 
   @override

@@ -66,6 +66,18 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
     "tin",
     "other",];
 
+
+
+  bool _validate4 = false;
+  bool _validate5 = false;
+  bool _validate6 = false;
+
+  @override
+  void initstate() {
+    super.initState();
+    widget.onOptionAdded(newItem);
+
+  }
   void addOption() {
     widget.onOptionAdded(newItem);
     newItem = ItemOption(
@@ -75,10 +87,6 @@ class _PriceQuantitySpinnerRowState extends State<PriceQuantitySpinnerRow> {
       offerPrice: '',
     );
   }
-
-  bool _validate4 = false;
-  bool _validate5 = false;
-  bool _validate6 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -386,6 +394,14 @@ class _AddProductState extends State<AddProduct> {
   @override
   void initState() {
     valueUpdate(widget.productName, widget.productDescription);
+    itemOptions.add(
+        ItemOption(
+          price: '',
+          quantity: '',
+          unit: 'kg',
+          offerPrice: '',
+        )
+    );
   }
 
   @override
@@ -498,24 +514,25 @@ class _AddProductState extends State<AddProduct> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(right: 10, left: 15, top: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              child: Text(
-                                'Add Product',
-                                style: TextStyle(
-                                    fontSize: 28,
-                                    fontFamily: 'Poppins',
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // Container(
+                      //   margin: EdgeInsets.only(right: 10, left: 15, top: 20),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Container(
+                      //         child: Text(
+                      //           'Add Product',
+                      //           style: TextStyle(
+                      //               fontSize: 28,
+                      //               fontFamily: 'Poppins',
+                      //               color: Colors.black87,
+                      //               fontWeight: FontWeight.bold),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      SizedBox(height: 10,),
                       Container(
                         margin: EdgeInsets.only(left: 15, right: 20, top: 5),
                         child: Text(
@@ -524,6 +541,7 @@ class _AddProductState extends State<AddProduct> {
                             fontSize: 14,
                             fontFamily: 'Poppins',
                             color: Colors.black87,
+                            fontWeight: FontWeight.bold
                           ),
                         ),
                       ),
@@ -579,8 +597,30 @@ class _AddProductState extends State<AddProduct> {
                           ),
                         ),
                       ),
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        children: [
+                          // The TextField wrapped in an Expanded to take available width
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.only(left: 20, right: 20),
+                              child: TextField(
+                                controller: AllpCategory,
+                                style: TextStyle(fontFamily: 'Poppins', fontSize: 18),
+                                decoration: InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.teal.shade900,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
 
-                      Container(
+                Container(
                         margin: EdgeInsets.only(right: 20, top: 20, left: 20),
                         child: Text(
                           'Choose Images',
@@ -779,9 +819,13 @@ class _AddProductState extends State<AddProduct> {
                                 onOptionAdded: handleOptionAdded,
                                 updateInitialValue: (pControllers, oController, qController) {},
                               ),
+                              SizedBox(height: 15,),
                               Container(
                                 width: double.infinity,
+                                height: 45,
+                                // color: Colors.blue,
                                 child: ElevatedButton(
+
                                   onPressed: () {
                                     if (_formkey.currentState!.validate()) {
                                       Navigator.push(
@@ -805,9 +849,15 @@ class _AddProductState extends State<AddProduct> {
                                     // Process the form data and perform submission
                                     // You can access the entered data using the controllers
                                   },
-                                  child: const Text('Submit'),
+                                  child: const Text('Submit',),
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),),
                                 ),
                               ),
+                              Container(
+                                height: 25,
+
+                              )
                             ],
                           ),
                         ),

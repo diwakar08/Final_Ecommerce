@@ -74,7 +74,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
 
-            Image.asset('assets/images/app_logo.png',width: 100,height: 30,)
+            Image.asset('assets/images/logo.png',width: 100,height: 30,)
             ,
             // Expanded(child: Icon(Icons.notifications, color: Colors.white)),
 
@@ -102,7 +102,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
         ),
         centerTitle: true,
         //backgroundColor: Colors.grey.shade200,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.lightBlue.shade100,
         iconTheme: IconThemeData(color: Colors.white),
       ),
       backgroundColor: Colors.white,
