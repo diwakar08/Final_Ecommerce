@@ -70,13 +70,13 @@ class FirebaseApi {
 
   Future<void> pushTokenToSns(fCMToken) async {
     Map<String, dynamic> json = {
-      "tokens": fCMToken,
+      "tokens": ["$fCMToken"],
     };
-    final response = await http.post(
-      Uri.parse(
-          'https://api.pehchankidukan.com/seller/createEndpointsAndSubscribe'),
-      body: json,
-    );
+    // final response = await http.post(
+      // Uri.parse(
+      //     'https://api.pehchankidukan.com/seller/createEndpointsAndSubscribe'),
+      // body: json,
+    // );
   }
 
   Future<void> initNotifications() async {
